@@ -5,19 +5,20 @@ Resources:
 - slime mold research paper (pattern inspo): https://uwe-repository.worktribe.com/output/980579/characteristics-of-pattern-formation-and-evolution-in-approximations-of-physarum-transport-
 */
 
-const DECAY_FACTOR = 1.0;
+const DECAY_FACTOR = 0.98;
 const GRID_X = 400;
 const GRID_Y = 400;
-const MOLD_COUNT = 100;
+const MOLD_COUNT = 200;
 const DEPOSIT_VALUE = 1.0;
-const MOVEMENT_SPEED = 1.0;
+const MOVEMENT_SPEED = 2.0;
 const SENSE_RANGE = 1.0;
 const SENSE_ANGLE = 40;
-const TURN_ANGLE = 40;
+const TURN_ANGLE = 3.1416 / 10;
 const BACKGROUND_COLOR = 5;
-const INITIAL_SLIME = 0.5;
+const INITIAL_SLIME = 0.;
+const SLIME_HUE = 150;
+const SLIME_SAT = 60;
 
-var slime_color;
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
 
@@ -63,12 +64,12 @@ class Mold {
 			this.turn_right();
 
 		} else {
-			// choose random direction
-			if (random() < 0.5) {
-				this.turn_left();
-			} else {
-				this.turn_right();
-			}
+			// choose random direction todo
+			// if (random() < 0.5) {
+			// 	this.turn_left();
+			// } else {
+			// 	this.turn_right();
+			// }
 		}
 	}
 
@@ -98,11 +99,10 @@ class Mold {
 
 function setup() {
 	colorMode(HSB);
-	angleMode(DEGREES);
+	angleMode(RADIANS);
 	
 	createCanvas(GRID_X, GRID_Y);
 	background(BACKGROUND_COLOR);
-	slime_color = color(150, 60, 100);
 
 	init_trail_map();
 	init_mold_map();
@@ -134,9 +134,11 @@ function draw() {
 		mold_map[m].sense_and_turn();
 		mold_map[m].move();
 	}
+
 	for (let m = 0; m < MOLD_COUNT; m++) {
 		mold_map[m].deposit();
 	}
+
 	dissipate_trail_map();
 
 	// render
@@ -228,7 +230,7 @@ function render_slime_trail() {
 	for (let i = 0; i < GRID_X; i++) {
 		for (let j = 0; j < GRID_Y; j++) {
 			let slime = trail_map[i][j];
-			set(i, j, color(hue(slime_color), saturation(slime_color), slime * 100));
+			set(i, j, color(SLIME_HUE, SLIME_SAT, slime * 100));
 			//set(i, j, slime_color);//todo
 		}
 	}
