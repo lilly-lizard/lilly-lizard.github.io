@@ -5,12 +5,19 @@ Resources:
 - slime mold research paper (pattern inspo): https://uwe-repository.worktribe.com/output/980579/characteristics-of-pattern-formation-and-evolution-in-approximations-of-physarum-transport-
 */
 
+/*
+TODO:
+- sensor needs to average area
+- diffusion needs to chill out a bit
+*/
+
+// CONFIG
 const DECAY_FACTOR = 0.98;
 const GRID_X = 400;
 const GRID_Y = 400;
 const MOLD_COUNT = 200;
 const DEPOSIT_VALUE = 1.0;
-const MOVEMENT_SPEED = 2.0;
+const MOVEMENT_SPEED = 1.0;
 const SENSE_RANGE = 1.0;
 const SENSE_ANGLE = 40;
 const TURN_ANGLE = 3.1416 / 10;
@@ -21,6 +28,10 @@ const SLIME_SAT = 60;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
+
+var g0 = 4. / 16.;
+var g1 = 2. / 16.;
+var g2 = 1. / 16.;
 
 // because the stupid ducking javascript modulo returns negative numbers
 function mod(n, m) {
@@ -211,17 +222,17 @@ function dissipate_trail_map() {
 
 // 3x3 mean filter (wrap around indices)
 function diffused_trail_value(x, y) {
-	let index_x = floor(x);
-	let index_y = floor(y);
-	let index_x_m = floor(mod(x - 1, GRID_X)); // x - 1
-	let index_y_m = floor(mod(y - 1, GRID_Y)); // y - 1
-	let index_x_p = floor(mod(x + 1, GRID_X)); // x + 1
-	let index_y_p = floor(mod(y + 1, GRID_Y)); // y + 1
+	let i_x = floor(x);
+	let i_y = floor(y);
+	let i_x_m = floor(mod(x - 1, GRID_X)); // x - 1
+	let i_y_m = floor(mod(y - 1, GRID_Y)); // y - 1
+	let i_x_p = floor(mod(x + 1, GRID_X)); // x + 1
+	let i_y_p = floor(mod(y + 1, GRID_Y)); // y + 1
 	
-	let summed_trail = trail_map[index_x_m][index_y_m] + trail_map[index_x][index_y_m] + trail_map[index_x_p][index_y_m] +
-					   trail_map[index_x_m][index_y  ] + trail_map[index_x][index_y  ] + trail_map[index_x_p][index_y  ] +
-					   trail_map[index_x_m][index_y_p] + trail_map[index_x][index_y_p] + trail_map[index_x_p][index_y_p];
-	return summed_trail / 9;
+	let summed_trail = trail_map[i_x_m][i_y_m] * g2 + trail_map[i_x][i_y_m] * g1 + trail_map[i_x_p][i_y_m] * g2 +
+					   trail_map[i_x_m][i_y  ] * g1 + trail_map[i_x][i_y  ] * g0 + trail_map[i_x_p][i_y  ] * g1 +
+					   trail_map[i_x_m][i_y_p] * g2 + trail_map[i_x][i_y_p] * g1 + trail_map[i_x_p][i_y_p] * g2;
+	return summed_trail;
 }
 
 function render_slime_trail() {
