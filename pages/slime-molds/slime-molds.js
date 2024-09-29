@@ -12,26 +12,28 @@ TODO:
 */
 
 // CONFIG
-const DECAY_FACTOR = 0.98;
+const DECAY_FACTOR = 0.99;
 const GRID_X = 400;
 const GRID_Y = 400;
 const MOLD_COUNT = 200;
 const DEPOSIT_VALUE = 1.0;
-const MOVEMENT_SPEED = 1.0;
-const SENSE_RANGE = 1.0;
+const MOVEMENT_SPEED = 0.5;
+const SENSE_RANGE = 1.5;
 const SENSE_ANGLE = 40;
-const TURN_ANGLE = 3.1416 / 10;
+const SENSE_THRESHOLD = 0.2;
+const TURN_ANGLE = 3.1416 / 12;
 const BACKGROUND_COLOR = 5;
 const INITIAL_SLIME = 0.;
 const SLIME_HUE = 150;
 const SLIME_SAT = 60;
+const BLUR_WEAKNESS = 8;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
 
-var g0 = 4. / 16.;
-var g1 = 2. / 16.;
-var g2 = 1. / 16.;
+var g0;
+var g1;
+var g2;
 
 // because the stupid ducking javascript modulo returns negative numbers
 function mod(n, m) {
@@ -62,25 +64,23 @@ class Mold {
 		let left_trail_value  = read_trail_value(left_x , left_y );
 		let right_trail_value = read_trail_value(right_x, right_y);
 
-		if (front_trail_value > left_trail_value && front_trail_value > right_trail_value) {
+		if (front_trail_value - left_trail_value > SENSE_THRESHOLD &&
+				front_trail_value - right_trail_value > SENSE_THRESHOLD) {
 			// largest value in front -> don't change direction
 			return;
 
-		} else if (left_trail_value > front_trail_value && left_trail_value > right_trail_value) {
+		} else if (left_trail_value - front_trail_value > SENSE_THRESHOLD &&
+				left_trail_value - right_trail_value > SENSE_THRESHOLD) {
 			// largest value on left
 			this.turn_left();
 
-		} else if (right_trail_value > front_trail_value && right_trail_value > left_trail_value) {
+		} else if (right_trail_value - front_trail_value > SENSE_THRESHOLD &&
+				right_trail_value - left_trail_value > SENSE_THRESHOLD) {
 			// largest value on right
 			this.turn_right();
 
 		} else {
-			// choose random direction todo
-			// if (random() < 0.5) {
-			// 	this.turn_left();
-			// } else {
-			// 	this.turn_right();
-			// }
+			// keep moving straight
 		}
 	}
 
@@ -117,6 +117,7 @@ function setup() {
 
 	init_trail_map();
 	init_mold_map();
+	init_diffuse_factors();
 }
 
 function init_trail_map() {
@@ -135,6 +136,17 @@ function init_mold_map() {
 		let angle = random(TAU);
 		mold_map[m] = new Mold(position_x, position_y, angle);
 	}
+}
+
+function init_diffuse_factors() {
+	g0 = pow(4., BLUR_WEAKNESS);
+	g1 = pow(2., BLUR_WEAKNESS);
+	g2 = pow(1., BLUR_WEAKNESS);
+
+	let div = g0 + g1 * 4. + g2 * 4.;
+	g0 /= div;
+	g1 /= div;
+	g2 /= div;
 }
 
 /* ------- LOOP ------- */
@@ -161,17 +173,18 @@ function read_trail_value(x, y) {
 	let clamped_y = mod(y, GRID_Y);
 
 	// `x` and `y` are floats which lie between multiple squares on the `trail_map` grid
-	// this means we will read from 4 different squares
-	let ratio_x = mod(clamped_x, 1.0);
-	let ratio_y = mod(clamped_y, 1.0);
-	let ratio_x_inv = 1.0 - ratio_x;
-	let ratio_y_inv = 1.0 - ratio_y;
+	// this means we will read from 4 different squares and weight them based on how close
+	// we are to each
+	let ratio_x_inv = clamped_x % 1.0;
+	let ratio_y_inv = clamped_y % 1.0;
+	let ratio_x = 1.0 - ratio_x_inv;
+	let ratio_y = 1.0 - ratio_y_inv;
 
 	// indices to read from `trail_map`
 	let index_x   = floor(clamped_x);
 	let index_y   = floor(clamped_y)
-	let index_x_p = floor(mod(clamped_x + 1, GRID_X)); // x + 1
-	let index_y_p = floor(mod(clamped_y + 1, GRID_Y)); // y + 1
+	let index_x_p = floor((clamped_x + 1) % GRID_X); // x + 1
+	let index_y_p = floor((clamped_y + 1) % GRID_Y); // y + 1
 	
 	// read
 	let trail_value = 0.;
@@ -187,23 +200,24 @@ function add_trail_value(x, y, add_value) {
 	let clamped_y = mod(y, GRID_Y);
 
 	// `x` and `y` are floats which lie between multiple squares on the `trail_map` grid
-	// this means we will read from 4 different squares
-	let ratio_x = mod(clamped_x, 1.0);
-	let ratio_y = mod(clamped_y, 1.0);
-	let ratio_x_inv = 1.0 - ratio_x;
-	let ratio_y_inv = 1.0 - ratio_y;
+	// this means we will read from 4 different squares and weight them based on how close
+	// we are to each
+	let ratio_x_inv = clamped_x % 1.0;
+	let ratio_y_inv = clamped_y % 1.0;
+	let ratio_x = 1.0 - ratio_x_inv;
+	let ratio_y = 1.0 - ratio_y_inv;
 
 	// indices to read from `trail_map`
 	let index_x   = floor(clamped_x);
 	let index_y   = floor(clamped_y)
-	let index_x_p = floor(mod(clamped_x + 1, GRID_X)); // x + 1
-	let index_y_p = floor(mod(clamped_y + 1, GRID_Y)); // y + 1
+	let index_x_p = floor((clamped_x + 1) % GRID_X); // x + 1
+	let index_y_p = floor((clamped_y + 1) % GRID_Y); // y + 1
 	
 	// add and clamp
-	trail_map[index_x  ][index_y  ] = mod(trail_map[index_x  ][index_y  ] + add_value * ratio_x * ratio_y        , 1.);
-	trail_map[index_x  ][index_y_p] = mod(trail_map[index_x  ][index_y_p] + add_value * ratio_x * ratio_y_inv    , 1.);
-	trail_map[index_x_p][index_y  ] = mod(trail_map[index_x_p][index_y  ] + add_value * ratio_x_inv * ratio_y    , 1.);
-	trail_map[index_x_p][index_y_p] = mod(trail_map[index_x_p][index_y_p] + add_value * ratio_x_inv * ratio_y_inv, 1.);
+	trail_map[index_x  ][index_y  ] = min(trail_map[index_x  ][index_y  ] + add_value * ratio_x * ratio_y        , 1.);
+	trail_map[index_x  ][index_y_p] = min(trail_map[index_x  ][index_y_p] + add_value * ratio_x * ratio_y_inv    , 1.);
+	trail_map[index_x_p][index_y  ] = min(trail_map[index_x_p][index_y  ] + add_value * ratio_x_inv * ratio_y    , 1.);
+	trail_map[index_x_p][index_y_p] = min(trail_map[index_x_p][index_y_p] + add_value * ratio_x_inv * ratio_y_inv, 1.);
 }
 
 // diffuse and decay each trail map value
@@ -226,8 +240,8 @@ function diffused_trail_value(x, y) {
 	let i_y = floor(y);
 	let i_x_m = floor(mod(x - 1, GRID_X)); // x - 1
 	let i_y_m = floor(mod(y - 1, GRID_Y)); // y - 1
-	let i_x_p = floor(mod(x + 1, GRID_X)); // x + 1
-	let i_y_p = floor(mod(y + 1, GRID_Y)); // y + 1
+	let i_x_p = floor((x + 1) % GRID_X); // x + 1
+	let i_y_p = floor((y + 1) % GRID_Y); // y + 1
 	
 	let summed_trail = trail_map[i_x_m][i_y_m] * g2 + trail_map[i_x][i_y_m] * g1 + trail_map[i_x_p][i_y_m] * g2 +
 					   trail_map[i_x_m][i_y  ] * g1 + trail_map[i_x][i_y  ] * g0 + trail_map[i_x_p][i_y  ] * g1 +
