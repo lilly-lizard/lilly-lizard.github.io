@@ -3,30 +3,28 @@ Resources:
 - youtube tutorial on p5js slime mold coding: https://www.youtube.com/watch?v=VyXxSNcgDtg
 - slime mold blog post: https://cargocollective.com/sagejenson/physarum
 - slime mold research paper (pattern inspo): https://uwe-repository.worktribe.com/output/980579/characteristics-of-pattern-formation-and-evolution-in-approximations-of-physarum-transport-
-*/
 
-/*
 TODO:
-- sensor needs to average area
-- diffusion needs to chill out a bit
 */
 
 // CONFIG
-const DECAY_FACTOR = 0.99;
-const GRID_X = 400;
-const GRID_Y = 400;
-const MOLD_COUNT = 200;
-const DEPOSIT_VALUE = 1.0;
-const MOVEMENT_SPEED = 0.5;
-const SENSE_RANGE = 1.5;
-const SENSE_ANGLE = 40;
-const SENSE_THRESHOLD = 0.2;
-const TURN_ANGLE = 3.1416 / 12;
-const BACKGROUND_COLOR = 5;
-const INITIAL_SLIME = 0.;
-const SLIME_HUE = 150;
-const SLIME_SAT = 60;
-const BLUR_WEAKNESS = 8;
+var DECAY_FACTOR = 0.99;
+var GRID_X = 400;
+var GRID_Y = 400;
+var MOLD_COUNT = 200;
+var DEPOSIT_VALUE = 1.0;
+var slider_movement_speed;
+var display_movement_speed;
+var MOVEMENT_SPEED = 0.5;
+var SENSE_RANGE = 1.5;
+var SENSE_ANGLE = 40;
+var SENSE_THRESHOLD = 0.2;
+var TURN_ANGLE = 3.1416 / 12;
+var BACKGROUND_COLOR = 5;
+var INITIAL_SLIME = 0.;
+var SLIME_HUE = 150;
+var SLIME_SAT = 60;
+var BLUR_WEAKNESS = 8;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
@@ -115,9 +113,18 @@ function setup() {
 	createCanvas(GRID_X, GRID_Y);
 	background(BACKGROUND_COLOR);
 
+	init_config_listeners();
 	init_trail_map();
 	init_mold_map();
 	init_diffuse_factors();
+}
+
+function init_config_listeners() {
+	slider_movement_speed = document.getElementById('MOVEMENT_SPEED');
+	display_movement_speed = document.getElementById('display_movement_speed');
+
+	function update_display_movement_speed() { display_movement_speed.textContent = slider_movement_speed.value; }
+	slider_movement_speed.addEventListener('input', update_display_movement_speed);
 }
 
 function init_trail_map() {
@@ -152,6 +159,8 @@ function init_diffuse_factors() {
 /* ------- LOOP ------- */
 
 function draw() {
+	sync_html();
+
 	// slime mold algorithm
 	for (let m = 0; m < MOLD_COUNT; m++) {
 		mold_map[m].sense_and_turn();
@@ -166,6 +175,10 @@ function draw() {
 
 	// render
 	render_slime_trail();
+}
+
+function sync_html() {
+	MOVEMENT_SPEED = slider_movement_speed.value;
 }
 
 function read_trail_value(x, y) {
