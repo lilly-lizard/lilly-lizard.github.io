@@ -5,6 +5,7 @@ Resources:
 - slime mold research paper (pattern inspo): https://uwe-repository.worktribe.com/output/980579/characteristics-of-pattern-formation-and-evolution-in-approximations-of-physarum-transport-
 
 TODO:
+- reset button
 */
 
 // CONFIG
@@ -13,8 +14,6 @@ var GRID_X = 400;
 var GRID_Y = 400;
 var MOLD_COUNT = 200;
 var DEPOSIT_VALUE = 1.0;
-var slider_movement_speed;
-var display_movement_speed;
 var MOVEMENT_SPEED = 0.5;
 var SENSE_RANGE = 1.5;
 var SENSE_ANGLE = 40;
@@ -25,6 +24,12 @@ var INITIAL_SLIME = 0.;
 var SLIME_HUE = 150;
 var SLIME_SAT = 60;
 var BLUR_WEAKNESS = 8;
+
+var PAUSED = false;
+
+var checkbox_pause;
+var slider_movement_speed;
+var display_movement_speed;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
@@ -120,9 +125,13 @@ function setup() {
 }
 
 function init_config_listeners() {
+	checkbox_pause = document.getElementById("PAUSED");
 	slider_movement_speed = document.getElementById('MOVEMENT_SPEED');
 	display_movement_speed = document.getElementById('display_movement_speed');
 
+	function toggle_pause() { PAUSED = checkbox_pause.checked; }
+	checkbox_pause.addEventListener("change", toggle_pause);
+	
 	function update_display_movement_speed() { display_movement_speed.textContent = slider_movement_speed.value; }
 	slider_movement_speed.addEventListener('input', update_display_movement_speed);
 }
@@ -160,6 +169,9 @@ function init_diffuse_factors() {
 
 function draw() {
 	sync_html();
+	if (PAUSED) {
+		return;
+	}
 
 	// slime mold algorithm
 	for (let m = 0; m < MOLD_COUNT; m++) {
@@ -179,6 +191,7 @@ function draw() {
 
 function sync_html() {
 	MOVEMENT_SPEED = slider_movement_speed.value;
+	PAUSED = checkbox_pause.checked;
 }
 
 function read_trail_value(x, y) {
