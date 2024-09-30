@@ -9,27 +9,32 @@ TODO:
 */
 
 // CONFIG
+var PAUSED;
+var MOVEMENT_SPEED;
+var TURN_RADIANS;
+var SENSE_RANGE;
+var SENSE_RADIANS;
 var DECAY_FACTOR = 0.99;
 var GRID_X = 400;
 var GRID_Y = 400;
 var MOLD_COUNT = 200;
 var DEPOSIT_VALUE = 1.0;
-var MOVEMENT_SPEED = 0.5;
-var SENSE_RANGE = 1.5;
-var SENSE_ANGLE = 40;
 var SENSE_THRESHOLD = 0.2;
-var TURN_ANGLE = 3.1416 / 12;
 var BACKGROUND_COLOR = 5;
 var INITIAL_SLIME = 0.;
 var SLIME_HUE = 150;
 var SLIME_SAT = 60;
 var BLUR_WEAKNESS = 8;
 
-var PAUSED = false;
-
-var checkbox_pause;
-var slider_movement_speed;
-var display_movement_speed;
+var pause_checkbox;
+var movement_speed_slider;
+var movement_speed_display;
+var turn_angle_slider;
+var turn_angle_display;
+var sense_range_slider;
+var sense_range_display;
+var sense_angle_slider;
+var sense_angle_display;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
@@ -57,11 +62,11 @@ class Mold {
 		let front_x = this.position_x + SENSE_RANGE * sin(this.angle);
 		let front_y = this.position_y + SENSE_RANGE * cos(this.angle);
 
-		let left_x = this.position_x + SENSE_RANGE * sin(this.angle - SENSE_ANGLE);
-		let left_y = this.position_y + SENSE_RANGE * cos(this.angle - SENSE_ANGLE);
+		let left_x = this.position_x + SENSE_RANGE * sin(this.angle - SENSE_RADIANS);
+		let left_y = this.position_y + SENSE_RANGE * cos(this.angle - SENSE_RADIANS);
 
-		let right_x = this.position_x + SENSE_RANGE * sin(this.angle + SENSE_ANGLE);
-		let right_y = this.position_y + SENSE_RANGE * cos(this.angle + SENSE_ANGLE);
+		let right_x = this.position_x + SENSE_RANGE * sin(this.angle + SENSE_RADIANS);
+		let right_y = this.position_y + SENSE_RANGE * cos(this.angle + SENSE_RADIANS);
 
 		let front_trail_value = read_trail_value(front_x, front_y);
 		let left_trail_value  = read_trail_value(left_x , left_y );
@@ -88,11 +93,11 @@ class Mold {
 	}
 
 	turn_left() {
-		this.angle = mod(this.angle - TURN_ANGLE, TAU); // clamp to preserve float accuracy after running for a long time
+		this.angle = (this.angle - TURN_RADIANS) % TAU; // clamp to preserve float accuracy after running for a long time
 	}
 
 	turn_right() {
-		this.angle = mod(this.angle + TURN_ANGLE, TAU); // clamp to preserve float accuracy after running for a long time
+		this.angle = (this.angle + TURN_RADIANS) % TAU; // clamp to preserve float accuracy after running for a long time
 	}
 
 	// moves 1 space in direction determined by `angle`
@@ -125,15 +130,48 @@ function setup() {
 }
 
 function init_config_listeners() {
-	checkbox_pause = document.getElementById("PAUSED");
-	slider_movement_speed = document.getElementById('MOVEMENT_SPEED');
-	display_movement_speed = document.getElementById('display_movement_speed');
+	pause_checkbox = document.getElementById("PAUSED");
+	movement_speed_slider = document.getElementById('MOVEMENT_SPEED');
+	movement_speed_display = document.getElementById('movement_speed_display');
+	turn_angle_slider = document.getElementById("TURN_ANGLE");
+	turn_angle_display = document.getElementById("turn_angle_display");
+	sense_range_slider = document.getElementById("SENSE_RANGE");
+	sense_range_display = document.getElementById("sense_range_display");
+	sense_angle_slider = document.getElementById("SENSE_ANGLE");
+	sense_angle_display = document.getElementById("sense_angle_display");
 
-	function toggle_pause() { PAUSED = checkbox_pause.checked; }
-	checkbox_pause.addEventListener("change", toggle_pause);
+	function update_pause() { PAUSED = pause_checkbox.checked; }
+	pause_checkbox.addEventListener("change", update_pause);
 	
-	function update_display_movement_speed() { display_movement_speed.textContent = slider_movement_speed.value; }
-	slider_movement_speed.addEventListener('input', update_display_movement_speed);
+	function update_movement_speed_display() {
+		movement_speed_display.textContent = movement_speed_slider.value;
+		MOVEMENT_SPEED = movement_speed_slider.value;
+	}
+	movement_speed_slider.addEventListener('input', update_movement_speed_display);
+
+	function update_turn_angle_display() {
+		turn_angle_display.textContent = turn_angle_slider.value;
+		TURN_RADIANS = radians(turn_angle_slider.value);
+	}
+	turn_angle_slider.addEventListener('input', update_turn_angle_display);
+
+	function update_sense_range_display() {
+		sense_range_display.textContent = sense_range_slider.value;
+		SENSE_RANGE = sense_range_slider.value;
+	}
+	sense_range_slider.addEventListener('input', update_sense_range_display);
+
+	function update_sense_angle_display() {
+		sense_angle_display.textContent = sense_angle_slider.value;
+		SENSE_RADIANS = radians(sense_angle_slider.value);
+	}
+	sense_angle_slider.addEventListener('input', update_sense_angle_display);
+
+	update_pause();
+	update_movement_speed_display();
+	update_turn_angle_display();
+	update_sense_range_display();
+	update_sense_angle_display();
 }
 
 function init_trail_map() {
@@ -168,7 +206,6 @@ function init_diffuse_factors() {
 /* ------- LOOP ------- */
 
 function draw() {
-	sync_html();
 	if (PAUSED) {
 		return;
 	}
@@ -187,11 +224,6 @@ function draw() {
 
 	// render
 	render_slime_trail();
-}
-
-function sync_html() {
-	MOVEMENT_SPEED = slider_movement_speed.value;
-	PAUSED = checkbox_pause.checked;
 }
 
 function read_trail_value(x, y) {
