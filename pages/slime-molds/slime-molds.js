@@ -8,33 +8,48 @@ TODO:
 - reset button
 */
 
+function transform_identity(x) { return x; }
+function transform_radians(x) {	return radians(x); }
+function transform_decay_factor(x) { return 1 - 1 / (pow(2, x) + 1); } // asymptote at y = 1, intersects origin with gradient of 1. low value corresponds to fraction of 1. high values very close to 1 e.g. 0.9999
+
+class SliderConfig {
+	constructor(initial_value, var_name, transform = transform_identity) {
+		this.value = initial_value; // note that this is redundent because it gets overridden by 'update_value_and_display' at the end of this function
+		this.slider = document.getElementById(var_name + '_slider');
+		this.display = document.getElementById(var_name + '_display');
+		this.transform = transform;
+
+		this.update_value_and_display = this.update_value_and_display.bind(this); // bind 'this' so that 'this' can be accessed inside a callback
+		this.slider.addEventListener('input', this.update_value_and_display);
+
+		this.update_value_and_display();
+	}
+
+	update_value_and_display() {
+		this.display.textContent = this.slider.value;
+		this.value = this.transform(this.slider.value);
+	}
+}
+
 // CONFIG
 var PAUSED;
 var MOVEMENT_SPEED;
 var TURN_RADIANS;
 var SENSE_RANGE;
 var SENSE_RADIANS;
-var DECAY_FACTOR = 0.99;
-var GRID_X = 400;
-var GRID_Y = 400;
+var DECAY_FACTOR;
 var MOLD_COUNT = 200;
 var DEPOSIT_VALUE = 1.0;
 var SENSE_THRESHOLD = 0.2;
-var BACKGROUND_COLOR = 5;
-var INITIAL_SLIME = 0.;
 var SLIME_HUE = 150;
 var SLIME_SAT = 60;
+var BACKGROUND_COLOR = 5;
 var BLUR_WEAKNESS = 8;
 
+const GRID_X = 400;
+const GRID_Y = 400;
+
 var pause_checkbox;
-var movement_speed_slider;
-var movement_speed_display;
-var turn_angle_slider;
-var turn_angle_display;
-var sense_range_slider;
-var sense_range_display;
-var sense_angle_slider;
-var sense_angle_display;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
@@ -59,14 +74,14 @@ class Mold {
 
 	// updates direction `angle` based on state of `trail_map`
 	sense_and_turn() {
-		let front_x = this.position_x + SENSE_RANGE * sin(this.angle);
-		let front_y = this.position_y + SENSE_RANGE * cos(this.angle);
+		let front_x = this.position_x + SENSE_RANGE.value * sin(this.angle);
+		let front_y = this.position_y + SENSE_RANGE.value * cos(this.angle);
 
-		let left_x = this.position_x + SENSE_RANGE * sin(this.angle - SENSE_RADIANS);
-		let left_y = this.position_y + SENSE_RANGE * cos(this.angle - SENSE_RADIANS);
+		let left_x = this.position_x + SENSE_RANGE.value * sin(this.angle - SENSE_RADIANS.value);
+		let left_y = this.position_y + SENSE_RANGE.value * cos(this.angle - SENSE_RADIANS.value);
 
-		let right_x = this.position_x + SENSE_RANGE * sin(this.angle + SENSE_RADIANS);
-		let right_y = this.position_y + SENSE_RANGE * cos(this.angle + SENSE_RADIANS);
+		let right_x = this.position_x + SENSE_RANGE.value * sin(this.angle + SENSE_RADIANS.value);
+		let right_y = this.position_y + SENSE_RANGE.value * cos(this.angle + SENSE_RADIANS.value);
 
 		let front_trail_value = read_trail_value(front_x, front_y);
 		let left_trail_value  = read_trail_value(left_x , left_y );
@@ -93,17 +108,17 @@ class Mold {
 	}
 
 	turn_left() {
-		this.angle = (this.angle - TURN_RADIANS) % TAU; // clamp to preserve float accuracy after running for a long time
+		this.angle = (this.angle - TURN_RADIANS.value) % TAU; // clamp to preserve float accuracy after running for a long time
 	}
 
 	turn_right() {
-		this.angle = (this.angle + TURN_RADIANS) % TAU; // clamp to preserve float accuracy after running for a long time
+		this.angle = (this.angle + TURN_RADIANS.value) % TAU; // clamp to preserve float accuracy after running for a long time
 	}
 
 	// moves 1 space in direction determined by `angle`
 	move() {
-		this.position_x += MOVEMENT_SPEED * sin(this.angle);
-		this.position_y += MOVEMENT_SPEED * cos(this.angle);
+		this.position_x += MOVEMENT_SPEED.value * sin(this.angle);
+		this.position_y += MOVEMENT_SPEED.value * cos(this.angle);
 		this.position_x = mod(this.position_x, GRID_X);
 		this.position_y = mod(this.position_y, GRID_Y);
 	}
@@ -120,7 +135,7 @@ function setup() {
 	colorMode(HSB);
 	angleMode(RADIANS);
 	
-	createCanvas(GRID_X, GRID_Y);
+	createCanvas(GRID_X, GRID_Y, p5canvas);
 	background(BACKGROUND_COLOR);
 
 	init_config_listeners();
@@ -130,55 +145,29 @@ function setup() {
 }
 
 function init_config_listeners() {
-	pause_checkbox = document.getElementById("PAUSED");
-	movement_speed_slider = document.getElementById('MOVEMENT_SPEED');
-	movement_speed_display = document.getElementById('movement_speed_display');
-	turn_angle_slider = document.getElementById("TURN_ANGLE");
+	pause_checkbox = document.getElementById("paused_checkbox");
+	turn_angle_slider = document.getElementById("turn_angle_slider");
 	turn_angle_display = document.getElementById("turn_angle_display");
-	sense_range_slider = document.getElementById("SENSE_RANGE");
-	sense_range_display = document.getElementById("sense_range_display");
-	sense_angle_slider = document.getElementById("SENSE_ANGLE");
+	sense_angle_slider = document.getElementById("sense_angle_slider");
 	sense_angle_display = document.getElementById("sense_angle_display");
+
+	MOVEMENT_SPEED = new SliderConfig(0.5, 'movement_speed');
+	TURN_RADIANS = new SliderConfig(TAU / 12, 'turn_angle', transform_radians);
+	SENSE_RANGE = new SliderConfig(4.3, 'sense_range');
+	SENSE_RADIANS = new SliderConfig(TAU / 12, 'sense_angle', transform_radians);
+	DECAY_FACTOR = new SliderConfig(TAU / 12, 'decay_factor', transform_decay_factor);
 
 	function update_pause() { PAUSED = pause_checkbox.checked; }
 	pause_checkbox.addEventListener("change", update_pause);
 	
-	function update_movement_speed_display() {
-		movement_speed_display.textContent = movement_speed_slider.value;
-		MOVEMENT_SPEED = movement_speed_slider.value;
-	}
-	movement_speed_slider.addEventListener('input', update_movement_speed_display);
-
-	function update_turn_angle_display() {
-		turn_angle_display.textContent = turn_angle_slider.value;
-		TURN_RADIANS = radians(turn_angle_slider.value);
-	}
-	turn_angle_slider.addEventListener('input', update_turn_angle_display);
-
-	function update_sense_range_display() {
-		sense_range_display.textContent = sense_range_slider.value;
-		SENSE_RANGE = sense_range_slider.value;
-	}
-	sense_range_slider.addEventListener('input', update_sense_range_display);
-
-	function update_sense_angle_display() {
-		sense_angle_display.textContent = sense_angle_slider.value;
-		SENSE_RADIANS = radians(sense_angle_slider.value);
-	}
-	sense_angle_slider.addEventListener('input', update_sense_angle_display);
-
 	update_pause();
-	update_movement_speed_display();
-	update_turn_angle_display();
-	update_sense_range_display();
-	update_sense_angle_display();
 }
 
 function init_trail_map() {
 	for (let i = 0; i < GRID_X; i++) {
 		trail_map[i] = [];
 		for (let j = 0; j < GRID_Y; j++) {
-			trail_map[i][j] = INITIAL_SLIME;
+			trail_map[i][j] = 0.;
 		}
 	}
 }
@@ -285,7 +274,7 @@ function dissipate_trail_map() {
 		new_trail_map[i] = [];
 		for (let j = 0; j < GRID_Y; j++) {
 			let diffused = diffused_trail_value(i, j);
-			let decayed = diffused * DECAY_FACTOR;
+			let decayed = diffused * DECAY_FACTOR.value;
 			new_trail_map[i][j] = min(decayed, 1.0);
 		}
 	}
@@ -314,7 +303,6 @@ function render_slime_trail() {
 		for (let j = 0; j < GRID_Y; j++) {
 			let slime = trail_map[i][j];
 			set(i, j, color(SLIME_HUE, SLIME_SAT, slime * 100));
-			//set(i, j, slime_color);//todo
 		}
 	}
 
