@@ -53,6 +53,9 @@
 			<p>
 				Pause: <input type="checkbox" id="paused_checkbox">
 			</p>
+			<p>
+				<button type="button" id="reset-button">Reset</button>
+			</p>
 			
 			<p>
 				<label for="movement_speed_slider">Movement Speed:</label>
@@ -78,6 +81,11 @@
 				<label for="decay_factor_slider">Decay Factor</label>
 				<input type="range" id="decay_factor_slider" min="0" max="10" step = "0.1" value="5.0">
 				<span id="decay_factor_display"></span>
+			</p>
+			<p>
+				<label for="turn_chance_slider">Turn Chance</label>
+				<input type="range" id="turn_chance_slider" min="0" max="0.5" step = "0.02" value="0.33">
+				<span id="turn_chance_display"></span>
 			</p>
 		</header>
 		<main>

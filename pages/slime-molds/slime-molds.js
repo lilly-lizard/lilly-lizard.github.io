@@ -38,6 +38,7 @@ var TURN_RADIANS;
 var SENSE_RANGE;
 var SENSE_RADIANS;
 var DECAY_FACTOR;
+var TURN_CHANCE = 0.33;
 var MOLD_COUNT = 200;
 var DEPOSIT_VALUE = 1.0;
 var SENSE_THRESHOLD = 0.2;
@@ -49,8 +50,6 @@ var BLUR_WEAKNESS = 8;
 const GRID_X = 400;
 const GRID_Y = 400;
 
-var pause_checkbox;
-
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
 
@@ -58,7 +57,7 @@ var g0;
 var g1;
 var g2;
 
-// because the stupid ducking javascript modulo returns negative numbers
+// because the stupid ducking javascript modulo returns negative numbers 🤦
 function mod(n, m) {
 	return ((n % m) + m) % m;
 }
@@ -103,7 +102,14 @@ class Mold {
 			this.turn_right();
 
 		} else {
-			// keep moving straight
+			// random direction
+			let rand = random();
+			if (rand < TURN_CHANCE.value) {
+				this.turn_left();
+			} else if (rand < TURN_CHANCE.value * 2) {
+				this.turn_right();
+			}
+			// else straight ahead
 		}
 	}
 
@@ -139,28 +145,31 @@ function setup() {
 	background(BACKGROUND_COLOR);
 
 	init_config_listeners();
+
+	init_simulation();
+}
+
+function init_simulation() {
 	init_trail_map();
 	init_mold_map();
 	init_diffuse_factors();
 }
 
 function init_config_listeners() {
-	pause_checkbox = document.getElementById("paused_checkbox");
-	turn_angle_slider = document.getElementById("turn_angle_slider");
-	turn_angle_display = document.getElementById("turn_angle_display");
-	sense_angle_slider = document.getElementById("sense_angle_slider");
-	sense_angle_display = document.getElementById("sense_angle_display");
-
 	MOVEMENT_SPEED = new SliderConfig(0.5, 'movement_speed');
 	TURN_RADIANS = new SliderConfig(TAU / 12, 'turn_angle', transform_radians);
 	SENSE_RANGE = new SliderConfig(4.3, 'sense_range');
 	SENSE_RADIANS = new SliderConfig(TAU / 12, 'sense_angle', transform_radians);
 	DECAY_FACTOR = new SliderConfig(TAU / 12, 'decay_factor', transform_decay_factor);
+	TURN_CHANCE = new SliderConfig(0.33, 'turn_chance');
 
+	let pause_checkbox = document.getElementById("paused_checkbox");
 	function update_pause() { PAUSED = pause_checkbox.checked; }
 	pause_checkbox.addEventListener("change", update_pause);
-	
 	update_pause();
+
+	let reset_button = document.getElementById('reset-button');
+	reset_button.addEventListener('click', init_simulation);
 }
 
 function init_trail_map() {
@@ -198,6 +207,7 @@ function draw() {
 	if (PAUSED) {
 		return;
 	}
+	performance.mark("draw start");
 
 	// slime mold algorithm
 	for (let m = 0; m < MOLD_COUNT; m++) {
@@ -213,6 +223,8 @@ function draw() {
 
 	// render
 	render_slime_trail();
+
+	performance.mark("draw finished");
 }
 
 function read_trail_value(x, y) {
@@ -299,12 +311,16 @@ function diffused_trail_value(x, y) {
 function render_slime_trail() {
 	background(BACKGROUND_COLOR);
 
+	performance.mark("render start");
+
 	for (let i = 0; i < GRID_X; i++) {
 		for (let j = 0; j < GRID_Y; j++) {
 			let slime = trail_map[i][j];
 			set(i, j, color(SLIME_HUE, SLIME_SAT, slime * 100));
 		}
 	}
+
+	performance.mark("render finish");
 
 	updatePixels();
 }
