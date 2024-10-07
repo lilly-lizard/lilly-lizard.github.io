@@ -333,7 +333,6 @@ async function render_slime_trail() {
 
 	let image_bitmap = await createImageBitmap(image_data);
 	canvas_ctx.drawImage(image_bitmap, 0, 0, GRID_X * SCALE_FACTOR, GRID_Y * SCALE_FACTOR);
-	//canvas_ctx.putImageData(image_data, 0, 0);
 
 	performance.mark("render finish");
 }
