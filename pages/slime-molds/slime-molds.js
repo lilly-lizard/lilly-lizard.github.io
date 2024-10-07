@@ -42,13 +42,17 @@ var TURN_CHANCE = 0.33;
 var MOLD_COUNT = 200;
 var DEPOSIT_VALUE = 1.0;
 var SENSE_THRESHOLD = 0.2;
-var SLIME_HUE = 150;
-var SLIME_SAT = 60;
+var SLIME_R = 50;
+var SLIME_R = 255;
+var SLIME_R = 128;
 var BACKGROUND_COLOR = 5;
 var BLUR_WEAKNESS = 8;
 
 const GRID_X = 400;
 const GRID_Y = 400;
+const SCALE_FACTOR = 2;
+var canvas_ctx;
+var image_data;
 
 var trail_map = []; // between 0. and 1.
 var mold_map = [];
@@ -138,11 +142,13 @@ class Mold {
 /* ------- INIT ------- */
 
 function setup() {
-	colorMode(HSB);
 	angleMode(RADIANS);
+	noCanvas();
 	
-	createCanvas(GRID_X, GRID_Y, p5canvas);
-	background(BACKGROUND_COLOR);
+	let canvas = document.getElementById("draw-canvas");
+	canvas_ctx = canvas.getContext("2d");
+	canvas_ctx.imageSmoothingEnabled = false;
+	image_data = canvas_ctx.createImageData(GRID_X, GRID_Y);
 
 	init_config_listeners();
 
@@ -308,19 +314,26 @@ function diffused_trail_value(x, y) {
 	return summed_trail;
 }
 
-function render_slime_trail() {
-	background(BACKGROUND_COLOR);
-
+async function render_slime_trail() {
 	performance.mark("render start");
+
+	image_data = canvas_ctx.createImageData(GRID_X, GRID_Y);
 
 	for (let i = 0; i < GRID_X; i++) {
 		for (let j = 0; j < GRID_Y; j++) {
 			let slime = trail_map[i][j];
-			set(i, j, color(SLIME_HUE, SLIME_SAT, slime * 100));
+			let image_idx = (i + j * GRID_X) * 4;
+			// todo only need to write green?
+			image_data.data[image_idx    ] = slime * 50;	// red
+			image_data.data[image_idx + 1] = slime * 255; 	// green
+			image_data.data[image_idx + 2] = slime * 128;	// blue
+			image_data.data[image_idx + 3] = 255; 			// alpha
 		}
 	}
 
-	performance.mark("render finish");
+	let image_bitmap = await createImageBitmap(image_data);
+	canvas_ctx.drawImage(image_bitmap, 0, 0, GRID_X * SCALE_FACTOR, GRID_Y * SCALE_FACTOR);
+	//canvas_ctx.putImageData(image_data, 0, 0);
 
-	updatePixels();
+	performance.mark("render finish");
 }
