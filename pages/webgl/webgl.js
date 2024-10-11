@@ -19,10 +19,19 @@ void main(void) {
 }
 `;
 
-var background_color = { r: 0.9647058823529412, g: 0.3803921568627451, b: 0.3176470588235294 };;
-var material_0_color = { r: 0.7098039215686275, g: 0.5137254901960784, b: 0.35294117647058826 };
-var material_1_color = { r: 0.596078431372549, g: 0.41568627450980394, b: 0.26666666666666666 };
-var material_2_color = { r: 0.38823529411764707, g: 0.27058823529411763, b: 0.17254901960784313 };
+function hex_to_rgb(hex) {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16) / 255.,
+		g: parseInt(result[2], 16) / 255.,
+		b: parseInt(result[3], 16) / 255.
+	} : null;
+}
+
+var background_color = hex_to_rgb("#ffb880");
+var material_0_color = hex_to_rgb("#b5835a");
+var material_1_color = hex_to_rgb("#986a44");
+var material_2_color = hex_to_rgb("#865e3c");
 var fract_depth = 1.5;
 
 var last_timestamp = Date.now();
@@ -37,15 +46,6 @@ async function load_frag_code() {
 			frag_code = data;
 		})
 		.catch(error => console.error('error fetching webgl.frag: ', error));
-}
-
-function hex_to_rgb(hex) {
-	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result ? {
-		r: parseInt(result[1], 16) / 255.,
-		g: parseInt(result[2], 16) / 255.,
-		b: parseInt(result[3], 16) / 255.
-	} : null;
 }
 
 async function main() {

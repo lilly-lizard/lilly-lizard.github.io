@@ -99,7 +99,7 @@ vec3 render(in vec3 ray_origin, in vec3 ray_dir)
 	const vec3 light_color_1 = vec3(1.00, 1.00, 1.00);
 	const vec3 light_color_2 = vec3(0.40, 0.40, 0.40);
 	
-	float ao = pow(clamp(tra.w * 2.0, 0.0, 1.0), 1.);
+	float ao = pow(tra.w * 2.0, 1.4);
 	float light_falloff = 1.6 * exp(-LIGHT_FALLOFF * hit_dist);
 	vec3 fog = 1.3 * exp(FOG_FALLOFF * (hit_dist - MAX_DISTANCE)) * i_background_color; // greater distance = more fog
 
