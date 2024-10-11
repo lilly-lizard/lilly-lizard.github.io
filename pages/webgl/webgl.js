@@ -1,5 +1,3 @@
-// https://jbaker.graphics/writings/DEC.html
-
 var PAUSED;
 
 const vertices = [
@@ -9,7 +7,7 @@ const vertices = [
 ];
 const indices = [0, 1, 2];
 
-const vertCode = `#version 300 es
+const vert_code = `#version 300 es
 precision highp float;
 
 in vec3 i_pos;
@@ -21,199 +19,114 @@ void main(void) {
 }
 `;
 
-const fragCode = `#version 300 es
-precision highp float;
-
-in vec2 a_uv;
-out vec4 o_color;
-
-uniform float i_time;
-uniform vec2 i_resolution;
-
-float fmod(float a, float b) {
-	return a - (b * floor(a / b));
-}
-
-void main(void) {
-	o_color = vec4(a_uv, fmod(i_time, 1.), 1.);
-}
-`;
-
-const iqFragCode = `#version 300 es
-precision highp float;
-
-in vec2 a_uv;
-out vec4 o_color;
-uniform float i_time;
-uniform vec2 i_resolution;
-
-vec4 orb;
-
-float map( vec3 p, float s )
-{
-	float scale = 1.0;
-
-	orb = vec4(1000.0); 
-	
-	for( int i=0; i<8;i++ )
-	{
-		p = -1.0 + 2.0*fract(0.5*p+0.5);
-
-		float r2 = dot(p,p);
-		
-		orb = min( orb, vec4(abs(p),r2) );
-		
-		float k = s/r2;
-		p     *= k;
-		scale *= k;
-	}
-	
-	return 0.25*abs(p.y)/scale;
-}
-
-float trace( in vec3 ro, in vec3 rd, float s )
-{
-	float maxd = 30.0;
-	float t = 0.01;
-	for( int i=0; i<512; i++ )
-	{
-		float precis = 0.001 * t;
-		
-		float h = map( ro+rd*t, s );
-		if( h<precis||t>maxd ) break;
-		t += h;
-	}
-
-	if( t>maxd ) t=-1.0;
-	return t;
-}
-
-vec3 calcNormal( in vec3 pos, in float t, in float s )
-{
-	float precis = 0.001 * t;
-
-	vec2 e = vec2(1.0,-1.0)*precis;
-	return normalize( e.xyy*map( pos + e.xyy, s ) + 
-					  e.yyx*map( pos + e.yyx, s ) + 
-					  e.yxy*map( pos + e.yxy, s ) + 
-					  e.xxx*map( pos + e.xxx, s ) );
-}
-
-vec3 render( in vec3 ro, in vec3 rd, in float anim )
-{
-	// trace	
-	vec3 col = vec3(0.0);
-	float t = trace( ro, rd, anim );
-	if( t>0.0 )
-	{
-		vec4 tra = orb;
-		vec3 pos = ro + t*rd;
-		vec3 nor = calcNormal( pos, t, anim );
-
-		// lighting
-		vec3  light1 = vec3(  0.577, 0.577, -0.577 );
-		vec3  light2 = vec3( -0.707, 0.000,  0.707 );
-		float key = clamp( dot( light1, nor ), 0.0, 1.0 );
-		float bac = clamp( 0.2 + 0.8*dot( light2, nor ), 0.0, 1.0 );
-		float amb = (0.7+0.3*nor.y);
-		float ao = pow( clamp(tra.w*2.0,0.0,1.0), 1.2 );
-
-		vec3 brdf  = 1.0*vec3(0.40,0.40,0.40)*amb*ao;
-		brdf += 1.0*vec3(1.00,1.00,1.00)*key*ao;
-		brdf += 1.0*vec3(0.40,0.40,0.40)*bac*ao;
-
-		// material		
-		vec3 rgb = vec3(1.0);
-		rgb = mix( rgb, vec3(1.0,0.80,0.2), clamp(6.0*tra.y,0.0,1.0) );
-		rgb = mix( rgb, vec3(1.0,0.55,0.0), pow(clamp(1.0-2.0*tra.z,0.0,1.0),8.0) );
-
-		// color
-		col = rgb*brdf*exp(-0.2*t);
-	}
-
-	return sqrt(col);
-}
-
-void main(void)
-{
-	float time = i_time * 0.25;
-	float anim = 1.1 + 0.5 * smoothstep(-0.3, 0.3, cos(0.1 * i_time));
-	
-	vec3 tot = vec3(0.0);
-
-	vec2 q = gl_FragCoord.xy + vec2(1., 1.);
-	vec2 p = (2.0*q-i_resolution.xy)/i_resolution.y;
-
-	// camera
-	vec3 ro = vec3( 2.8*cos(0.1+.33*time), 0.4 + 0.30*cos(0.37*time), 2.8*cos(0.5+0.35*time) );
-	vec3 ta = vec3( 1.9*cos(1.2+.41*time), 0.4 + 0.10*cos(0.27*time), 1.9*cos(2.0+0.38*time) );
-	float roll = 0.2*cos(0.1*time);
-	vec3 cw = normalize(ta-ro);
-	vec3 cp = vec3(sin(roll), cos(roll),0.0);
-	vec3 cu = normalize(cross(cw,cp));
-	vec3 cv = normalize(cross(cu,cw));
-	vec3 rd = normalize( p.x*cu + p.y*cv + 2.0*cw );
-
-	tot += render( ro, rd, anim );
-	
-	o_color = vec4( tot, 1.0 );	
-
-}
-`;
-
-let pause_checkbox = document.getElementById("paused_checkbox");
-function update_pause() { PAUSED = pause_checkbox.checked; }
-pause_checkbox.addEventListener("change", update_pause);
-update_pause();
-
-var canvas = document.getElementById('draw-canvas');
-gl = canvas.getContext('webgl2');
-
-const vertex_buffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-const Index_Buffer = gl.createBuffer();
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
-gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-
-const vertShader = gl.createShader(gl.VERTEX_SHADER);
-gl.shaderSource(vertShader, vertCode);
-gl.compileShader(vertShader);
-
-const fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-gl.shaderSource(fragShader, iqFragCode); 
-gl.compileShader(fragShader);
-
-const shaderProgram = gl.createProgram();
-gl.attachShader(shaderProgram, vertShader);
-gl.attachShader(shaderProgram, fragShader);
-gl.linkProgram(shaderProgram);
-gl.useProgram(shaderProgram);
-
-const vertex_input_location = gl.getAttribLocation(shaderProgram, "i_pos");
-const time_uniform_location = gl.getUniformLocation(shaderProgram, "i_time");
-const resolution_uniform_location = gl.getUniformLocation(shaderProgram, "i_resolution");
-
-gl.uniform2f(resolution_uniform_location, canvas.width, canvas.height);
-
-gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
-gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
-gl.vertexAttribPointer(vertex_input_location, 3, gl.FLOAT, false, 0, 0); 
-gl.enableVertexAttribArray(vertex_input_location);
-
-gl.disable(gl.DEPTH_TEST);
-gl.clearColor(0.5, 0.5, 0.5, 0.9);
-gl.viewport(0, 0, canvas.width, canvas.height);
-
-// loop
+var background_color = { r: 1.0, g: 0.85, b: 0.7 };
+var material_1_color = { r: 0.4, g: 0.8, b: 0.2 };
+var material_2_color = { r: 0.8, g: 0.4, b: 0.7 };
 
 var last_timestamp = Date.now();
 var current_time = 0;
+var time_uniform_location;
 
-render();
+var frag_code;
+async function load_frag_code() {
+	fetch('webgl.frag')
+		.then(response => response.text())
+		.then(data => {
+			frag_code = data;
+		})
+		.catch(error => console.error('error fetching webgl.frag: ', error));
+}
+
+function hex_to_rgb(hex) {
+	var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	return result ? {
+		r: parseInt(result[1], 16) / 255.,
+		g: parseInt(result[2], 16) / 255.,
+		b: parseInt(result[3], 16) / 255.
+	} : null;
+}
+
+async function main() {
+	let frag_code_response = await fetch('webgl.frag') // todo remove await?
+		.catch(error => console.error('error fetching webgl.frag: ', error));
+
+	let pause_checkbox = document.getElementById("paused_checkbox");
+	function update_pause() { PAUSED = pause_checkbox.checked; }
+	pause_checkbox.addEventListener("change", update_pause);
+	update_pause();
+
+	var canvas = document.getElementById('draw-canvas');
+	gl = canvas.getContext('webgl2');
+
+	const vertex_buffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+	gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+	const Index_Buffer = gl.createBuffer();
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+	const vertShader = gl.createShader(gl.VERTEX_SHADER);
+	gl.shaderSource(vertShader, vert_code);
+	gl.compileShader(vertShader);
+
+	let frag_code = await frag_code_response.text()
+		.catch(error => console.error('error fetching webgl.frag: ', error));;
+	const fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+	gl.shaderSource(fragShader, frag_code); 
+	gl.compileShader(fragShader);
+
+	const shaderProgram = gl.createProgram();
+	gl.attachShader(shaderProgram, vertShader);
+	gl.attachShader(shaderProgram, fragShader);
+	gl.linkProgram(shaderProgram);
+	gl.useProgram(shaderProgram);
+
+	const vertex_input_location = gl.getAttribLocation(shaderProgram, "i_pos");
+	time_uniform_location = gl.getUniformLocation(shaderProgram, "i_time");
+	const resolution_uniform_location = gl.getUniformLocation(shaderProgram, "i_resolution");
+	const background_uniform_location = gl.getUniformLocation(shaderProgram, "i_background_color");
+	const material_1_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_1_color");
+	const material_2_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_2_color");
+
+	gl.uniform2f(resolution_uniform_location, canvas.width, canvas.height);
+	gl.uniform3f(background_uniform_location, background_color.r, background_color.g, background_color.b);
+	gl.uniform3f(material_1_uniform_location, material_1_color.r, material_1_color.g, material_1_color.b);
+	gl.uniform3f(material_2_uniform_location, material_2_color.r, material_2_color.g, material_2_color.b);
+
+	const background_color_picker = document.getElementById('background_color');
+	background_color_picker.addEventListener('input', function() {
+		background_color = hex_to_rgb(background_color_picker.value);
+		gl.uniform3f(background_uniform_location, background_color.r, background_color.g, background_color.b);
+	});
+
+	const material_1_color_picker = document.getElementById('material_1_color');
+	material_1_color_picker.addEventListener('input', function() {
+		material_1_color = hex_to_rgb(material_1_color_picker.value);
+		gl.uniform3f(material_1_uniform_location, material_1_color.r, material_1_color.g, material_1_color.b);
+	});
+
+	const material_2_color_picker = document.getElementById('material_2_color');
+	material_2_color_picker.addEventListener('input', function() {
+		material_2_color = hex_to_rgb(material_2_color_picker.value);
+		gl.uniform3f(material_2_uniform_location, material_2_color.r, material_2_color.g, material_2_color.b);
+	});
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
+	gl.vertexAttribPointer(vertex_input_location, 3, gl.FLOAT, false, 0, 0); 
+	gl.enableVertexAttribArray(vertex_input_location);
+
+	gl.disable(gl.DEPTH_TEST);
+	gl.clearColor(background_color[0], background_color[1], background_color[2], 1.0);
+	gl.viewport(0, 0, canvas.width, canvas.height);
+
+	// loop
+
+	render();
+}
 
 function render() {
 	if (PAUSED) {
@@ -223,7 +136,7 @@ function render() {
 	}
 
 	const time_diff = Date.now() - last_timestamp;
-	current_time += time_diff;
+	//current_time += time_diff;
 	let seconds_passed = current_time / 1000.;
 	gl.uniform1f(time_uniform_location, seconds_passed);
 	
@@ -234,3 +147,5 @@ function render() {
 	last_timestamp = Date.now();
 	requestAnimationFrame(render);
 }
+
+main();
