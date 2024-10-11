@@ -154,16 +154,18 @@ async function main() {
 }
 
 function render() {
-	if (PAUSED) {
-		last_timestamp = Date.now();
-		requestAnimationFrame(render);
-		return;
-	}
+	// if (PAUSED) {
+	// 	last_timestamp = Date.now();
+	// 	requestAnimationFrame(render);
+	// 	return;
+	// }
 
-	const time_diff = Date.now() - last_timestamp;
-	current_time += time_diff;
-	let seconds_passed = current_time / 1000.;
-	gl.uniform1f(time_uniform_location, seconds_passed);
+	if (!PAUSED) {
+		const time_diff = Date.now() - last_timestamp;
+		current_time += time_diff;
+		let seconds_passed = current_time / 1000.;
+		gl.uniform1f(time_uniform_location, seconds_passed);
+	}
 	
 	gl.clear(gl.COLOR_BUFFER_BIT);
 	gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);

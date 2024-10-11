@@ -29,7 +29,7 @@ float map(in vec3 pos)
 	float scale = 1.0;
 	orb = vec4(1000.);
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 12; i++)
 	{
 		pos = mod(pos - 1., 2.) - 1.;
 
@@ -141,7 +141,8 @@ void main(void)
 	float time = i_time * 0.25;
 	
 	vec2 coord = gl_FragCoord.xy + vec2(0.5, 0.5);
-	vec2 uv = (2.0 * coord - i_resolution.xy) / i_resolution.y;
+	float uv_div = min(i_resolution.x, i_resolution.y);
+	vec2 uv = (2.0 * coord - i_resolution.xy) / uv_div;
 
 	// camera
 	vec3 ray_origin = anim_ray_origin(time);
