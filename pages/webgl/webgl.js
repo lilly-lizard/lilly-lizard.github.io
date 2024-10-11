@@ -19,10 +19,11 @@ void main(void) {
 }
 `;
 
-var background_color = { r: 1.0, g: 0.85, b: 0.7 };
-var material_1_color = { r: 0.4, g: 0.8, b: 0.2 };
-var material_2_color = { r: 0.8, g: 0.4, b: 0.7 };
-var fract_depth = 1.4;
+var background_color = { r: 0.9647058823529412, g: 0.3803921568627451, b: 0.3176470588235294 };;
+var material_0_color = { r: 0.7098039215686275, g: 0.5137254901960784, b: 0.35294117647058826 };
+var material_1_color = { r: 0.596078431372549, g: 0.41568627450980394, b: 0.26666666666666666 };
+var material_2_color = { r: 0.38823529411764707, g: 0.27058823529411763, b: 0.17254901960784313 };
+var fract_depth = 1.5;
 
 var last_timestamp = Date.now();
 var current_time = 0;
@@ -90,38 +91,51 @@ async function main() {
 	const depth_uniform_location = gl.getUniformLocation(shaderProgram, "i_fract_depth");
 	const resolution_uniform_location = gl.getUniformLocation(shaderProgram, "i_resolution");
 	const background_uniform_location = gl.getUniformLocation(shaderProgram, "i_background_color");
+	const material_0_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_0_color");
 	const material_1_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_1_color");
 	const material_2_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_2_color");
 
-	gl.uniform1f(depth_uniform_location, fract_depth);
-	gl.uniform2f(resolution_uniform_location, canvas.width, canvas.height);
-	gl.uniform3f(background_uniform_location, background_color.r, background_color.g, background_color.b);
-	gl.uniform3f(material_1_uniform_location, material_1_color.r, material_1_color.g, material_1_color.b);
-	gl.uniform3f(material_2_uniform_location, material_2_color.r, material_2_color.g, material_2_color.b);
-
 	const fract_depth_slider = document.getElementById('fract_depth');
+	fract_depth = fract_depth_slider.value;
 	fract_depth_slider.addEventListener('input', function() {
 		fract_depth = fract_depth_slider.value;
 		gl.uniform1f(depth_uniform_location, fract_depth);
 	});
 
 	const background_color_picker = document.getElementById('background_color');
+	background_color = hex_to_rgb(background_color_picker.value);
 	background_color_picker.addEventListener('input', function() {
 		background_color = hex_to_rgb(background_color_picker.value);
 		gl.uniform3f(background_uniform_location, background_color.r, background_color.g, background_color.b);
 	});
 
+	const material_0_color_picker = document.getElementById('material_0_color');
+	material_0_color = hex_to_rgb(material_0_color_picker.value);
+	material_0_color_picker.addEventListener('input', function() {
+		material_0_color = hex_to_rgb(material_0_color_picker.value);
+		gl.uniform3f(material_0_uniform_location, material_0_color.r, material_0_color.g, material_0_color.b);
+	});
+
 	const material_1_color_picker = document.getElementById('material_1_color');
+	material_1_color = hex_to_rgb(material_1_color_picker.value);
 	material_1_color_picker.addEventListener('input', function() {
 		material_1_color = hex_to_rgb(material_1_color_picker.value);
 		gl.uniform3f(material_1_uniform_location, material_1_color.r, material_1_color.g, material_1_color.b);
 	});
 
 	const material_2_color_picker = document.getElementById('material_2_color');
+	material_2_color = hex_to_rgb(material_2_color_picker.value);
 	material_2_color_picker.addEventListener('input', function() {
 		material_2_color = hex_to_rgb(material_2_color_picker.value);
 		gl.uniform3f(material_2_uniform_location, material_2_color.r, material_2_color.g, material_2_color.b);
 	});
+
+	gl.uniform1f(depth_uniform_location, fract_depth);
+	gl.uniform2f(resolution_uniform_location, canvas.width, canvas.height);
+	gl.uniform3f(background_uniform_location, background_color.r, background_color.g, background_color.b);
+	gl.uniform3f(material_0_uniform_location, material_0_color.r, material_0_color.g, material_0_color.b);
+	gl.uniform3f(material_1_uniform_location, material_1_color.r, material_1_color.g, material_1_color.b);
+	gl.uniform3f(material_2_uniform_location, material_2_color.r, material_2_color.g, material_2_color.b);
 
 	gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Index_Buffer);
