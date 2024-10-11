@@ -58,6 +58,8 @@ async function main() {
 	update_pause();
 
 	var canvas = document.getElementById('draw-canvas');
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
 	gl = canvas.getContext('webgl2');
 
 	const vertex_buffer = gl.createBuffer();

@@ -18,8 +18,8 @@ uniform vec3 i_material_2_color;
 
 const float MAX_DISTANCE = 30.0;
 const int MAX_STEPS = 512;
-const float FOG_FALLOFF = 0.07;
-const float LIGHT_FALLOFF = 0.3;
+const float FOG_FALLOFF = 0.09;
+const float LIGHT_FALLOFF = 0.09;
 const float SHININESS = 4.;
 
 vec4 orb;
@@ -71,13 +71,13 @@ vec3 calc_normal(in vec3 pos, in float hit_dist)
 					 e.xxx * map(pos + e.xxx));
 }
 
-const float diffuse_strength = 0.5;
+const float diffuse_strength = 0.8;
 const float specular_strength = 0.8;
 
 vec3 phong(vec3 color, vec3 light_dir, vec3 normal, vec3 ray_dir)
 {
 	vec3 reflection = reflect(-light_dir, normal);
-	float ambient  = 0.1;
+	float ambient  = 0.0;
 	float diffuse  = diffuse_strength * max(dot(normal, -light_dir), 0.);
 	float specular = specular_strength * pow(max(dot(ray_dir, reflection), 0.), SHININESS);
 	return (ambient + diffuse + specular) * color;
@@ -100,11 +100,11 @@ vec3 render(in vec3 ray_origin, in vec3 ray_dir)
 	const vec3 light_color_2 = vec3(0.40, 0.40, 0.40);
 	
 	float ao = pow(clamp(tra.w * 2.0, 0.0, 1.0), 1.);
-	float falloff = exp(-LIGHT_FALLOFF * hit_dist);
-	vec3 fog = 1.1 * exp(FOG_FALLOFF * (hit_dist - MAX_DISTANCE)) * i_background_color; // greater distance = more fog
+	float light_falloff = 1.6 * exp(-LIGHT_FALLOFF * hit_dist);
+	vec3 fog = 1.3 * exp(FOG_FALLOFF * (hit_dist - MAX_DISTANCE)) * i_background_color; // greater distance = more fog
 
-	vec3 phong_1 = falloff * phong(light_color_1, light_dir_1, normal, ray_dir);
-	vec3 phong_2 = falloff * phong(light_color_2, light_dir_2, normal, ray_dir);
+	vec3 phong_1 = light_falloff * phong(light_color_1, light_dir_1, normal, ray_dir);
+	vec3 phong_2 = light_falloff * phong(light_color_2, light_dir_2, normal, ray_dir);
 
 	vec3 material = i_material_0_color;
 	material = mix(material, i_material_1_color, clamp(6.0 * tra.y, 0.0, 1.0));
@@ -141,7 +141,7 @@ void main(void)
 	float time = i_time * 0.25;
 	
 	vec2 coord = gl_FragCoord.xy + vec2(0.5, 0.5);
-	vec2 uv = (2.0 * coord-i_resolution.xy) / i_resolution.y;
+	vec2 uv = (2.0 * coord - i_resolution.xy) / i_resolution.y;
 
 	// camera
 	vec3 ray_origin = anim_ray_origin(time);
