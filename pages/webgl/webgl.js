@@ -22,6 +22,7 @@ void main(void) {
 var background_color = { r: 1.0, g: 0.85, b: 0.7 };
 var material_1_color = { r: 0.4, g: 0.8, b: 0.2 };
 var material_2_color = { r: 0.8, g: 0.4, b: 0.7 };
+var fract_depth = 1.4;
 
 var last_timestamp = Date.now();
 var current_time = 0;
@@ -86,15 +87,23 @@ async function main() {
 
 	const vertex_input_location = gl.getAttribLocation(shaderProgram, "i_pos");
 	time_uniform_location = gl.getUniformLocation(shaderProgram, "i_time");
+	const depth_uniform_location = gl.getUniformLocation(shaderProgram, "i_fract_depth");
 	const resolution_uniform_location = gl.getUniformLocation(shaderProgram, "i_resolution");
 	const background_uniform_location = gl.getUniformLocation(shaderProgram, "i_background_color");
 	const material_1_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_1_color");
 	const material_2_uniform_location = gl.getUniformLocation(shaderProgram, "i_material_2_color");
 
+	gl.uniform1f(depth_uniform_location, fract_depth);
 	gl.uniform2f(resolution_uniform_location, canvas.width, canvas.height);
 	gl.uniform3f(background_uniform_location, background_color.r, background_color.g, background_color.b);
 	gl.uniform3f(material_1_uniform_location, material_1_color.r, material_1_color.g, material_1_color.b);
 	gl.uniform3f(material_2_uniform_location, material_2_color.r, material_2_color.g, material_2_color.b);
+
+	const fract_depth_slider = document.getElementById('fract_depth');
+	fract_depth_slider.addEventListener('input', function() {
+		fract_depth = fract_depth_slider.value;
+		gl.uniform1f(depth_uniform_location, fract_depth);
+	});
 
 	const background_color_picker = document.getElementById('background_color');
 	background_color_picker.addEventListener('input', function() {
@@ -136,7 +145,7 @@ function render() {
 	}
 
 	const time_diff = Date.now() - last_timestamp;
-	//current_time += time_diff;
+	current_time += time_diff;
 	let seconds_passed = current_time / 1000.;
 	gl.uniform1f(time_uniform_location, seconds_passed);
 	
