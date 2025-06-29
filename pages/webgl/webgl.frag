@@ -29,7 +29,7 @@ float map(in vec3 pos)
 	float scale = 1.0;
 	orb = vec4(1000.);
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		pos = mod(pos - 1., 2.) - 1.;
 
