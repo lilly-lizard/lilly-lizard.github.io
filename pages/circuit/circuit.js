@@ -8,7 +8,7 @@ class Vector {
 }
 
 class Hsl {
-	constructor (h, s, l) {
+	constructor(h, s, l) {
 		this.h = h;
 		this.s = s;
 		this.l = l;

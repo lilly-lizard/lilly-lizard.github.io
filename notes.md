@@ -4,6 +4,8 @@
 
 [2d javascript framework](https://pixijs.com)
 
+[circuit simulation](https://www.falstad.com/circuit/)
+
 # plan
 
 electrons moving around circuit
