@@ -26,6 +26,7 @@ electrons moving around circuit
 	- low r: wide, spread out and fast?
 	- high r: thin, bunched together and slow?
 	- na. seeing different speeds in series is confusing because it implies different currents.
+- when electrons move through high resistance (change in energy) give them strained or chill faces to indicate bottleneck
 
 - set amount of electron entities
 	- total number can be adjusted via "global density" param
