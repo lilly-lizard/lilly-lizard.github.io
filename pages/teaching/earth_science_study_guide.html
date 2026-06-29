@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth Science Explorer - Year 10 Interactive Study Hub</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        earth: {
+                            50: '#fdf8f5',
+                            100: '#fbeee6',
+                            200: '#f5dcd0',
+                            300: '#ebbfa9',
+                            400: '#de9b7b',
+                            500: '#cf754d',
+                            600: '#c05c36',
+                            700: '#a0482b',
+                            800: '#813c27',
+                            900: '#693322',
+                        },
+                        magma: {
+                            50: '#fff5f5',
+                            100: '#ffe6e6',
+                            200: '#ffcccc',
+                            300: '#ff9999',
+                            400: '#ff6666',
+                            500: '#ff3333',
+                            600: '#e60000',
+                            700: '#b30000',
+                            800: '#800000',
+                            900: '#4d0000',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.3);
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .magma-pulse {
+            animation: pulse-slow 2.5s infinite ease-in-out;
+        }
+
+        /* Continuous plate sliding animations */
+        @keyframes drift-left {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-15px); }
+        }
+        @keyframes drift-right {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(15px); }
+        }
+        @keyframes subduct-down {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, 15px) rotate(10deg); }
+        }
+        @keyframes slide-up-transform {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes slide-down-transform {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        .animate-drift-left { animation: drift-left 4s infinite ease-in-out; }
+        .animate-drift-right { animation: drift-right 4s infinite ease-in-out; }
+        .animate-subduct { animation: subduct-down 4s infinite ease-in-out; }
+        .animate-slide-up { animation: slide-up-transform 3s infinite ease-in-out; }
+        .animate-slide-down { animation: slide-down-transform 3s infinite ease-in-out; }
+
+        /* Dynamic Tremor Shaking keyframes */
+        @keyframes tremor {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(2px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(2px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .seismic-shake-active {
+            animation: tremor var(--shake-speed, 0.1s) infinite;
+        }
+
+        /* Volcano Flow Keyframes */
+        @keyframes lava-flow {
+            0% { stroke-dashoffset: 100; }
+            100% { stroke-dashoffset: 0; }
+        }
+        .animate-lava-flow {
+            stroke-dasharray: 12;
+            animation: lava-flow 3s linear infinite;
+        }
+
+        @keyframes ash-rise {
+            0% { transform: translateY(0) scale(0.8); opacity: 0.5; }
+            50% { transform: translateY(-15px) scale(1.1); opacity: 0.9; }
+            100% { transform: translateY(-30px) scale(1.3); opacity: 0; }
+        }
+        .ash-particle {
+            animation: ash-rise 2s infinite ease-out;
+        }
+    </style>
+</head>
+<body class="bg-[#faf8f5] text-slate-800 min-h-screen flex flex-col antialiased">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm backdrop-blur-md bg-white/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-earth-600 text-white p-2.5 rounded-xl shadow-md shadow-earth-600/20 flex items-center justify-center">
+                    <i class="fa-solid fa-earth-oceania text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg text-slate-900 leading-tight">Earth Science Explorer</h1>
+                    <p class="text-xs text-slate-500 font-medium">Year 10 Science Interactive Study Hub</p>
+                </div>
+            </div>
+            <!-- Progress Tracker -->
+            <div class="hidden md:flex items-center gap-6">
+                <div class="flex items-center gap-2 bg-emerald-50 text-emerald-800 px-3.5 py-1.5 rounded-full text-xs font-semibold border border-emerald-100">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Trophies Earned: <span id="trophy-count">0</span>/5</span>
+                </div>
+                <div class="w-32 bg-slate-100 rounded-full h-2">
+                    <div id="overall-progress-bar" class="bg-emerald-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- SIDEBAR / MISSION BOARD -->
+        <aside class="w-full lg:w-80 shrink-0">
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm sticky top-24">
+                <h2 class="font-display font-bold text-slate-900 text-md uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-compass text-earth-600"></i> Mission Board
+                </h2>
+                <nav class="space-y-2" id="mission-tabs">
+                    <button onclick="switchTab('dashboard')" id="btn-tab-dashboard" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm bg-earth-50 text-earth-900 border border-earth-100 shadow-sm">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-chart-pie w-5 text-center"></i> Overview Dashboard
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                    <button onclick="switchTab('layers')" id="btn-tab-layers" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-layer-group w-5 text-center text-amber-500"></i> Earth Layers Lab
+                        </span>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-normal" id="status-layers">Todo</span>
+                    </button>
+                    <button onclick="switchTab('plates')" id="btn-tab-plates" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-arrows-split-up-and-left w-5 text-center text-red-500"></i> Plate Boundaries
+                        </span>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-normal" id="status-plates">Todo</span>
+                    </button>
+                    <button onclick="switchTab('rocks')" id="btn-tab-rocks" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-mountain w-5 text-center text-emerald-500"></i> Rock Cycle Alchemist
+                        </span>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-normal" id="status-rocks">Todo</span>
+                    </button>
+                    <button onclick="switchTab('volcanoes')" id="btn-tab-volcanoes" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-volcano w-5 text-center text-orange-500"></i> Volcanic Zones
+                        </span>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-normal" id="status-volcanoes">Todo</span>
+                    </button>
+                    <button onclick="switchTab('seismic')" id="btn-tab-seismic" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-house-crack w-5 text-center text-sky-500"></i> Seismic Shockwave Lab
+                        </span>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-normal" id="status-seismic">Todo</span>
+                    </button>
+                    <button onclick="switchTab('trivia')" id="btn-tab-trivia" class="w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                        <span class="flex items-center gap-3">
+                            <i class="fa-solid fa-graduation-cap w-5 text-center text-purple-500"></i> Ready-Check Quiz
+                        </span>
+                        <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-normal" id="status-trivia">Ready</span>
+                    </button>
+                </nav>
+
+                <hr class="my-5 border-slate-100" />
+
+                <!-- Student Helper Tip -->
+                <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4">
+                    <div class="flex gap-2.5 items-start">
+                        <span class="text-blue-500 text-base mt-0.5"><i class="fa-solid fa-lightbulb"></i></span>
+                        <div>
+                            <h4 class="text-xs font-bold text-blue-900 uppercase tracking-wide">NZ Exam Tip</h4>
+                            <p class="text-xs text-blue-700/95 leading-relaxed mt-1">
+                                Remember, our New Zealand Southern Alps are formed by a collision along a <strong>transform-convergent</strong> boundary system (Alpine Fault).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN INTERACTIVE DISPLAY AREA -->
+        <section class="flex-grow min-w-0">
+            
+            <!-- ====== TAB: DASHBOARD ====== -->
+            <div id="tab-dashboard" class="tab-content space-y-6">
+                <!-- Welcome Banner -->
+                <div class="bg-gradient-to-br from-earth-700 via-earth-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white relative overflow-hidden shadow-lg">
+                    <!-- Geometric overlay shapes -->
+                    <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-earth-600/20 rounded-full blur-2xl"></div>
+                    <div class="absolute right-1/4 -top-12 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl"></div>
+
+                    <div class="relative z-10 max-w-xl">
+                        <span class="bg-earth-500 text-white text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">Kia Ora Study Guide</span>
+                        <h2 class="font-display font-extrabold text-2xl sm:text-3xl mt-3 leading-tight">Master Earth Science!</h2>
+                        <p class="text-earth-100 text-sm sm:text-base mt-2 leading-relaxed">
+                            Welcome to the interactive study hub tailored for Year 10. Engage in mini-games, solve physics-animated tectonic plate puzzles, erupt volcanoes, and test seismic shockwave shaking magnitudes!
+                        </p>
+                        <div class="flex flex-wrap gap-3 mt-6">
+                            <button onclick="switchTab('layers')" class="bg-white text-earth-900 px-4 py-2 rounded-xl text-sm font-bold shadow-md hover:bg-earth-50 transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-play"></i> Start Mission 1
+                            </button>
+                            <button onclick="switchTab('trivia')" class="bg-earth-600/80 border border-earth-500 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-earth-600 transition-all">
+                                <i class="fa-solid fa-circle-play mr-1.5"></i> Launch Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Goals Cards -->
+                <div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 mb-4">Your Study Path</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Card 1 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 hover:shadow-md transition-all flex gap-4">
+                            <div class="bg-amber-100 text-amber-700 w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-layer-group text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Earth Layers & Chemistry</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Analyze Crust, Mantle, and Inner/Outer Core properties. Tap layers on the interactive visual globe map!</p>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 hover:shadow-md transition-all flex gap-4">
+                            <div class="bg-red-100 text-red-700 w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-arrows-split-up-and-left text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Tectonic Forces (With Real Movement)</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Simulate Convergent subductions, Divergent ocean ridges, and sliding Transform faults with interactive keyframe models.</p>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 hover:shadow-md transition-all flex gap-4">
+                            <div class="bg-emerald-100 text-emerald-700 w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-mountain text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">The Great Rock Cycle</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed font-sans">Trace transformations between Igneous (Basalt/Granite), Sedimentary, and Metamorphic structures under pressure.</p>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 hover:shadow-md transition-all flex gap-4">
+                            <div class="bg-orange-100 text-orange-700 w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-volcano text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">NZ Volcanoes & Hazards</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">Differentiate Stratovolcanoes, Calderas, and Shields. Master active vs dormant status and fire up active eruptions!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Study Tip Quote -->
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-orange-100/60 rounded-2xl p-5 flex items-center gap-4">
+                    <span class="text-3xl text-orange-400"><i class="fa-solid fa-quote-left"></i></span>
+                    <p class="text-sm italic text-amber-900">
+                        "The science of today is the technology of tomorrow. Understanding how our tectonic plate active boundaries mold New Zealand teaches us how to safely build our futures."
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- ====== TAB: EARTH LAYERS LAB ====== -->
+            <div id="tab-layers" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-3xl border border-slate-200/85 p-6 shadow-sm">
+                    <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+                        <div>
+                            <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded-full font-bold">Mission 1</span>
+                            <h2 class="font-display font-bold text-2xl text-slate-900 mt-1">Journey to the Center of the Earth</h2>
+                            <p class="text-slate-500 text-xs mt-0.5">Explore the depths: click on the interactive diagram layers or use dropdowns to match properties.</p>
+                        </div>
+                        <button onclick="checkLayersGame()" class="bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold px-4 py-2 rounded-xl shadow-md transition-all">
+                            Verify Labels <i class="fa-solid fa-circle-question ml-1"></i>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <!-- SVG Earth Model -->
+                        <div class="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl relative border border-slate-100">
+                            <!-- Visual Cross Section -->
+                            <svg class="w-full max-w-[320px] h-auto drop-shadow-lg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="200" cy="200" r="180" fill="#38bdf8" />
+                                <!-- Earth continents decorations -->
+                                <path d="M120 70C150 70 170 100 150 130C130 160 100 140 80 120C60 100 90 70 120 70Z" fill="#4ade80" />
+                                <path d="M250 250C290 230 320 280 300 310C280 340 230 330 220 300C210 270 210 270 250 250Z" fill="#4ade80" />
+                                <path d="M280 100C310 90 330 130 310 150C290 170 270 140 250 130C230 120 250 110 280 100Z" fill="#4ade80" />
+                                
+                                <!-- Interactive Layer Elements with custom highlight hovers -->
+                                <!-- Inner Crust line (Earth slice) -->
+                                <circle id="svg-crust" onclick="selectLayer('crust')" class="cursor-pointer transition-all duration-300 hover:stroke-white hover:stroke-2" cx="200" cy="200" r="140" fill="#813c27" />
+                                <!-- Mantle -->
+                                <circle id="svg-mantle" onclick="selectLayer('mantle')" class="cursor-pointer transition-all duration-300 hover:stroke-white hover:stroke-2" cx="200" cy="200" r="120" fill="#ea580c" />
+                                <!-- Outer Core -->
+                                <circle id="svg-outer" onclick="selectLayer('outer')" class="cursor-pointer transition-all duration-300 hover:stroke-white hover:stroke-2" cx="200" cy="200" r="70" fill="#facc15" />
+                                <!-- Inner Core -->
+                                <circle id="svg-inner" onclick="selectLayer('inner')" class="magma-pulse origin-center cursor-pointer transition-all duration-300 hover:stroke-slate-900 hover:stroke-2" cx="200" cy="200" r="34" fill="#ffffff" />
+                                
+                                <!-- Pointers / Callout Lines -->
+                                <path d="M180 65 L 180 30" stroke="#1e293b" stroke-width="2" stroke-linecap="round" />
+                                <path d="M230 120 L 290 110" stroke="#1e293b" stroke-width="2" stroke-linecap="round" />
+                                <path d="M220 170 L 310 170" stroke="#1e293b" stroke-width="2" stroke-linecap="round" />
+                                <path d="M190 200 L 260 230" stroke="#1e293b" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+
+                            <div class="mt-2 text-center text-xs text-slate-500 font-semibold italic">
+                                Tip: Click directly on the Earth graphic layers to highlight them!
+                            </div>
+
+                            <!-- Interactive overlay text labels placed accurately -->
+                            <div class="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none">
+                                <!-- CRUST LABEL -->
+                                <div class="absolute top-[4%] left-1/2 transform -translate-x-1/2 pointer-events-auto">
+                                    <select id="layer-select-crust" onchange="syncSVGSelection()" class="bg-white border-2 border-slate-300 rounded-lg text-xs font-bold p-1 shadow-sm focus:border-amber-500 focus:outline-none">
+                                        <option value="">-- Choose Label --</option>
+                                        <option value="crust">Crust (Lithosphere)</option>
+                                        <option value="mantle">Mantle</option>
+                                        <option value="outer">Outer Core</option>
+                                        <option value="inner">Inner Core</option>
+                                    </select>
+                                </div>
+                                <!-- MANTLE LABEL -->
+                                <div class="absolute top-[21%] right-[6%] pointer-events-auto">
+                                    <select id="layer-select-mantle" onchange="syncSVGSelection()" class="bg-white border-2 border-slate-300 rounded-lg text-xs font-bold p-1 shadow-sm focus:border-amber-500 focus:outline-none">
+                                        <option value="">-- Choose Label --</option>
+                                        <option value="crust">Crust (Lithosphere)</option>
+                                        <option value="mantle">Mantle</option>
+                                        <option value="outer">Outer Core</option>
+                                        <option value="inner">Inner Core</option>
+                                    </select>
+                                </div>
+                                <!-- OUTER CORE LABEL -->
+                                <div class="absolute top-[36%] right-[1%] pointer-events-auto">
+                                    <select id="layer-select-outer" onchange="syncSVGSelection()" class="bg-white border-2 border-slate-300 rounded-lg text-xs font-bold p-1 shadow-sm focus:border-amber-500 focus:outline-none">
+                                        <option value="">-- Choose Label --</option>
+                                        <option value="crust">Crust (Lithosphere)</option>
+                                        <option value="mantle">Mantle</option>
+                                        <option value="outer">Outer Core</option>
+                                        <option value="inner">Inner Core</option>
+                                    </select>
+                                </div>
+                                <!-- INNER CORE LABEL -->
+                                <div class="absolute bottom-[36%] right-[10%] pointer-events-auto">
+                                    <select id="layer-select-inner" onchange="syncSVGSelection()" class="bg-white border-2 border-slate-300 rounded-lg text-xs font-bold p-1 shadow-sm focus:border-amber-500 focus:outline-none">
+                                        <option value="">-- Choose Label --</option>
+                                        <option value="crust">Crust (Lithosphere)</option>
+                                        <option value="mantle">Mantle</option>
+                                        <option value="outer">Outer Core</option>
+                                        <option value="inner">Inner Core</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Info Deck and Interactive Task -->
+                        <div class="space-y-4">
+                            <h3 class="font-display font-bold text-slate-800 text-base">State & Substance Matching</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">
+                                Select the correct options to match the thickness, state (solid/liquid), and key composition of each chemical layer. 
+                            </p>
+
+                            <!-- Mini matching matrix -->
+                            <div class="space-y-3">
+                                <!-- Row: Crust -->
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                                    <span id="label-highlight-crust" class="text-xs font-bold text-slate-700 transition-all duration-300 p-1 rounded">Crust:</span>
+                                    <div class="flex gap-2 w-full sm:w-auto">
+                                        <select id="layer-match-crust-state" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-32">
+                                            <option value="">-- State --</option>
+                                            <option value="solid">Rigid Solid</option>
+                                            <option value="semi-liquid">Semi-fluid Plastic</option>
+                                            <option value="liquid">Liquid Metal</option>
+                                            <option value="dense-solid">Dense Solid Metal</option>
+                                        </select>
+                                        <select id="layer-match-crust-comp" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-36">
+                                            <option value="">-- Composition --</option>
+                                            <option value="iron-nickel">Molten Iron & Nickel</option>
+                                            <option value="oxygen-silicon">Oxygen & Silicon Rock</option>
+                                            <option value="magnesium-silicon">Magnesium, Iron, Silicon</option>
+                                            <option value="solid-iron">Superheated Solid Iron</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Row: Mantle -->
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                                    <span id="label-highlight-mantle" class="text-xs font-bold text-slate-700 transition-all duration-300 p-1 rounded">Mantle:</span>
+                                    <div class="flex gap-2 w-full sm:w-auto">
+                                        <select id="layer-match-mantle-state" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-32">
+                                            <option value="">-- State --</option>
+                                            <option value="solid">Rigid Solid</option>
+                                            <option value="semi-liquid">Semi-fluid Plastic</option>
+                                            <option value="liquid">Liquid Metal</option>
+                                            <option value="dense-solid">Dense Solid Metal</option>
+                                        </select>
+                                        <select id="layer-match-mantle-comp" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-36">
+                                            <option value="">-- Composition --</option>
+                                            <option value="iron-nickel">Molten Iron & Nickel</option>
+                                            <option value="oxygen-silicon">Oxygen & Silicon Rock</option>
+                                            <option value="magnesium-silicon">Magnesium, Iron, Silicon</option>
+                                            <option value="solid-iron">Superheated Solid Iron</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Row: Outer Core -->
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                                    <span id="label-highlight-outer" class="text-xs font-bold text-slate-700 transition-all duration-300 p-1 rounded">Outer Core:</span>
+                                    <div class="flex gap-2 w-full sm:w-auto">
+                                        <select id="layer-match-outer-state" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-32">
+                                            <option value="">-- State --</option>
+                                            <option value="solid">Rigid Solid</option>
+                                            <option value="semi-liquid">Semi-fluid Plastic</option>
+                                            <option value="liquid">Liquid Metal</option>
+                                            <option value="dense-solid">Dense Solid Metal</option>
+                                        </select>
+                                        <select id="layer-match-outer-comp" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-36">
+                                            <option value="">-- Composition --</option>
+                                            <option value="iron-nickel">Molten Iron & Nickel</option>
+                                            <option value="oxygen-silicon">Oxygen & Silicon Rock</option>
+                                            <option value="magnesium-silicon">Magnesium, Iron, Silicon</option>
+                                            <option value="solid-iron">Superheated Solid Iron</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Row: Inner Core -->
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                                    <span id="label-highlight-inner" class="text-xs font-bold text-slate-700 transition-all duration-300 p-1 rounded">Inner Core:</span>
+                                    <div class="flex gap-2 w-full sm:w-auto">
+                                        <select id="layer-match-inner-state" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-32">
+                                            <option value="">-- State --</option>
+                                            <option value="solid">Rigid Solid</option>
+                                            <option value="semi-liquid">Semi-fluid Plastic</option>
+                                            <option value="liquid">Liquid Metal</option>
+                                            <option value="dense-solid">Dense Solid Metal</option>
+                                        </select>
+                                        <select id="layer-match-inner-comp" class="bg-white border border-slate-300 rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 w-1/2 sm:w-36">
+                                            <option value="">-- Composition --</option>
+                                            <option value="iron-nickel">Molten Iron & Nickel</option>
+                                            <option value="oxygen-silicon">Oxygen & Silicon Rock</option>
+                                            <option value="magnesium-silicon">Magnesium, Iron, Silicon</option>
+                                            <option value="solid-iron">Superheated Solid Iron</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback message layer -->
+                    <div id="layers-feedback" class="mt-6 hidden p-4 rounded-xl text-sm font-semibold transition-all"></div>
+                </div>
+            </div>
+
+
+            <!-- ====== TAB: PLATE BOUNDARIES ====== -->
+            <div id="tab-plates" class="tab-content hidden space-y-6">
+                <!-- Main Mission Card -->
+                <div class="bg-white rounded-3xl border border-slate-200/85 p-6 shadow-sm">
+                    <span class="bg-red-100 text-red-800 text-xs px-2.5 py-1 rounded-full font-bold">Mission 2</span>
+                    <h2 class="font-display font-bold text-2xl text-slate-900 mt-1">Plate Tectonics & Continental Drift</h2>
+                    <p class="text-slate-500 text-xs mt-0.5">Explore how lithosphere plate boundaries form trenches, mountain chains, or fault rifts.</p>
+
+                    <!-- Interactive Boundary Sandbox -->
+                    <div class="mt-6 bg-slate-50 rounded-2xl p-4 sm:p-6 border border-slate-200/60">
+                        <h3 class="text-sm font-bold text-slate-700 mb-1">Animated Tectonic Directional Lab</h3>
+                        <p class="text-xs text-slate-500 mb-4">Select a plate movement to trigger full structural motion models showing how land features form!</p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+                            <button onclick="setPlateBoundary('divergent')" id="plate-btn-divergent" class="p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-red-400 font-bold text-xs flex flex-col items-center gap-2 transition-all">
+                                <span class="text-slate-400 text-lg"><i class="fa-solid fa-arrows-left-right"></i></span>
+                                <span>Plates Pull Apart (Divergent)</span>
+                            </button>
+                            <button onclick="setPlateBoundary('convergent')" id="plate-btn-convergent" class="p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-red-400 font-bold text-xs flex flex-col items-center gap-2 transition-all">
+                                <span class="text-slate-400 text-lg"><i class="fa-solid fa-arrows-to-line"></i></span>
+                                <span>Plates Collide (Convergent)</span>
+                            </button>
+                            <button onclick="setPlateBoundary('transform')" id="plate-btn-transform" class="p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-red-400 font-bold text-xs flex flex-col items-center gap-2 transition-all">
+                                <span class="text-slate-400 text-lg"><i class="fa-solid fa-arrows-up-down"></i></span>
+                                <span>Plates Slide Past (Transform)</span>
+                            </button>
+                        </div>
+
+                        <!-- Visual simulation screen -->
+                        <div id="plate-visual-canvas" class="h-56 rounded-xl flex items-center justify-center relative overflow-hidden transition-all text-white font-display font-bold text-base shadow-inner border border-slate-200 bg-slate-900">
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 text-xs italic p-4 text-center">
+                                <span class="text-3xl mb-2 text-slate-500"><i class="fa-solid fa-earth-africa animate-spin-slow"></i></span>
+                                Select a tectonic boundary above to see forces and land features move dynamically!
+                            </div>
+                        </div>
+
+                        <div id="plate-explanation-text" class="mt-4 bg-white p-4 rounded-xl border border-slate-200/50 hidden text-xs leading-relaxed text-slate-600">
+                        </div>
+                    </div>
+
+                    <!-- Alfred Wegener / Continental Drift Evidence Match -->
+                    <div class="mt-8 border-t border-slate-100 pt-6">
+                        <div class="bg-amber-50/50 border border-amber-100 rounded-2xl p-5">
+                            <h3 class="font-display font-bold text-slate-900 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-puzzle-piece text-amber-600"></i> Alfred Wegener's Continental Puzzle
+                            </h3>
+                            <p class="text-xs text-slate-600 mt-1">
+                                Select the correct evidence options that Wegener used to support his theory of continental drift:
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <!-- Fossil Matching -->
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-1.5">
+                                        <span class="text-amber-600 text-xs"><i class="fa-solid fa-bone"></i></span>
+                                        <span class="text-xs font-bold text-slate-800">1. Identical Fossil Distributions</span>
+                                    </div>
+                                    <select id="drift-evidence-1" class="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs focus:outline-none">
+                                        <option value="">-- Choose matching scenario --</option>
+                                        <option value="correct">Fossils of Mesosaurus found in both South America and Western Africa</option>
+                                        <option value="wrong">Dinosaur bones found only on high mountain tops showing they flew</option>
+                                        <option value="wrong2">Modern penguins migrated across oceans to freeze in different habitats</option>
+                                    </select>
+                                </div>
+
+                                <!-- Fit of Coastlines -->
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-1.5">
+                                        <span class="text-amber-600 text-xs"><i class="fa-solid fa-earth-americas"></i></span>
+                                        <span class="text-xs font-bold text-slate-800">2. Fit of Continents</span>
+                                    </div>
+                                    <select id="drift-evidence-2" class="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs focus:outline-none">
+                                        <option value="">-- Choose matching scenario --</option>
+                                        <option value="wrong">All coastlines are perfectly straight and rectangular originally</option>
+                                        <option value="correct">South America and Africa fit together perfectly like giant puzzle pieces</option>
+                                        <option value="wrong2">Continents grew randomly due to ocean water rising and falling</option>
+                                    </select>
+                                </div>
+
+                                <!-- Rock Formations -->
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-1.5">
+                                        <span class="text-amber-600 text-xs"><i class="fa-solid fa-gem"></i></span>
+                                        <span class="text-xs font-bold text-slate-800">3. Geologic Mountain Structures</span>
+                                    </div>
+                                    <select id="drift-evidence-3" class="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs focus:outline-none">
+                                        <option value="">-- Choose matching scenario --</option>
+                                        <option value="correct">Mountain ranges of similar ages and structures line up across oceans</option>
+                                        <option value="wrong">Volcanic rocks on land matches coral reef sand structures</option>
+                                        <option value="wrong2">Gold mine lines indicate rivers built the underground bedrock layers</option>
+                                    </select>
+                                </div>
+
+                                <!-- Paleoclimatic data -->
+                                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="flex items-center gap-2 mb-1.5">
+                                        <span class="text-amber-600 text-xs"><i class="fa-solid fa-snowflake"></i></span>
+                                        <span class="text-xs font-bold text-slate-800">4. Glacial Markings (Striations)</span>
+                                    </div>
+                                    <select id="drift-evidence-4" class="w-full bg-slate-50 border border-slate-200 rounded p-1.5 text-xs focus:outline-none">
+                                        <option value="">-- Choose matching scenario --</option>
+                                        <option value="wrong">Heavy blizzards in Europe created flat layers of sandstone rocks</option>
+                                        <option value="wrong2">Ice caps originally covered the entire surface area of Earth</option>
+                                        <option value="correct">Glacial scratches found in now-tropical South America and India</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 flex justify-end">
+                                <button onclick="checkDriftEvidence()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
+                                    Verify Evidence Answers <i class="fa-solid fa-square-check ml-1"></i>
+                                </button>
+                            </div>
+                            <div id="drift-feedback" class="mt-4 hidden p-3 rounded-xl text-xs font-semibold"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ====== TAB: ROCK CYCLE ALCHEMIST ====== -->
+            <div id="tab-rocks" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-3xl border border-slate-200/85 p-6 shadow-sm">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-full font-bold">Mission 3</span>
+                    <h2 class="font-display font-bold text-2xl text-slate-900 mt-1">Rock Cycle Alchemist</h2>
+                    <p class="text-slate-500 text-xs mt-0.5 font-sans">Learn how heat, pressure, weathering, and cooling transform geological structures.</p>
+
+                    <!-- Interactive Diagram -->
+                    <div class="mt-6 bg-slate-50 rounded-2xl p-4 sm:p-6 border border-slate-200/60">
+                        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                            <h3 class="text-sm font-bold text-slate-700">Identify the Three Key Rock Families</h3>
+                            <button onclick="checkRockCycle()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-sm">
+                                Check Cycle <i class="fa-solid fa-arrows-spin ml-1"></i>
+                            </button>
+                        </div>
+
+                        <!-- SVGs representations of Rocks with Labels Inside -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Igneous Block -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+                                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                                    <i class="fa-solid fa-fire animate-pulse"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Rock Group A</span>
+                                <select id="rock-select-groupA" class="bg-slate-50 border border-slate-200 rounded p-1 text-xs font-bold w-full text-center">
+                                    <option value="">-- Choose Category --</option>
+                                    <option value="igneous">Igneous Rocks</option>
+                                    <option value="sedimentary">Sedimentary Rocks</option>
+                                    <option value="metamorphic">Metamorphic Rocks</option>
+                                </select>
+                                <p class="text-[11px] text-slate-500 mt-2 text-center">Formed when hot molten magma or lava cools and hardens.</p>
+                            </div>
+
+                            <!-- Sedimentary Block -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+                                <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                                    <i class="fa-solid fa-water"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Rock Group B</span>
+                                <select id="rock-select-groupB" class="bg-slate-50 border border-slate-200 rounded p-1 text-xs font-bold w-full text-center">
+                                    <option value="">-- Choose Category --</option>
+                                    <option value="igneous">Igneous Rocks</option>
+                                    <option value="sedimentary">Sedimentary Rocks</option>
+                                    <option value="metamorphic">Metamorphic Rocks</option>
+                                </select>
+                                <p class="text-[11px] text-slate-500 mt-2 text-center font-sans">Formed by layers of weathered fragments deposited, compacted, and cemented.</p>
+                            </div>
+
+                            <!-- Metamorphic Block -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 flex flex-col items-center">
+                                <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-2xl mb-3 shadow-inner">
+                                    <i class="fa-solid fa-compress"></i>
+                                </div>
+                                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Rock Group C</span>
+                                <select id="rock-select-groupC" class="bg-slate-50 border border-slate-200 rounded p-1 text-xs font-bold w-full text-center">
+                                    <option value="">-- Choose Category --</option>
+                                    <option value="igneous">Igneous Rocks</option>
+                                    <option value="sedimentary">Sedimentary Rocks</option>
+                                    <option value="metamorphic">Metamorphic Rocks</option>
+                                </select>
+                                <p class="text-[11px] text-slate-500 mt-2 text-center">Formed deep underground when rocks are subjected to high heat and extreme pressure.</p>
+                            </div>
+                        </div>
+
+                        <!-- Vocabulary Cloze Sentence Builder -->
+                        <div class="mt-8 bg-white p-5 rounded-xl border border-slate-200/60">
+                            <h4 class="font-display font-bold text-slate-900 text-sm mb-4">Complete the Geological Sentences</h4>
+                            
+                            <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
+                                <p>
+                                    <strong>1. Igneous Rocks:</strong> Formed from <select id="cloze-1" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="magma">magma/lava</option><option value="water">sediments</option></select> forced up into the Earth's crust. If molten rock cools quickly on the surface, it forms <select id="cloze-2" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="small">small crystals</option><option value="large">large crystals</option></select>, such as <select id="cloze-3" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="basalt">basalt</option><option value="granite">granite</option></select> (extrusive rock). Inside the crust, cooling is slow and creates <select id="cloze-4" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="large">large crystals</option><option value="none">no crystals</option></select> like <select id="cloze-5" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="granite">granite</option><option value="shale">shale</option></select> (intrusive rock).
+                                </p>
+                                
+                                <p>
+                                    <strong>2. Sedimentary Rocks:</strong> Weathered rock pieces are carried by rivers, then <select id="cloze-6" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="deposited">deposited</option><option value="melted">melted</option></select> on the ocean bed. Over millions of years, weight puts immense <select id="cloze-7" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="pressure">pressure</option><option value="temp">temperature</option></select> on lower layers, squeezing grains closer. This forms rocks like <select id="cloze-8" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="limestone">limestone</option><option value="slate">slate</option></select> or <select id="cloze-9" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="shale">shale</option><option value="basalt">basalt</option></select>.
+                                </p>
+                                
+                                <p>
+                                    <strong>3. Metamorphic Rocks:</strong> Deep underground, heat and high pressure alter crystals. For instance, sedimentary shale turns to metamorphic <select id="cloze-10" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="slate">slate</option><option value="limestone">limestone</option></select>. Metamorphic rocks are usually <select id="cloze-11" class="border border-slate-300 rounded px-1 text-slate-900 bg-slate-50"><option value="">-- select --</option><option value="harder">harder & more resistant</option><option value="softer">softer & fragile</option></select> than their parent sedimentary rocks.
+                                </p>
+                            </div>
+
+                            <div class="mt-4 flex justify-end">
+                                <button onclick="checkClozeSentences()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
+                                    Check My Answers <i class="fa-solid fa-spell-check ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="rocks-feedback" class="mt-4 hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+            </div>
+
+
+            <!-- ====== TAB: VOLCANOES ====== -->
+            <div id="tab-volcanoes" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-3xl border border-slate-200/85 p-6 shadow-sm">
+                    <span class="bg-orange-100 text-orange-800 text-xs px-2.5 py-1 rounded-full font-bold">Mission 4</span>
+                    <h2 class="font-display font-bold text-2xl text-slate-900 mt-1">Volcano Lab & Labels</h2>
+                    <p class="text-slate-500 text-xs mt-0.5">Categorize volcano designs and name the moving parts of eruptions.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                        <!-- Label Volcano Anatomy -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/60">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-sm font-bold text-slate-700">Anatomy of an Erupting Volcano</h3>
+                                <button onclick="triggerVolcanoEruption()" class="bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1 animate-pulse">
+                                    <i class="fa-solid fa-fire"></i> Press to Erupt!
+                                </button>
+                            </div>
+                            
+                            <!-- Simple Cross Section of Volcano -->
+                            <div class="relative w-full h-48 bg-sky-100 rounded-xl overflow-hidden flex items-end justify-center border border-slate-200">
+                                <!-- Ash Cloud particles -->
+                                <div id="ash-cloud" class="absolute top-2 w-32 h-16 bg-slate-400 rounded-full filter blur-sm opacity-90 flex items-center justify-center">
+                                    <span class="text-[10px] text-white font-bold bg-slate-600 px-1 py-0.5 rounded">B</span>
+                                    
+                                    <!-- Animated extra clouds during eruption -->
+                                    <div class="absolute w-8 h-8 bg-slate-500 rounded-full ash-particle -top-4 -left-2 hidden"></div>
+                                    <div class="absolute w-10 h-10 bg-slate-600 rounded-full ash-particle -top-6 left-6 hidden"></div>
+                                    <div class="absolute w-6 h-6 bg-slate-400 rounded-full ash-particle -top-2 right-4 hidden"></div>
+                                </div>
+                                <div class="absolute top-10 w-24 h-12 bg-slate-500 rounded-full filter blur-xs opacity-90"></div>
+                                
+                                <!-- Slopes with interactive eruption animations -->
+                                <svg class="w-full h-32 text-amber-900" viewBox="0 0 200 100" preserveAspectRatio="none">
+                                    <!-- Main body of old solid rock -->
+                                    <path d="M 0 100 L 80 40 L 90 40 L 90 100" fill="#a16207" />
+                                    <path d="M 200 100 L 120 40 L 110 40 L 110 100" fill="#a16207" />
+                                    <!-- Lava Flow animation overlay -->
+                                    <path id="lava-lava-stream" d="M 80 40 L 40 100" stroke="#f97316" stroke-width="4" fill="none" class="transition-all duration-300" />
+                                    <path id="lava-lava-stream-2" d="M 120 40 L 160 100" stroke="#f97316" stroke-width="2" fill="none" class="hidden transition-all duration-300" />
+                                    <!-- Vent Conduit / Chamber -->
+                                    <rect id="magma-conduit" x="90" y="30" width="20" height="70" fill="#ea580c" class="transition-all duration-300" />
+                                </svg>
+
+                                <!-- Indicators overlays -->
+                                <div class="absolute top-24 left-1/4 bg-white/90 px-1.5 py-0.5 rounded text-[10px] font-bold border border-slate-300">A</div>
+                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/90 px-1.5 py-0.5 rounded text-[10px] font-bold border border-slate-300">C</div>
+                                <div class="absolute top-16 right-1/4 bg-white/90 px-1.5 py-0.5 rounded text-[10px] font-bold border border-slate-300">D</div>
+                            </div>
+
+                            <div class="mt-4 space-y-2.5">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold">A</span>
+                                    <span class="text-xs text-slate-500">Flowing red-hot molten rock on the surface:</span>
+                                    <select id="volcano-label-a" class="bg-white border border-slate-300 rounded p-1 text-xs font-bold shrink-0">
+                                        <option value="">-- Choose --</option>
+                                        <option value="lava">Lava</option>
+                                        <option value="magma">Magma</option>
+                                        <option value="ash">Ash</option>
+                                        <option value="solid-rock">Old Solid Rock</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold">B</span>
+                                    <span class="text-xs text-slate-500">Microscopic dust blown into the air cloud:</span>
+                                    <select id="volcano-label-b" class="bg-white border border-slate-300 rounded p-1 text-xs font-bold shrink-0">
+                                        <option value="">-- Choose --</option>
+                                        <option value="lava">Lava</option>
+                                        <option value="magma">Magma</option>
+                                        <option value="ash">Ash</option>
+                                        <option value="solid-rock">Old Solid Rock</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold">C</span>
+                                    <span class="text-xs text-slate-500">Molten rock stored in underground chamber:</span>
+                                    <select id="volcano-label-c" class="bg-white border border-slate-300 rounded p-1 text-xs font-bold shrink-0">
+                                        <option value="">-- Choose --</option>
+                                        <option value="lava">Lava</option>
+                                        <option value="magma">Magma</option>
+                                        <option value="ash">Ash</option>
+                                        <option value="solid-rock">Old Solid Rock</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold">D</span>
+                                    <span class="text-xs text-slate-500">The surrounding mountain crust layer:</span>
+                                    <select id="volcano-label-d" class="bg-white border border-slate-300 rounded p-1 text-xs font-bold shrink-0">
+                                        <option value="">-- Choose --</option>
+                                        <option value="lava">Lava</option>
+                                        <option value="magma">Magma</option>
+                                        <option value="ash">Ash</option>
+                                        <option value="solid-rock">Old Solid Rock</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Volcano Classification and Definitions -->
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/60">
+                                <h3 class="text-sm font-bold text-slate-700 mb-3">Classification Types</h3>
+                                <p class="text-xs text-slate-500 mb-3">Can you correctly match the volcano profiles to their official types?</p>
+                                
+                                <div class="space-y-3">
+                                    <!-- Volcano 1 -->
+                                    <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+                                        <div class="text-xs">
+                                            <span class="font-bold text-slate-800">1. Mt Ruapehu / Taranaki</span>
+                                            <p class="text-[10px] text-slate-400">Steep composite slopes of ash & lava layers.</p>
+                                        </div>
+                                        <select id="type-select-v1" class="bg-slate-50 border border-slate-300 rounded p-1 text-xs font-bold w-32">
+                                            <option value="">-- Select --</option>
+                                            <option value="stratovolcano">Stratovolcano</option>
+                                            <option value="shield">Shield Volcano</option>
+                                            <option value="caldera">Caldera</option>
+                                        </select>
+                                    </div>
+                                    <!-- Volcano 2 -->
+                                    <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+                                        <div class="text-xs">
+                                            <span class="font-bold text-slate-800">2. Lake Taupō</span>
+                                            <p class="text-[10px] text-slate-400">Giant collapsed caldera bowl now filled with water.</p>
+                                        </div>
+                                        <select id="type-select-v2" class="bg-slate-50 border border-slate-300 rounded p-1 text-xs font-bold w-32">
+                                            <option value="">-- Select --</option>
+                                            <option value="stratovolcano">Stratovolcano</option>
+                                            <option value="shield">Shield Volcano</option>
+                                            <option value="caldera">Caldera</option>
+                                        </select>
+                                    </div>
+                                    <!-- Volcano 3 -->
+                                    <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between">
+                                        <div class="text-xs">
+                                            <span class="font-bold text-slate-800">3. Rangitoto (Auckland)</span>
+                                            <p class="text-[10px] text-slate-400">Gently sloping shield shape, built from fluid basalt lava.</p>
+                                        </div>
+                                        <select id="type-select-v3" class="bg-slate-50 border border-slate-300 rounded p-1 text-xs font-bold w-32">
+                                            <option value="">-- Select --</option>
+                                            <option value="stratovolcano">Stratovolcano</option>
+                                            <option value="shield">Shield Volcano</option>
+                                            <option value="caldera">Caldera</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Volcano States definitions -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/60">
+                                <h3 class="text-sm font-bold text-slate-700 mb-2">Volcanic State Meanings</h3>
+                                <p class="text-xs text-slate-500 mb-3">Complete the definitions for active states:</p>
+                                <div class="grid grid-cols-1 gap-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-16">Active:</span>
+                                        <select id="state-def-active" class="bg-white border border-slate-300 rounded px-1.5 py-1 text-xs flex-grow focus:outline-none">
+                                            <option value="">-- Select --</option>
+                                            <option value="correct">Erupted recently or is currently erupting gas/lava</option>
+                                            <option value="dormant">Hasn't erupted for 10,000 years, unlikely to ever again</option>
+                                            <option value="extinct">Currently quiet but expected to erupt again in future</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-16">Dormant:</span>
+                                        <select id="state-def-dormant" class="bg-white border border-slate-300 rounded px-1.5 py-1 text-xs flex-grow focus:outline-none">
+                                            <option value="">-- Select --</option>
+                                            <option value="active">Erupted recently or is currently erupting gas/lava</option>
+                                            <option value="correct">Currently sleeping, quiet but expected to erupt again</option>
+                                            <option value="extinct">Hasn't erupted for 10,000 years, unlikely to ever again</option>
+                                        </select>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-16">Extinct:</span>
+                                        <select id="state-def-extinct" class="bg-white border border-slate-300 rounded px-1.5 py-1 text-xs flex-grow focus:outline-none">
+                                            <option value="">-- Select --</option>
+                                            <option value="active">Erupted recently or is currently erupting gas/lava</option>
+                                            <option value="dormant">Currently sleeping, quiet but expected to erupt again</option>
+                                            <option value="correct">Has cut off from magma source, won't erupt again</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex justify-end">
+                        <button onclick="checkVolcanoSection()" class="bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-6 py-2.5 rounded-xl shadow-md transition-all">
+                            Verify Volcano Work <i class="fa-solid fa-fire-burner ml-1.5"></i>
+                        </button>
+                    </div>
+                    <div id="volcano-feedback" class="mt-4 hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+            </div>
+
+
+            <!-- ====== TAB: SEISMIC SHOCKWAVE LAB ====== -->
+            <div id="tab-seismic" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-3xl border border-slate-200/85 p-6 shadow-sm">
+                    <span class="bg-sky-100 text-sky-800 text-xs px-2.5 py-1 rounded-full font-bold">Mission 5</span>
+                    <h2 class="font-display font-bold text-2xl text-slate-900 mt-1">Seismic Strength Lab</h2>
+                    <p class="text-slate-500 text-xs mt-0.5">Understand how Richter scale magnitudes convert ground movement measurements.</p>
+
+                    <!-- Calculator Simulation UI -->
+                    <div class="mt-6 bg-slate-50 rounded-2xl p-6 border border-slate-200/60">
+                        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                            <h3 class="text-sm font-bold text-slate-700">Richter / Moment Magnitude Power Slider</h3>
+                            <button onclick="triggerEarthquakeTremor()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-house-crack text-sm animate-bounce"></i> Trigger Earthquake Tremor!
+                            </button>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-6">
+                            Every increase of <strong>1.0</strong> on the magnitude scale corresponds to a <strong>10 times ($10\times$) increase</strong> in ground movement amplitude! Drag the sliders below and click the button to see the house shake!
+                        </p>
+
+                        <!-- Double Slider or Input Range UI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    <label class="text-xs font-bold text-slate-700 flex justify-between">
+                                        <span>First Earthquake (Magnitude):</span>
+                                        <span id="eq1-val" class="text-sky-600 font-extrabold text-sm">3.0</span>
+                                    </label>
+                                    <input type="range" id="eq1-slider" min="1" max="9" step="0.5" value="3.0" oninput="calculateSeismic()" class="w-full mt-2 accent-sky-500">
+                                </div>
+
+                                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                    <label class="text-xs font-bold text-slate-700 flex justify-between">
+                                        <span>Second Earthquake (Magnitude):</span>
+                                        <span id="eq2-val" class="text-sky-600 font-extrabold text-sm">6.0</span>
+                                    </label>
+                                    <input type="range" id="eq2-slider" min="1" max="9" step="0.5" value="6.0" oninput="calculateSeismic()" class="w-full mt-2 accent-sky-500">
+                                </div>
+
+                                <!-- Dynamic Earthquake House visual simulation -->
+                                <div class="border border-slate-200 rounded-xl p-4 flex flex-col items-center justify-center bg-white h-32 relative overflow-hidden">
+                                    <!-- Floor bed -->
+                                    <div class="absolute bottom-0 left-0 right-0 h-4 bg-amber-800"></div>
+                                    <!-- House Graphic -->
+                                    <div id="seismic-house" class="flex flex-col items-center relative z-10 origin-bottom">
+                                        <!-- Roof -->
+                                        <div class="w-14 h-0 border-l-[28px] border-l-transparent border-r-[28px] border-r-transparent border-b-[20px] border-b-red-600"></div>
+                                        <!-- Body -->
+                                        <div class="w-12 h-12 bg-amber-100 border-2 border-slate-700 flex items-center justify-center relative">
+                                            <div class="w-3 h-5 bg-amber-800 absolute bottom-0 left-1.5"></div>
+                                            <div class="w-3 h-3 bg-sky-200 border border-slate-700 absolute top-2 right-1.5"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Status Badge -->
+                                    <div id="seismic-shaking-status" class="absolute top-2 left-2 text-[10px] bg-slate-100 px-2 py-0.5 rounded-full font-bold text-slate-500">
+                                        Status: Seismograph Idle
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Calculations output window -->
+                            <div class="bg-gradient-to-br from-sky-900 to-slate-900 p-5 rounded-xl text-white text-center shadow-lg">
+                                <h4 class="text-xs uppercase tracking-wider text-sky-300 font-bold mb-2">Ground Motion Comparison</h4>
+                                <div class="text-2xl font-display font-extrabold" id="shake-amplitude-diff">1,000 times</div>
+                                <p class="text-[11px] text-sky-100/80 mt-1" id="shake-amplitude-desc">
+                                    The second earthquake has 1000x greater wave amplitude than the first.
+                                </p>
+
+                                <hr class="my-4 border-sky-800" />
+
+                                <h4 class="text-xs uppercase tracking-wider text-amber-300 font-bold mb-1">Energy Released (Approx)</h4>
+                                <div class="text-lg font-bold text-amber-100" id="energy-diff">32,768 times</div>
+                                <p class="text-[10px] text-amber-100/70 mt-1">
+                                    Each step of 1.0 increases released energy by ~32 times.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Earthquake Cause explain matching -->
+                        <div class="mt-8 border-t border-slate-200 pt-6">
+                            <h3 class="text-sm font-bold text-slate-700 mb-2">How Plate Friction Creates Earthquakes</h3>
+                            <p class="text-xs text-slate-500 mb-4">Complete the sequence flow of an earthquake:</p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <div class="text-[11px] font-bold text-slate-400 uppercase">Step 1</div>
+                                    <select id="eq-step-1" class="w-full mt-1.5 p-1 bg-slate-50 border border-slate-300 rounded text-[11px]">
+                                        <option value="">-- Choose --</option>
+                                        <option value="correct">Tectonic plates try to slide but friction locks them together</option>
+                                        <option value="wrong">Plates quickly grease up and speed past without touching</option>
+                                    </select>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <div class="text-[11px] font-bold text-slate-400 uppercase">Step 2</div>
+                                    <select id="eq-step-2" class="w-full mt-1.5 p-1 bg-slate-50 border border-slate-300 rounded text-[11px]">
+                                        <option value="">-- Choose --</option>
+                                        <option value="correct">Stress and pressure build up continuously in the locked rock crust</option>
+                                        <option value="wrong">Volcanoes trigger steam that instantly melts the plate crust boundary</option>
+                                    </select>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <div class="text-[11px] font-bold text-slate-400 uppercase">Step 3</div>
+                                    <select id="eq-step-3" class="w-full mt-1.5 p-1 bg-slate-50 border border-slate-300 rounded text-[11px]">
+                                        <option value="">-- Choose --</option>
+                                        <option value="correct">The fault line rock suddenly breaks or slips under extreme tension</option>
+                                        <option value="wrong">Sinking plates fall completely into the outer core liquid</option>
+                                    </select>
+                                </div>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                    <div class="text-[11px] font-bold text-slate-400 uppercase">Step 4</div>
+                                    <select id="eq-step-4" class="w-full mt-1.5 p-1 bg-slate-50 border border-slate-300 rounded text-[11px]">
+                                        <option value="">-- Choose --</option>
+                                        <option value="correct">Stored energy releases instantly as radiating seismic shock waves</option>
+                                        <option value="wrong">The oceans turn entirely into steam creating giant water spouts</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 flex justify-end">
+                                <button onclick="checkEarthquakeSequence()" class="bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all shadow-sm">
+                                    Verify Earthquake Logic <i class="fa-solid fa-bolt ml-1"></i>
+                                </button>
+                            </div>
+                            <div id="seismic-feedback" class="mt-4 hidden p-3 rounded-xl text-xs font-semibold"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ====== TAB: READY-CHECK TRIVIA QUIZ ====== -->
+            <div id="tab-trivia" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-3xl border border-slate-200/85 p-6 shadow-sm">
+                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded-full font-bold">Self-Assessment Trivia</span>
+                    <h2 class="font-display font-bold text-2xl text-slate-900 mt-1">Ready-Check Trivia Challenge</h2>
+                    <p class="text-slate-500 text-xs mt-0.5">Test your complete earth science knowledge to unlock your completion certificate!</p>
+
+                    <!-- Quiz Area -->
+                    <div class="mt-6 bg-slate-50 rounded-2xl p-4 sm:p-6 border border-slate-200/60" id="quiz-block">
+                        <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Question <span id="quiz-q-num">1</span> of 8</span>
+                            <span class="text-xs font-semibold bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full" id="quiz-score-badge">Score: 0</span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-slate-200 h-1.5 rounded-full mb-6">
+                            <div id="quiz-progress-indicator" class="bg-purple-600 h-1.5 rounded-full transition-all duration-300" style="width: 12.5%"></div>
+                        </div>
+
+                        <!-- Question text -->
+                        <h3 class="font-display font-bold text-base text-slate-900 mb-4" id="quiz-q-text">Which of the following describes the correct order of the Earth's layers starting from the outside going in?</h3>
+
+                        <!-- Choices container -->
+                        <div class="grid grid-cols-1 gap-3" id="quiz-choices">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <div class="mt-6 flex justify-between items-center">
+                            <span id="quiz-explanation" class="text-xs font-medium text-slate-500 max-w-md hidden"></span>
+                            <button id="quiz-btn-next" onclick="nextQuizQuestion()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all hidden">
+                                Next Question <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Certificate / Completion Board -->
+                    <div id="quiz-completion" class="mt-6 hidden bg-gradient-to-br from-purple-900 via-slate-900 to-slate-950 p-8 rounded-3xl text-white text-center border border-slate-800 relative overflow-hidden">
+                        <div class="absolute -right-16 -top-16 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl"></div>
+                        <div class="relative z-10 space-y-4">
+                            <span class="text-4xl text-amber-400 block"><i class="fa-solid fa-trophy animate-bounce"></i></span>
+                            <h3 class="font-display font-extrabold text-2xl">Congratulations, Earth Science Specialist!</h3>
+                            <p class="text-slate-300 text-sm max-w-md mx-auto">
+                                You successfully completed the quiz with an outstanding score of <strong class="text-amber-300" id="final-score-text">8/8</strong>. You are fully prepared to ace your upcoming Year 10 Earth Science Assessment!
+                            </p>
+                            <button onclick="resetQuiz()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all">
+                                Try Again <i class="fa-solid fa-arrow-rotate-left ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-12 border-t border-slate-800 shrink-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>&copy; 2026 One Tree Hill College - Year 10 Earth Science Prep Hub. Designed ethically without direct answer leaks.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-white transition-colors">Curriculum Info</a>
+                <a href="#" class="hover:text-white transition-colors">Study Tips</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGIC SCRIPTS -->
+    <script>
+        // Track the general user achievements
+        const achievements = {
+            layers: false,
+            plates: false,
+            rocks: false,
+            volcanoes: false,
+            seismic: false
+        };
+
+        // Tab Management
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Show requested tab content
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+            // Reset tab button visual states
+            document.querySelectorAll('#mission-tabs button').forEach(btn => {
+                btn.className = "w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-900";
+            });
+
+            // Make the selected one pop out
+            const activeBtn = document.getElementById(`btn-tab-${tabName}`);
+            if (activeBtn) {
+                activeBtn.className = "w-full flex items-center justify-between p-3 rounded-xl transition-all font-semibold text-left text-sm bg-earth-50 text-earth-900 border border-earth-100 shadow-sm";
+            }
+        }
+
+        // Sound Feedback using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'success') {
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'fail') {
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                osc.frequency.setValueAtTime(196, audioCtx.currentTime + 0.1); // G3
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.4);
+            }
+        }
+
+        function updateProgress() {
+            let completed = 0;
+            for (let k in achievements) {
+                if (achievements[k]) completed++;
+            }
+            document.getElementById('trophy-count').innerText = completed;
+            const percentage = (completed / 5) * 100;
+            document.getElementById('overall-progress-bar').style.width = `${percentage}%`;
+
+            // Update individual tab states
+            for (let k in achievements) {
+                const el = document.getElementById(`status-${k}`);
+                if (el) {
+                    if (achievements[k]) {
+                        el.innerText = "Completed 🎉";
+                        el.className = "text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md font-semibold";
+                    } else {
+                        el.innerText = "In Progress";
+                        el.className = "text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md font-normal";
+                    }
+                }
+            }
+        }
+
+        // ================= MISSION 1: LAYERS OF THE EARTH =================
+        function selectLayer(layerId) {
+            // Unhighlight all layers on the sidebar select highlight tags
+            ['crust', 'mantle', 'outer', 'inner'].forEach(id => {
+                document.getElementById(`label-highlight-${id}`).classList.remove('bg-amber-100', 'text-amber-950', 'ring-2', 'ring-amber-500');
+            });
+
+            // Highlight chosen layer tag in the matrix table
+            document.getElementById(`label-highlight-${layerId}`).classList.add('bg-amber-100', 'text-amber-950', 'ring-2', 'ring-amber-500');
+
+            // Automatically set corresponding dropdown to correct value to guide learning
+            const labelSelect = document.getElementById(`layer-select-${layerId}`);
+            if (labelSelect) {
+                labelSelect.value = layerId;
+            }
+        }
+
+        function syncSVGSelection() {
+            // Trigger styling alignment if dropdown selects are altered manually
+            ['crust', 'mantle', 'outer', 'inner'].forEach(id => {
+                const labelSelect = document.getElementById(`layer-select-${id}`);
+                if (labelSelect && labelSelect.value === id) {
+                    document.getElementById(`label-highlight-${id}`).classList.add('bg-amber-100', 'text-amber-950', 'ring-2', 'ring-amber-500');
+                } else {
+                    document.getElementById(`label-highlight-${id}`).classList.remove('bg-amber-100', 'text-amber-950', 'ring-2', 'ring-amber-500');
+                }
+            });
+        }
+
+        function checkLayersGame() {
+            const c_label = document.getElementById('layer-select-crust').value;
+            const m_label = document.getElementById('layer-select-mantle').value;
+            const o_label = document.getElementById('layer-select-outer').value;
+            const i_label = document.getElementById('layer-select-inner').value;
+
+            // Property matching variables
+            const c_state = document.getElementById('layer-match-crust-state').value;
+            const c_comp = document.getElementById('layer-match-crust-comp').value;
+            const m_state = document.getElementById('layer-match-mantle-state').value;
+            const m_comp = document.getElementById('layer-match-mantle-comp').value;
+            const o_state = document.getElementById('layer-match-outer-state').value;
+            const o_comp = document.getElementById('layer-match-outer-comp').value;
+            const i_state = document.getElementById('layer-match-inner-state').value;
+            const i_comp = document.getElementById('layer-match-inner-comp').value;
+
+            const feedback = document.getElementById('layers-feedback');
+            feedback.classList.remove('hidden');
+
+            // Layer Label evaluation
+            if (c_label === 'crust' && m_label === 'mantle' && o_label === 'outer' && i_label === 'inner') {
+                // Properties checking
+                if (c_state === 'solid' && c_comp === 'oxygen-silicon' &&
+                    m_state === 'semi-liquid' && m_comp === 'magnesium-silicon' &&
+                    o_state === 'liquid' && o_comp === 'iron-nickel' &&
+                    i_state === 'dense-solid' && i_comp === 'solid-iron') {
+                    
+                    feedback.className = "mt-6 p-4 rounded-xl text-sm font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                    feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Perfect! You fully matched every layer with its chemical/physical state. Excellent Earth science skill!`;
+                    achievements.layers = true;
+                    playSound('success');
+                    updateProgress();
+                } else {
+                    feedback.className = "mt-6 p-4 rounded-xl text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-200";
+                    feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Labels are 100% correct! However, one or more properties (state/composition matrix below) are mismatched. Try checking the temperature details (Mantle is semi-liquid plastic, Inner Core is dense solid iron!).`;
+                    playSound('fail');
+                }
+            } else {
+                feedback.className = "mt-6 p-4 rounded-xl text-sm font-semibold bg-red-50 text-red-800 border border-red-200";
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> The Layer labels on the visual model are incorrect or incomplete yet. Check them again!`;
+                playSound('fail');
+            }
+        }
+
+        // ================= MISSION 2: PLATE BOUNDARIES =================
+        const plateExplanations = {
+            divergent: {
+                title: "Plates Pulling Apart (Divergent Boundary)",
+                desc: "This type of boundary occurs when two plates pull apart (e.g., Mid-Atlantic Ridge). As they separate, hot magma rises from the mantle underneath, cools, and solidifies, forming brand-new oceanic land crust layers. Earthquakes here are typically small, but volcanic active fissures are common.",
+                visualHtml: `
+                    <!-- Interactive Divergent Moving Crust blocks -->
+                    <div class="relative w-full h-full flex flex-col justify-between">
+                        <!-- Upper labels -->
+                        <div class="flex justify-between px-6 py-2 text-[10px] text-slate-400 font-bold">
+                            <span>Lithosphere Block A</span>
+                            <span>Lithosphere Block B</span>
+                        </div>
+                        
+                        <!-- Block graphics layout -->
+                        <div class="flex-grow flex items-center justify-between px-4 relative">
+                            <!-- Left Plate block -->
+                            <div class="w-[42%] h-20 bg-emerald-700 border-b-[8px] border-amber-900 rounded-lg shadow-md animate-drift-left flex flex-col justify-center items-center">
+                                <span class="text-xs">Ocean Crust</span>
+                                <span class="text-xs"><i class="fa-solid fa-arrow-left text-white animate-pulse"></i></span>
+                            </div>
+
+                            <!-- Mid-Ocean Magma Fissure Animation -->
+                            <div class="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+                                <div class="w-10 h-10 bg-red-500 rounded-full magma-pulse blur-xs flex items-center justify-center text-[10px] text-white">
+                                    Magma
+                                </div>
+                                <div class="w-1 h-12 bg-orange-400 animate-pulse mt-1"></div>
+                            </div>
+
+                            <!-- Right Plate block -->
+                            <div class="w-[42%] h-20 bg-emerald-700 border-b-[8px] border-amber-900 rounded-lg shadow-md animate-drift-right flex flex-col justify-center items-center">
+                                <span class="text-xs">Ocean Crust</span>
+                                <span class="text-xs"><i class="fa-solid fa-arrow-right text-white animate-pulse"></i></span>
+                            </div>
+                        </div>
+
+                        <!-- Crust layer labels -->
+                        <div class="bg-red-950/80 p-1.5 text-center text-[10px] tracking-wide text-red-200">
+                            Rising magma cools in oceanic rift to build fresh geological seafloor.
+                        </div>
+                    </div>
+                `,
+                bgColor: "from-orange-800 to-slate-900"
+            },
+            convergent: {
+                title: "Plates Colliding (Convergent Boundary)",
+                desc: "When plates collide, one of two things happens: 1) One heavy oceanic plate subducts (sinks) below a lighter continental plate, melting into magma (forming subduction zones like the Alpine Fault / Southern Alps interaction in the North Island); or 2) Both plates push upwards to form giant mountain chains (e.g., the Himalayas).",
+                visualHtml: `
+                    <!-- Interactive Convergent Moving blocks -->
+                    <div class="relative w-full h-full flex flex-col justify-between">
+                        <!-- Upper labels -->
+                        <div class="flex justify-between px-6 py-2 text-[10px] text-slate-400 font-bold">
+                            <span>Heavy Oceanic Plate (Sinks)</span>
+                            <span>Lighter Continental Plate (Uplifts)</span>
+                        </div>
+                        
+                        <!-- Block graphics layout -->
+                        <div class="flex-grow flex items-center justify-between px-4 relative overflow-hidden">
+                            <!-- Sinking Oceanic Plate (Animates downward & left) -->
+                            <div class="w-[38%] h-14 bg-blue-700 border-b-[8px] border-slate-700 rounded-lg shadow-md animate-subduct flex flex-col justify-center items-center relative z-20">
+                                <span class="text-[10px] font-bold">Ocean Crust</span>
+                                <span class="text-xs"><i class="fa-solid fa-turn-down text-white"></i></span>
+                            </div>
+
+                            <!-- Oceanic Trench / Subduction Magma zone -->
+                            <div class="absolute left-[34%] top-1/2 w-8 h-20 bg-red-600/40 rounded-full blur-xs z-10"></div>
+
+                            <!-- Mountain / Volcano continental Uplift (Pushed up) -->
+                            <div class="w-[46%] h-24 bg-gradient-to-t from-emerald-800 to-emerald-600 border-b-[8px] border-amber-900 rounded-lg shadow-lg flex flex-col justify-center items-center relative z-20">
+                                <span class="text-xs font-extrabold text-amber-200">Southern Alps / Volcano</span>
+                                <!-- Small visual erupting triangle peak -->
+                                <div class="w-6 h-6 bg-red-500 rounded-full magma-pulse absolute -top-2 flex items-center justify-center text-[8px] font-extrabold">Friction</div>
+                            </div>
+                        </div>
+
+                        <!-- Crust layer labels -->
+                        <div class="bg-amber-950/80 p-1.5 text-center text-[10px] tracking-wide text-amber-200">
+                            Pacific plate sinks under Australian plate forming New Zealand's volcanic mountains.
+                        </div>
+                    </div>
+                `,
+                bgColor: "from-amber-800 to-slate-900"
+            },
+            transform: {
+                title: "Plates Sliding Past (Transform Boundary)",
+                desc: "When plates slide past each other horizontally (e.g., California's San Andreas Fault, or the major Alpine Fault line crossing NZ's South Island). Crust is neither created nor destroyed here, but severe friction locks the rocks until they snap, unleashing violent horizontal earthquakes.",
+                visualHtml: `
+                    <!-- Interactive Transform sliding fault blocks -->
+                    <div class="relative w-full h-full flex flex-col justify-between">
+                        <!-- Upper labels -->
+                        <div class="flex justify-between px-6 py-2 text-[10px] text-slate-400 font-bold">
+                            <span>Plate Moving North ↑</span>
+                            <span>Plate Moving South ↓</span>
+                        </div>
+                        
+                        <!-- Block graphics layout -->
+                        <div class="flex-grow flex items-center justify-center px-4 relative">
+                            <div class="w-[85%] h-24 flex items-center gap-1 relative">
+                                <!-- Left Block moving Up -->
+                                <div class="w-1/2 h-20 bg-slate-700 border-r-4 border-dashed border-red-500 rounded-l-xl flex flex-col justify-center items-center animate-slide-up">
+                                    <span class="text-xs font-bold">Pacific Plate</span>
+                                    <span class="text-sm"><i class="fa-solid fa-chevron-up text-blue-400 animate-pulse"></i></span>
+                                </div>
+
+                                <!-- Fault Stress Friction line warning light -->
+                                <div class="absolute left-1/2 -translate-x-1/2 w-1.5 h-20 bg-amber-500 animate-ping"></div>
+
+                                <!-- Right Block moving Down -->
+                                <div class="w-1/2 h-20 bg-slate-600 rounded-r-xl flex flex-col justify-center items-center animate-slide-down">
+                                    <span class="text-xs font-bold">Australian Plate</span>
+                                    <span class="text-sm"><i class="fa-solid fa-chevron-down text-amber-400 animate-pulse"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Crust layer labels -->
+                        <div class="bg-blue-950/80 p-1.5 text-center text-[10px] tracking-wide text-blue-200">
+                            Locked rock zones snap instantly after built tension to unleash earthquakes.
+                        </div>
+                    </div>
+                `,
+                bgColor: "from-blue-800 to-slate-900"
+            }
+        };
+
+        function setPlateBoundary(type) {
+            const canvas = document.getElementById('plate-visual-canvas');
+            const explanation = document.getElementById('plate-explanation-text');
+
+            // Reset buttons
+            document.querySelectorAll("[id^='plate-btn-']").forEach(btn => {
+                btn.className = "p-3 rounded-xl border-2 border-slate-200 bg-white hover:border-red-400 font-bold text-xs flex flex-col items-center gap-2 transition-all";
+            });
+
+            // Highlight active button
+            document.getElementById(`plate-btn-${type}`).className = "p-3 rounded-xl border-2 border-red-500 bg-red-50 hover:border-red-600 font-bold text-xs flex flex-col items-center gap-2 transition-all text-red-950";
+
+            // Update visual simulation
+            canvas.className = `h-56 rounded-xl flex items-center justify-center relative overflow-hidden transition-all text-white font-display font-bold text-base bg-gradient-to-r ${plateExplanations[type].bgColor} shadow-md`;
+            canvas.innerHTML = plateExplanations[type].visualHtml;
+
+            // Update text description
+            explanation.classList.remove('hidden');
+            explanation.innerHTML = `<strong>${plateExplanations[type].title}:</strong> ${plateExplanations[type].desc}`;
+        }
+
+        function checkDriftEvidence() {
+            const ev1 = document.getElementById('drift-evidence-1').value;
+            const ev2 = document.getElementById('drift-evidence-2').value;
+            const ev3 = document.getElementById('drift-evidence-3').value;
+            const ev4 = document.getElementById('drift-evidence-4').value;
+            const feedback = document.getElementById('drift-feedback');
+            feedback.classList.remove('hidden');
+
+            if (ev1 === 'correct' && ev2 === 'correct' && ev3 === 'correct' && ev4 === 'correct') {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Fantastic work! You identified all four columns of evidence Alfred Wegener compiled: fossils, continental jigsaw puzzle shape, mountain range alignment, and matching glacial markings.`;
+                achievements.plates = true;
+                playSound('success');
+                updateProgress();
+            } else {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-800 border border-red-200";
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Some evidence lines are mismatched. Review the options! Remember, fossil Mesosaurus and jigsaw South America are core continental drift proof points.`;
+                playSound('fail');
+            }
+        }
+
+
+        // ================= MISSION 3: ROCK CYCLE ALCHEMIST =================
+        function checkRockCycle() {
+            const gA = document.getElementById('rock-select-groupA').value;
+            const gB = document.getElementById('rock-select-groupB').value;
+            const gC = document.getElementById('rock-select-groupC').value;
+            const feedback = document.getElementById('rocks-feedback');
+            feedback.classList.remove('hidden');
+
+            if (gA === 'igneous' && gB === 'sedimentary' && gC === 'metamorphic') {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Great classification! Group A are Igneous (hot volcanic), Group B are Sedimentary (layered sediment compaction), and Group C are Metamorphic (re-crystallized under heat and pressure). Check the cloze sentences below to complete the full mission!`;
+                playSound('success');
+            } else {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-800 border border-red-200";
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Incorrect classifications. Hint: Heat processes = Igneous, ocean beds layered = Sedimentary, and squashed crystalline = Metamorphic!`;
+                playSound('fail');
+            }
+        }
+
+        function checkClozeSentences() {
+            const inputs = [
+                document.getElementById('cloze-1').value,
+                document.getElementById('cloze-2').value,
+                document.getElementById('cloze-3').value,
+                document.getElementById('cloze-4').value,
+                document.getElementById('cloze-5').value,
+                document.getElementById('cloze-6').value,
+                document.getElementById('cloze-7').value,
+                document.getElementById('cloze-8').value,
+                document.getElementById('cloze-9').value,
+                document.getElementById('cloze-10').value,
+                document.getElementById('cloze-11').value,
+            ];
+
+            const answers = [
+                'magma', 'small', 'basalt', 'large', 'granite', 'deposited', 'pressure', 'limestone', 'shale', 'slate', 'harder'
+            ];
+
+            let allCorrect = true;
+            inputs.forEach((val, index) => {
+                if (val !== answers[index]) allCorrect = false;
+            });
+
+            const feedback = document.getElementById('rocks-feedback');
+            feedback.classList.remove('hidden');
+
+            if (allCorrect) {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Perfect geological flow! You matched extrusive basalt (quick cool, small crystals), intrusive granite (slow cool, large crystals), sedimentary compaction (limestone/shale), and metamorphism (slate is harder!).`;
+                achievements.rocks = true;
+                playSound('success');
+                updateProgress();
+            } else {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Tectonic groups matched, but some sentence options are wrong. Remember: fast cooling at the surface makes *small crystals* (extrusive basalt). Slow cooling underground makes *large crystals* (granite!).`;
+                playSound('fail');
+            }
+        }
+
+
+        // ================= MISSION 4: VOLCANO LAB =================
+        function triggerVolcanoEruption() {
+            const lavaFlow = document.getElementById('lava-lava-stream');
+            const lavaFlow2 = document.getElementById('lava-lava-stream-2');
+            const magmaConduit = document.getElementById('magma-conduit');
+            const ashParticles = document.querySelectorAll('.ash-particle');
+
+            // Sound feedback for the volcano explosion rumble
+            playSound('success');
+
+            // Add dynamic eruption visual classes
+            lavaFlow.classList.add('animate-lava-flow');
+            lavaFlow.style.stroke = '#f97316';
+            
+            if (lavaFlow2) {
+                lavaFlow2.classList.remove('hidden');
+                lavaFlow2.classList.add('animate-lava-flow');
+                lavaFlow2.style.stroke = '#ea580c';
+            }
+
+            magmaConduit.setAttribute('fill', '#ff0000');
+            
+            ashParticles.forEach(part => {
+                part.classList.remove('hidden');
+            });
+
+            setTimeout(() => {
+                // Return to normal quiet volcanic state after 5 seconds
+                lavaFlow.classList.remove('animate-lava-flow');
+                if (lavaFlow2) {
+                    lavaFlow2.classList.remove('animate-lava-flow');
+                    lavaFlow2.classList.add('hidden');
+                }
+                magmaConduit.setAttribute('fill', '#ea580c');
+                ashParticles.forEach(part => {
+                    part.classList.add('hidden');
+                });
+            }, 6000);
+        }
+
+        function checkVolcanoSection() {
+            // Label inputs
+            const la = document.getElementById('volcano-label-a').value;
+            const lb = document.getElementById('volcano-label-b').value;
+            const lc = document.getElementById('volcano-label-c').value;
+            const ld = document.getElementById('volcano-label-d').value;
+
+            // Classification inputs
+            const v1 = document.getElementById('type-select-v1').value;
+            const v2 = document.getElementById('type-select-v2').value;
+            const v3 = document.getElementById('type-select-v3').value;
+
+            // Definition inputs
+            const defActive = document.getElementById('state-def-active').value;
+            const defDormant = document.getElementById('state-def-dormant').value;
+            const defExtinct = document.getElementById('state-def-extinct').value;
+
+            const feedback = document.getElementById('volcano-feedback');
+            feedback.classList.remove('hidden');
+
+            if (la === 'lava' && lb === 'ash' && lc === 'magma' && ld === 'solid-rock') {
+                if (v1 === 'stratovolcano' && v2 === 'caldera' && v3 === 'shield') {
+                    if (defActive === 'correct' && defDormant === 'correct' && defExtinct === 'correct') {
+                        feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                        feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Masterful! Volcano labeled correctly, and classification types are spot on. Note: Lake Taupō is a massive *caldera* (collapsed), Mt Ruapehu is a steep *stratovolcano*, and Rangitoto is a broad *shield* volcano.`;
+                        achievements.volcanoes = true;
+                        playSound('success');
+                        updateProgress();
+                    } else {
+                        feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200";
+                        feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Anatomy and classes are correct, but the Active, Dormant, or Extinct status states definitions are crossed. Active = recently erupted; Dormant = currently sleeping; Extinct = dead/cut off!`;
+                        playSound('fail');
+                    }
+                } else {
+                    feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200";
+                    feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Anatomy diagram is correct! But the Volcano shape classifications are mismatching. Check Mt Ruapehu/Taranaki (steep stratovolcano) or Rangitoto (shield) again.`;
+                    playSound('fail');
+                }
+            } else {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-800 border border-red-200";
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> The erupted volcano anatomy labels (A, B, C, D) are incorrect. Remember: A is lava on surface; C is underground magma chamber!`;
+                playSound('fail');
+            }
+        }
+
+
+        // ================= MISSION 5: SEISMIC SHOCKWAVE LAB =================
+        function triggerEarthquakeTremor() {
+            const house = document.getElementById('seismic-house');
+            const status = document.getElementById('seismic-shaking-status');
+            const eq2Val = parseFloat(document.getElementById('eq2-slider').value);
+
+            // Calculate dynamic shake speed and displacement based on logarithmic power
+            // Higher magnitude = faster shaking cycles & larger movement offsets
+            let shakeSpeed = "0.2s";
+            if (eq2Val >= 7.0) {
+                shakeSpeed = "0.03s";
+                status.innerText = `Status: MAGNITUDE ${eq2Val} DETECTED! Severe Shaking!`;
+                status.className = "absolute top-2 left-2 text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold animate-ping";
+            } else if (eq2Val >= 4.0) {
+                shakeSpeed = "0.08s";
+                status.innerText = `Status: Magnitude ${eq2Val} active (Moderate Rumble)`;
+                status.className = "absolute top-2 left-2 text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold";
+            } else {
+                shakeSpeed = "0.15s";
+                status.innerText = `Status: Magnitude ${eq2Val} active (Subtle Tremor)`;
+                status.className = "absolute top-2 left-2 text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold";
+            }
+
+            // Set shake speed dynamically
+            house.style.setProperty('--shake-speed', shakeSpeed);
+            house.classList.add('seismic-shake-active');
+
+            // Rumble audio feedback
+            playSound('fail');
+
+            // Turn off shaking after 3.5 seconds
+            setTimeout(() => {
+                house.classList.remove('seismic-shake-active');
+                status.innerText = "Status: Seismograph Idle";
+                status.className = "absolute top-2 left-2 text-[10px] bg-slate-100 px-2 py-0.5 rounded-full font-bold text-slate-500";
+            }, 3500);
+        }
+
+        function calculateSeismic() {
+            const eq1 = parseFloat(document.getElementById('eq1-slider').value);
+            const eq2 = parseFloat(document.getElementById('eq2-slider').value);
+
+            document.getElementById('eq1-val').innerText = eq1.toFixed(1);
+            document.getElementById('eq2-val').innerText = eq2.toFixed(1);
+
+            // Shake motion difference factor (log scale base 10)
+            const diffMagnitude = eq2 - eq1;
+            const shakeFactor = Math.pow(10, diffMagnitude);
+            const energyFactor = Math.pow(32, diffMagnitude);
+
+            // Format numbers nicely
+            let shakeText = shakeFactor.toLocaleString('en-US', {maximumFractionDigits: 1}) + " times";
+            let energyText = Math.round(energyFactor).toLocaleString('en-US') + " times";
+
+            if (diffMagnitude === 0) {
+                shakeText = "Identical strength";
+                energyText = "Identical energy";
+            } else if (diffMagnitude < 0) {
+                shakeText = (1 / shakeFactor).toLocaleString('en-US', {maximumFractionDigits: 1}) + " times weaker";
+                energyText = Math.round(1 / energyFactor).toLocaleString('en-US') + " times less";
+            }
+
+            document.getElementById('shake-amplitude-diff').innerText = shakeText;
+            document.getElementById('energy-diff').innerText = energyText;
+
+            let desc = "";
+            if (diffMagnitude > 0) {
+                desc = `An earthquake of mag ${eq2.toFixed(1)} has ground wave amplitude ${shakeText} greater than mag ${eq1.toFixed(1)}.`;
+            } else if (diffMagnitude < 0) {
+                desc = `The second earthquake is smaller than the first.`;
+            } else {
+                desc = "Earthquakes are of equivalent strength.";
+            }
+            document.getElementById('shake-amplitude-desc').innerText = desc;
+        }
+
+        function checkEarthquakeSequence() {
+            const s1 = document.getElementById('eq-step-1').value;
+            const s2 = document.getElementById('eq-step-2').value;
+            const s3 = document.getElementById('eq-step-3').value;
+            const s4 = document.getElementById('eq-step-4').value;
+
+            const feedback = document.getElementById('seismic-feedback');
+            feedback.classList.remove('hidden');
+
+            if (s1 === 'correct' && s2 === 'correct' && s3 === 'correct' && s4 === 'correct') {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> Spot-on tremor science! Earthquakes occur when plate friction locks plates, stresses compress rock over decades, then rocks snap, instantly releasing waves of structural kinetic energy.`;
+                achievements.seismic = true;
+                playSound('success');
+                updateProgress();
+            } else {
+                feedback.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-800 border border-red-200";
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Earthquake progression steps are out of order or incorrect. Review the geological steps! Friction MUST lock them first.`;
+                playSound('fail');
+            }
+        }
+
+        // Initialize slider calculations on load
+        calculateSeismic();
+
+
+        // ================= BONUS: READY-CHECK TRIVIA QUIZ =================
+        const quizData = [
+            {
+                q: "What is the correct physical state of the Outer Core and Inner Core?",
+                choices: [
+                    "Outer core is liquid metal; Inner core is dense solid iron.",
+                    "Both are fully liquid magma chambers.",
+                    "Outer core is solid rock; Inner core is molten nitrogen gas.",
+                    "Inner core is liquid metal; Outer core is dense solid iron."
+                ],
+                correct: 0,
+                exp: "Extreme pressure keeps the inner core's iron solid despite superheated temperatures, while the lower-pressure outer core remains liquid metal."
+            },
+            {
+                q: "Which geological evidence was NOT used by Alfred Wegener to support Continental Drift?",
+                choices: [
+                    "The jigsaw-like fit of continental coasts (South America/Africa).",
+                    "Identical fossil distributions (Mesosaurus) across ocean divides.",
+                    "Glacial striations in tropical landscapes.",
+                    "Satellite GPS recordings showing plates moving 3cm per year."
+                ],
+                correct: 3,
+                exp: "GPS satellite tracking is modern evidence; in 1912 Wegener only had fossil, coastline jigsaw fit, rock formations, and climate markings!"
+            },
+            {
+                q: "The Southern Alps in New Zealand are formed on which plate boundary interaction?",
+                choices: [
+                    "A divergent zone where new oceans are split open.",
+                    "A complex transform-convergent boundary between the Pacific & Australian plates.",
+                    "A purely static ring of volcanic hot spots.",
+                    "A deep oceanic trench with no earthquake activity."
+                ],
+                correct: 1,
+                exp: "NZ sits directly over the boundary between the Pacific and Australian plates. The South Island Alpine fault behaves as a transform-convergent suture."
+            },
+            {
+                q: "How does intrusive igneous rock (like granite) differ from extrusive igneous rock (like basalt)?",
+                choices: [
+                    "Intrusive rocks cool slowly inside the crust, forming large visible crystals.",
+                    "Extrusive rocks have no crystals because they never touch air.",
+                    "Intrusive rocks melt under water creating sandstone.",
+                    "Intrusive rocks cool quickly on the surface, forming small crystals."
+                ],
+                correct: 0,
+                exp: "Intrusive magma is trapped underground, cooling very slowly. This slow process allows molecules to build large, distinctive mineral crystals."
+            },
+            {
+                q: "Which rock cycle transition represents the formation of a metamorphic rock?",
+                choices: [
+                    "Molten basalt cooling into obsidian glass on the surface.",
+                    "Weathered limestone fragments becoming compacted under sea layers.",
+                    "Sedimentary shale changing to slate under intense underground heat & pressure.",
+                    "Wind eroding granite into tiny quartz sand dunes."
+                ],
+                correct: 2,
+                exp: "Metamorphism strictly involves pre-existing rocks (sedimentary shale) recrystallizing into harder, denser forms (slate) via geothermal heat and pressure."
+            },
+            {
+                q: "Which volcano type is characterized by broad, gently sloping hills built from thin fluid basalt lava?",
+                choices: [
+                    "Caldera (Taupō)",
+                    "Shield Volcano (Rangitoto)",
+                    "Stratovolcano (Ruapehu)",
+                    "Fissure Vent (Tarawera)"
+                ],
+                correct: 1,
+                exp: "Shield volcanoes (like Auckland's Rangitoto) look like a warrior's shield lying down, built from successive flows of runny basaltic lava."
+            },
+            {
+                q: "How much larger is the wave amplitude (ground movement) of a Magnitude 7.0 earthquake compared to a Magnitude 4.0 earthquake?",
+                choices: [
+                    "3 times larger",
+                    "30 times larger",
+                    "1,000 times larger",
+                    "30,000 times larger"
+                ],
+                correct: 2,
+                exp: "Since the Richter scale is logarithmic base 10, the difference (7.0 - 4.0 = 3) translates to 10 x 10 x 10 = 1,000 times greater ground movement amplitude."
+            },
+            {
+                q: "Is Auckland's oldest volcano Rangitoto, and does the region host over 50 volcanic cones?",
+                choices: [
+                    "True: Rangitoto is the oldest volcano in the entire island.",
+                    "False: Rangitoto is Auckland's youngest volcano (~600 years old), but the region does have over 50 volcanic cones.",
+                    "False: Auckland only has 3 active volcanoes total.",
+                    "True: Rangitoto erupted millions of years ago in Gondwanaland."
+                ],
+                correct: 1,
+                exp: "Rangitoto is actually the youngest volcano in Auckland (erupted ~600 years ago). Auckland's active field has roughly 53 volcanic centers, all basaltic."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuizQuestion() {
+            const data = quizData[currentQuestion];
+            document.getElementById('quiz-q-num').innerText = currentQuestion + 1;
+            document.getElementById('quiz-q-text').innerText = data.q;
+
+            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            document.getElementById('quiz-progress-indicator').style.width = `${progressPercentage}%`;
+
+            const choicesContainer = document.getElementById('quiz-choices');
+            choicesContainer.innerHTML = '';
+
+            data.choices.forEach((choice, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-4 rounded-xl border border-slate-200 text-left text-xs sm:text-sm font-semibold hover:bg-purple-50 hover:border-purple-300 transition-all focus:outline-none flex justify-between items-center bg-white";
+                btn.innerHTML = `<span>${choice}</span>`;
+                btn.onclick = () => selectChoice(index, btn);
+                choicesContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-explanation').classList.add('hidden');
+            document.getElementById('quiz-btn-next').classList.add('hidden');
+        }
+
+        function selectChoice(index, buttonElement) {
+            const correctIndex = quizData[currentQuestion].correct;
+            const explanation = document.getElementById('quiz-explanation');
+
+            // Disable all other choices
+            const buttons = document.getElementById('quiz-choices').getElementsByTagName('button');
+            for (let btn of buttons) {
+                btn.disabled = true;
+                btn.className = "w-full p-4 rounded-xl border border-slate-100 text-left text-xs sm:text-sm font-semibold text-slate-400 bg-slate-50 cursor-not-allowed flex justify-between items-center";
+            }
+
+            if (index === correctIndex) {
+                buttonElement.className = "w-full p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-900 text-left text-xs sm:text-sm font-bold flex justify-between items-center";
+                buttonElement.innerHTML += `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>`;
+                score++;
+                playSound('success');
+            } else {
+                buttonElement.className = "w-full p-4 rounded-xl border-2 border-red-500 bg-red-50 text-red-900 text-left text-xs sm:text-sm font-bold flex justify-between items-center";
+                buttonElement.innerHTML += `<i class="fa-solid fa-circle-xmark text-red-600 text-lg"></i>`;
+                // highlight correct answer too
+                buttons[correctIndex].className = "w-full p-4 rounded-xl border-2 border-emerald-400 bg-emerald-50 text-emerald-900 text-left text-xs sm:text-sm font-bold flex justify-between items-center";
+                playSound('fail');
+            }
+
+            document.getElementById('quiz-score-badge').innerText = `Score: ${score}`;
+
+            explanation.innerText = `Hint: ${quizData[currentQuestion].exp}`;
+            explanation.classList.remove('hidden');
+
+            document.getElementById('quiz-btn-next').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuizQuestion();
+            } else {
+                // Show completion screen
+                document.getElementById('quiz-block').classList.add('hidden');
+                document.getElementById('quiz-completion').classList.remove('hidden');
+                document.getElementById('final-score-text').innerText = `${score} / ${quizData.length}`;
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-score-badge').innerText = `Score: 0`;
+            document.getElementById('quiz-block').classList.remove('hidden');
+            document.getElementById('quiz-completion').classList.add('hidden');
+            loadQuizQuestion();
+        }
+
+        // Load first quiz question automatically
+        loadQuizQuestion();
+
+    </script>
+</body>
+</html>
