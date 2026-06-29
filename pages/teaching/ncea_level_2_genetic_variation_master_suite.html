@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCEA L2 Biology: Genetic Variation & Change (AS91157)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        stone: { 50: '#fafaf9', 100: '#f5f5f4', 200: '#e7e5e4', 300: '#d6d3d1', 400: '#a8a29e', 500: '#78716c', 600: '#57534e', 700: '#44403c', 800: '#292524', 900: '#1c1917' },
+                        leaf: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534' },
+                        ocean: { 50: '#f0f9ff', 100: '#e0f2fe', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1' },
+                        royal: { 50: '#faf5ff', 100: '#f3e8ff', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fafaf9; color: #292524; }
+        .chart-container { position: relative; width: 100%; max-width: 800px; margin: auto; height: 320px; }
+        .tab-content { display: none; animation: fadeIn 0.25s ease-in-out; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-item.active { background-color: #f0fdf4; color: #16a34a; border-right: 4px solid #16a34a; font-weight: 700; }
+        
+        /* Bulletproof CSS 3D Flashcard Flip System */
+        .flashcard { perspective: 1000px; }
+        .flashcard-inner { 
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); 
+            transform-style: preserve-3d; 
+            position: relative; 
+            width: 100%; 
+            height: 100%; 
+        }
+        .flashcard.flipped .flashcard-inner { 
+            transform: rotateY(180deg); 
+        }
+        .flashcard-front, .flashcard-back { 
+            backface-visibility: hidden; 
+            -webkit-backface-visibility: hidden; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+        }
+        .flashcard-back { 
+            transform: rotateY(180deg); 
+        }
+        .chromosome-segment { transition: all 0.4s ease; }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-stone-200 h-auto md:h-full flex flex-col flex-shrink-0 z-20 shadow-sm overflow-y-auto">
+        <div class="p-5 border-b border-stone-100 bg-stone-50/50">
+            <h1 class="text-lg font-black text-stone-800 leading-tight flex items-center gap-2">
+                <span>🧬</span> NCEA L2 Biology
+            </h1>
+            <p class="text-[10px] text-stone-500 mt-1 uppercase tracking-wider font-extrabold">AS91157 Master Suite</p>
+        </div>
+        <div class="flex-1 py-3 flex md:flex-col flex-row overflow-x-auto md:overflow-x-hidden" id="nav-menu">
+            <button class="nav-item active px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-simulator">
+                <span>📈</span> Evolution & Founder Sim
+            </button>
+            <button class="nav-item px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-meiosis">
+                <span>🔄</span> Meiosis & Linkage Sandbox
+            </button>
+            <button class="nav-item px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-punnett">
+                <span>🔲</span> Dihybrid Punnett Matrix
+            </button>
+            <button class="nav-item px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-worksheet">
+                <span>📝</span> Written Exam Prep
+            </button>
+            <button class="nav-item px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-vocab">
+                <span>🗂️</span> 25 Key Vocab Cards
+            </button>
+            <button class="nav-item px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-quiz">
+                <span>🎓</span> 20-Question Practice Exam
+            </button>
+            <button class="nav-item px-5 py-3.5 text-left text-xs font-semibold text-stone-600 hover:bg-stone-50 flex items-center gap-2.5 border-b md:border-b-0 border-stone-100 whitespace-nowrap" data-target="view-concepts">
+                <span>📖</span> Core Concepts Reference
+            </button>
+        </div>
+        <div class="p-4 border-t border-stone-100 bg-stone-50 text-[10px] text-stone-500 hidden md:block">
+            Designed for AS91157 Excellence. Fully responsive design structure.
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 h-full overflow-y-auto bg-stone-50 p-4 md:p-8">
+        
+        <!-- MODULE 1: ALLELE FREQUENCY & FOUNDER EFFECT SIMULATOR -->
+        <div id="view-simulator" class="tab-content active max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="text-[10px] font-black uppercase tracking-wider text-leaf-700 bg-leaf-100 px-3 py-1 rounded-full">Interactive Data Sandbox</span>
+                <h2 class="text-2xl font-extrabold text-stone-900 mt-2.5">Evolution, Founder Effect & Mutation Simulator</h2>
+                <p class="text-stone-600 text-xs mt-1">
+                    Track allele frequencies over hundreds of years. Introduce a catastrophic <strong>Founder Event</strong> to establish a small, non-representative pioneer colony, or slide the mutation injector to simulate de novo alleles.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <!-- Chart Sandbox -->
+                <div class="lg:col-span-2 bg-white rounded-xl p-5 border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-stone-500" id="sim-status-lbl">Generations Logged: 0</span>
+                            <div class="flex gap-1 bg-stone-100 p-1 rounded-lg text-[11px] font-bold">
+                                <button id="btn-drift" class="px-2.5 py-1 rounded bg-white text-stone-800 shadow-sm border border-stone-200/50">🎲 Drift</button>
+                                <button id="btn-selection" class="px-2.5 py-1 rounded text-stone-600 hover:bg-stone-200 transition-colors">🦅 Selection</button>
+                                <button id="btn-founder" class="px-2.5 py-1 rounded text-stone-600 hover:bg-stone-200 transition-colors">🏝️ Founder Event</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="alleleChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex flex-wrap gap-2 justify-center border-t border-stone-100 pt-4">
+                        <button id="btn-simulate" class="bg-leaf-600 hover:bg-leaf-700 text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition-colors">⏭️ Next Gen</button>
+                        <button id="btn-sim-10" class="bg-ocean-600 hover:bg-ocean-700 text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition-colors">⏭️ Fast Forward 10 Gens</button>
+                        <button id="btn-sim-50" class="bg-royal-600 hover:bg-royal-700 text-white px-4 py-2 rounded-lg text-xs font-bold shadow transition-colors">⏭️ Run 50 Gens</button>
+                        <button id="btn-reset" class="bg-stone-200 hover:bg-stone-300 text-stone-700 px-4 py-2 rounded-lg text-xs font-bold transition-colors">🔄 Reset Gene Pool</button>
+                    </div>
+                </div>
+
+                <!-- Simulation parameters panel -->
+                <div class="bg-white rounded-xl p-5 border border-stone-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xs font-extrabold text-stone-800 uppercase tracking-wider mb-4">Model Config</h3>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-stone-600 mb-1.5">
+                                    <span>Population Size (N):</span>
+                                    <span id="lbl-pop-size" class="font-extrabold text-leaf-700">1000 (Large)</span>
+                                </div>
+                                <input type="range" id="input-pop" min="10" max="1000" step="10" value="1000" class="w-full accent-leaf-600">
+                                <span class="text-[10px] text-stone-400">Smaller populations experience rapid, unpredictable genetic drift.</span>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-stone-600 mb-1.5">
+                                    <span>Mutation Pressure (a → A):</span>
+                                    <span id="lbl-mut-rate" class="font-extrabold text-ocean-600">0.0% / gen</span>
+                                </div>
+                                <input type="range" id="input-mut" min="0" max="50" step="5" value="0" class="w-full accent-ocean-600">
+                                <span class="text-[10px] text-stone-400">Injects dominant A alleles gradually into the population structure.</span>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold text-stone-600 mb-1.5">
+                                    <span>Starting Frequency (A):</span>
+                                    <span id="lbl-start-freq" class="font-extrabold text-stone-800">50%</span>
+                                </div>
+                                <input type="range" id="input-start-freq" min="5" max="95" step="5" value="50" class="w-full accent-stone-700">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 bg-stone-50 p-3 rounded-lg border border-stone-150 text-[11px] text-stone-600 space-y-1">
+                        <strong class="text-stone-900 block font-bold" id="sim-info-title">Active Mode: Large Stable Pool</strong>
+                        <p id="sim-info-desc">No selection or major bottleneck pressures applied. The population follows Hardy-Weinberg equilibrium except for minor mutations and drift.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 2: MEIOSIS STEP-BY-STEP SIMULATOR -->
+        <div id="view-meiosis" class="tab-content max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="text-[10px] font-black uppercase tracking-wider text-ocean-700 bg-ocean-100 px-3 py-1 rounded-full">Interactive Cytology Sandbox</span>
+                <h2 class="text-2xl font-extrabold text-stone-900 mt-2.5">Meiosis, Linkage & Variation Shuffling</h2>
+                <p class="text-stone-600 text-xs mt-1">
+                    Examine cellular mechanics step-by-step. Toggle **Crossing Over** and **Independent Assortment** to see how they break linkages and assemble genetically unique gametes.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden p-6 mb-6">
+                <!-- Navigation Steps -->
+                <div class="flex border-b border-stone-200 mb-6 overflow-x-auto gap-2 pb-2 text-xs font-bold">
+                    <button class="meiosis-step-btn px-4 py-2 bg-leaf-50 border-b-2 border-leaf-600 text-leaf-700 transition-all rounded-t-md" onclick="setMeiosisStage(0)">1. Prophase I (Synapsis)</button>
+                    <button class="meiosis-step-btn px-4 py-2 text-stone-500 hover:bg-stone-50 transition-all rounded-t-md" onclick="setMeiosisStage(1)">2. Metaphase I (Alignment)</button>
+                    <button class="meiosis-step-btn px-4 py-2 text-stone-500 hover:bg-stone-50 transition-all rounded-t-md" onclick="setMeiosisStage(2)">3. Anaphase I (Segregation)</button>
+                    <button class="meiosis-step-btn px-4 py-2 text-stone-500 hover:bg-stone-50 transition-all rounded-t-md" onclick="setMeiosisStage(3)">4. Meiosis II (Division)</button>
+                    <button class="meiosis-step-btn px-4 py-2 text-stone-500 hover:bg-stone-50 transition-all rounded-t-md" onclick="setMeiosisStage(4)">5. Final Gametes</button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Interactive Visual Display Sandbox -->
+                    <div class="lg:col-span-2 bg-stone-950 rounded-xl p-6 flex flex-col items-center justify-center relative min-h-[400px] text-white overflow-hidden shadow-inner border-2 border-stone-900">
+                        <div class="absolute top-3 left-4 text-[10px] text-stone-400 font-bold bg-stone-900/60 px-2 py-1 rounded-md border border-stone-800">
+                            🟢 Maternal Chromatids (Alleles A, B) &nbsp;|&nbsp; 🔴 Paternal Chromatids (Alleles a, b)
+                        </div>
+                        
+                        <!-- Cell membrane -->
+                        <div id="cell-membrane" class="relative w-full max-w-xl min-h-[280px] border-2 border-stone-800 rounded-full flex items-center justify-center bg-stone-950/40 p-4 transition-all duration-500">
+                            <div id="meiosis-render-box" class="flex justify-around items-center w-full gap-4 flex-wrap">
+                                <!-- Dynamic chromosome segments with explicit gene bands & alleles rendered here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Controls & Variation Explanations -->
+                    <div class="bg-stone-50 p-5 rounded-xl border border-stone-200 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xs font-extrabold text-stone-800 uppercase tracking-wider mb-2" id="meiosis-stage-title">Prophase I</h3>
+                            <p class="text-xs text-stone-600 leading-relaxed mb-4" id="meiosis-stage-desc">
+                                Homologous chromosomes pair up. Adjust the controls to trigger crossing over and swap structural segments between non-sister chromatids.
+                            </p>
+                            
+                            <div class="space-y-3 bg-white p-3 rounded-lg border border-stone-200 shadow-xs mb-4" id="meiosis-toggles-container">
+                                <label class="flex items-center gap-3 cursor-pointer text-xs font-semibold text-stone-700">
+                                    <input type="checkbox" id="chk-crossing" onchange="toggleMeiosisMechanisms()" class="w-4 h-4 rounded text-leaf-600 focus:ring-leaf-500 accent-leaf-600">
+                                    <span>Enable Crossing Over (Prophase I)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer text-xs font-semibold text-stone-700">
+                                    <input type="checkbox" id="chk-assortment" onchange="toggleMeiosisMechanisms()" class="w-4 h-4 rounded text-leaf-600 focus:ring-leaf-500 accent-leaf-600">
+                                    <span>Flip Alignment (Metaphase I)</span>
+                                </label>
+                            </div>
+
+                            <!-- DYNAMIC EXPLAINER CARD -->
+                            <div class="bg-stone-900 text-stone-200 p-4 rounded-lg border border-stone-800 space-y-2.5">
+                                <h4 class="text-[11px] font-bold uppercase text-amber-400 tracking-wider">🔬 Real-Time Variation Analysis</h4>
+                                <div class="text-[11px] space-y-2" id="meiosis-dynamic-analysis">
+                                    <!-- Dynamic text content injected by JavaScript based on active stage and options -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-stone-200 text-xs text-stone-500 font-medium">
+                            💡 <span id="meiosis-impact-hint">Crossing over scrambles linked gene clusters to make unique recombinant chromatids.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LINKED AND SEX-LINKED GENES EXPLAINER BLOCK -->
+            <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border-b md:border-b-0 md:border-r border-stone-200 pb-6 md:pb-0 md:pr-6">
+                    <h3 class="text-sm font-black text-stone-800 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="text-emerald-600">🔗</span> Linked Genes & Crossing Over
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed space-y-2">
+                        <span><strong>What are Linked Genes?</strong> Genes located close together on the same physical chromosome. Unlike unlinked genes, they do not undergo independent assortment and tend to be inherited together as a block.</span>
+                        <br><br>
+                        <span><strong>Breaking Linkages:</strong> The only way to separate linked alleles is through <strong>Crossing Over</strong>. When homologues align in Prophase I, non-sister chromatids form chiasmata and exchange segments. This separates linked alleles, creating recombinant gametes.</span>
+                        <br><br>
+                        <span><strong>Chiasma Frequency Rule:</strong> The physical distance between linked genes determines how often they are separated. Genes far apart are frequently separated by crossing over. Genes located extremely close to each other are rarely separated.</span>
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-sm font-black text-stone-800 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <span class="text-red-600">🧬</span> Sex-Linked Inheritance Patterns
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed space-y-2">
+                        <span><strong>What is Sex Linkage?</strong> Genes located on the sex chromosomes (usually the larger X chromosome) that control non-sexual traits, such as red-green color blindness or hemophilia.</span>
+                        <br><br>
+                        <span><strong>Why Males are Biased:</strong> Females inherit two copies of the X chromosome (XX), meaning a recessive disease allele on one X can be fully masked by a healthy dominant allele on the other (heterozygous carriers).</span>
+                        <br><br>
+                        <span>Males, however, have only one X chromosome (XY). Because they are <strong>hemizygous</strong>, they have no second allele to mask a mutant recessive allele. As a result, males express X-linked recessive disorders with far greater frequency than females.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 3: INTERACTIVE DIHYBRID PUNNETT SQUARE -->
+        <div id="view-punnett" class="tab-content max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="text-[10px] font-black uppercase tracking-wider text-royal-700 bg-royal-100 px-3 py-1 rounded-full">Mendelian Calculator</span>
+                <h2 class="text-2xl font-extrabold text-stone-900 mt-2.5">Interactive Dihybrid Matrix Calculator</h2>
+                <p class="text-stone-600 text-xs mt-1">
+                    Choose parental genotypes to calculate the resulting 16-square F2 distribution matrix. Hover over specific squares to inspect phenotype outcomes based on independent assortment.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl border border-stone-200 shadow-sm p-6">
+                <!-- Parent controls selectors -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-xs">
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-150">
+                        <label class="block font-bold text-stone-700 mb-1.5">Parent 1 Genotype (Male/Pollen):</label>
+                        <select id="parent1-select" onchange="calculatePunnettSquare()" class="w-full bg-white border border-stone-300 p-2 rounded-md font-mono font-bold focus:ring-2 focus:ring-royal-500 focus:outline-none">
+                            <option value="AaBb" selected>AaBb (Heterozygous Round Yellow)</option>
+                            <option value="AABB">AABB (Homozygous Round Yellow)</option>
+                            <option value="aabb">aabb (Homozygous Wrinkled Green)</option>
+                            <option value="Aabb">Aabb (Round Green)</option>
+                            <option value="aaBb">aaBb (Wrinkled Yellow)</option>
+                            <option value="AaBB">AaBB</option>
+                            <option value="AABb">AABb</option>
+                        </select>
+                    </div>
+                    <div class="p-4 bg-stone-50 rounded-lg border border-stone-150">
+                        <label class="block font-bold text-stone-700 mb-1.5">Parent 2 Genotype (Female/Ovule):</label>
+                        <select id="parent2-select" onchange="calculatePunnettSquare()" class="w-full bg-white border border-stone-300 p-2 rounded-md font-mono font-bold focus:ring-2 focus:ring-royal-500 focus:outline-none">
+                            <option value="AaBb" selected>AaBb (Heterozygous Round Yellow)</option>
+                            <option value="AABB">AABB (Homozygous Round Yellow)</option>
+                            <option value="aabb">aabb (Homozygous Wrinkled Green)</option>
+                            <option value="Aabb">Aabb (Round Green)</option>
+                            <option value="aaBb">aaBb (Wrinkled Yellow)</option>
+                            <option value="AaBB">AaBB</option>
+                            <option value="AABb">AABb</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic Matrix Table Container -->
+                    <div class="lg:col-span-2 overflow-x-auto flex flex-col justify-center items-center py-2 bg-stone-50 rounded-lg border border-stone-200/55 p-4">
+                        <h4 class="text-xs font-extrabold text-stone-500 uppercase tracking-widest mb-4">16-Square Offspring Combinations</h4>
+                        <table class="border-collapse border-4 border-stone-300 font-mono text-center text-xs md:text-sm shadow-sm" id="punnett-table">
+                            <!-- Populated on load dynamically via script engine -->
+                        </table>
+                    </div>
+
+                    <!-- Stat Summary Distributions and Legend -->
+                    <div class="bg-stone-50 p-5 rounded-xl border border-stone-200 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xs font-extrabold text-stone-800 uppercase tracking-wider mb-3">Phenotypic Ratios</h3>
+                            <div class="text-[11px] text-stone-500 mb-4 bg-white p-2.5 rounded border border-stone-150">
+                                <strong>Assumed Phenotypic Traits:</strong><br>
+                                • Gene A: Shape (Dominant <strong>Round [A]</strong> vs Recessive <strong>Wrinkled [a]</strong>)<br>
+                                • Gene B: Color (Dominant <strong>Yellow [B]</strong> vs Recessive <strong>Green [b]</strong>)
+                            </div>
+                            <div id="punnett-ratio-box" class="space-y-2">
+                                <!-- Statistics templates loaded dynamically here -->
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-stone-200 text-[10px] text-stone-500 leading-relaxed">
+                            ⚠️ Note: Observed 9:3:3:1 distribution ratios strictly assume both gene loci are <strong>unlinked</strong> on separate chromosomes and assort independently.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 4: WRITTEN EXAM PREP -->
+        <div id="view-worksheet" class="tab-content max-w-5xl mx-auto">
+            <div class="mb-6">
+                <span class="text-[10px] font-black uppercase tracking-wider text-leaf-700 bg-leaf-100 px-3 py-1 rounded-full">Excellence Answer Builder</span>
+                <h2 class="text-2xl font-extrabold text-stone-900 mt-2.5">Interactive Written Practice Worksheet</h2>
+                <p class="text-stone-600 text-xs mt-1">
+                    Practice answering authentic NCEA exam questions. <span class="text-red-700 font-semibold">Anti-Cheat Mode:</span> Answers stuffed with lists of random words instead of full, connected sentences will be automatically flagged.
+                </p>
+            </div>
+
+            <!-- Q1: Meiosis & Variation -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-5 mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="w-7 h-7 rounded-full bg-leaf-100 text-leaf-700 flex items-center justify-center font-bold text-xs">Q1</span>
+                    <h3 class="font-extrabold text-stone-800 text-xs uppercase tracking-wide">Meiosis & Sources of Variation</h3>
+                </div>
+                <div class="bg-stone-50 p-3.5 rounded-lg text-xs text-stone-700 mb-4 border italic">
+                    "Explain how independent assortment, crossing over, and segregation cause genetic variation in gamete cells."
+                </div>
+                <textarea id="essay-q1" oninput="checkWrittenQ1()" rows="4" placeholder="Explain how crossing over rearranges homologous chromatid segments during Prophase I, how maternal/paternal chromosomes align at random along the cell equator, and how allele pairs segregate..." class="w-full border border-stone-300 rounded-lg p-3 text-xs focus:ring-2 focus:ring-leaf-500 focus:outline-none font-sans"></textarea>
+                <div id="q1-alert" class="hidden text-xs bg-red-100 text-red-800 p-2.5 rounded mt-2 border border-red-200 font-semibold">⚠️ Keyword Stuffing Detected: Please write in complete sentences using descriptive verbs.</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div class="bg-stone-50 p-4 rounded-lg text-xs">
+                        <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-2">Required Concepts Check:</span>
+                        <div class="flex flex-wrap gap-1.5" id="q1-check-badges"></div>
+                        <div class="mt-4 border-t pt-2 text-[10px] text-stone-600 space-y-1">
+                            <div id="q1-req-len" class="font-semibold text-red-600">❌ Under minimum 350 characters</div>
+                            <div id="q1-req-link" class="font-semibold text-red-600">❌ Missing consequence/linking words</div>
+                        </div>
+                    </div>
+                    <div class="bg-leaf-50 p-4 rounded-lg border border-leaf-100 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-leaf-800 uppercase tracking-wider">Estimated Score Rank:</span>
+                            <div class="text-xl font-black text-leaf-700 mt-1" id="q1-grade">Not Achieved (N)</div>
+                        </div>
+                        <p class="text-[11px] text-leaf-650 mt-1.5" id="q1-feedback">Begin by explaining the basic definitions of each process.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: Dihybrid Cross Expected Ratios -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-5 mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="w-7 h-7 rounded-full bg-leaf-100 text-leaf-700 flex items-center justify-center font-bold text-xs">Q2</span>
+                    <h3 class="font-extrabold text-stone-800 text-xs uppercase tracking-wide">Dihybrid Crosses & F1/F2 Phenotypic Ratios</h3>
+                </div>
+                <div class="bg-stone-50 p-3.5 rounded-lg text-xs text-stone-700 mb-4 border italic">
+                    "A cross between parents (AABB and aabb) produces an F1 generation. Discuss the expected phenotypic ratios of an F1 cross (AaBb x AaBb) if the genes are unlinked."
+                </div>
+                <textarea id="essay-q2" oninput="checkWrittenQ2()" rows="4" placeholder="Explain the expected 9:3:3:1 distribution resulting from independent assortment into four distinct gamete types (AB, Ab, aB, ab) and how they pair randomly at fertilization..." class="w-full border border-stone-300 rounded-lg p-3 text-xs focus:ring-2 focus:ring-leaf-500 focus:outline-none font-sans"></textarea>
+                <div id="q2-alert" class="hidden text-xs bg-red-100 text-red-800 p-2.5 rounded mt-2 border border-red-200 font-semibold">⚠️ Keyword Stuffing Detected: Use complete sentences.</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div class="bg-stone-50 p-4 rounded-lg text-xs">
+                        <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-2">Required Concepts Check:</span>
+                        <div class="flex flex-wrap gap-1.5" id="q2-check-badges"></div>
+                        <div class="mt-4 border-t pt-2 text-[10px] text-stone-600 space-y-1">
+                            <div id="q2-req-len" class="font-semibold text-red-600">❌ Under minimum 350 characters</div>
+                            <div id="q2-req-link" class="font-semibold text-red-600">❌ Missing consequence/linking words</div>
+                        </div>
+                    </div>
+                    <div class="bg-leaf-50 p-4 rounded-lg border border-leaf-100 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-leaf-800 uppercase tracking-wider">Estimated Score Rank:</span>
+                            <div class="text-xl font-black text-leaf-700 mt-1" id="q2-grade">Not Achieved (N)</div>
+                        </div>
+                        <p class="text-[11px] text-leaf-650 mt-1.5" id="q2-feedback">Explain how independent assortment creates four different types of gametes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3: NZ Conservation & Evolutionary Forces -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-5 mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="w-7 h-7 rounded-full bg-leaf-100 text-leaf-700 flex items-center justify-center font-bold text-xs">Q3</span>
+                    <h3 class="font-extrabold text-stone-800 text-xs uppercase tracking-wide">Conservation, Bottlenecks & Genetic Drift</h3>
+                </div>
+                <div class="bg-stone-50 p-3.5 rounded-lg text-xs text-stone-700 mb-4 border italic">
+                    "Discuss how genetic bottlenecks and genetic drift impact the genetic diversity of NZ native species gene pools (e.g., Kakapo)."
+                </div>
+                <textarea id="essay-q3" oninput="checkWrittenQ3()" rows="4" placeholder="Explain how sudden population crashes leave a small, unrepresentative survivor group, reducing total diversity and making them highly susceptible to genetic drift..." class="w-full border border-stone-300 rounded-lg p-3 text-xs focus:ring-2 focus:ring-leaf-500 focus:outline-none font-sans"></textarea>
+                <div id="q3-alert" class="hidden text-xs bg-red-100 text-red-800 p-2.5 rounded mt-2 border border-red-200 font-semibold">⚠️ Keyword Stuffing Detected: Use complete sentences.</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div class="bg-stone-50 p-4 rounded-lg text-xs">
+                        <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-2">Required Concepts Check:</span>
+                        <div class="flex flex-wrap gap-1.5" id="q3-check-badges"></div>
+                        <div class="mt-4 border-t pt-2 text-[10px] text-stone-600 space-y-1">
+                            <div id="q3-req-len" class="font-semibold text-red-600">❌ Under minimum 350 characters</div>
+                            <div id="q3-req-link" class="font-semibold text-red-600">❌ Missing consequence/linking words</div>
+                        </div>
+                    </div>
+                    <div class="bg-leaf-50 p-4 rounded-lg border border-leaf-100 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-leaf-800 uppercase tracking-wider">Estimated Score Rank:</span>
+                            <div class="text-xl font-black text-leaf-700 mt-1" id="q3-grade">Not Achieved (N)</div>
+                        </div>
+                        <p class="text-[11px] text-leaf-650 mt-1.5" id="q3-feedback">Make sure to discuss the risk of species extinction due to a lack of genetic diversity.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q4: Multiple Alleles -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-5 mb-6">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="w-7 h-7 rounded-full bg-leaf-100 text-leaf-700 flex items-center justify-center font-bold text-xs">Q4</span>
+                    <h3 class="font-extrabold text-stone-800 text-xs uppercase tracking-wide">Multiple Allele Inheritance Patterns</h3>
+                </div>
+                <div class="bg-stone-50 p-3.5 rounded-lg text-xs text-stone-700 mb-4 border italic">
+                    "Using a named example (such as human ABO blood groups), explain multiple alleles and compare this with complete dominance."
+                </div>
+                <textarea id="essay-q4" oninput="checkWrittenQ4()" rows="4" placeholder="Explain that while an individual only inherits two alleles (one from each parent), three or more allele options exist within the wider population..." class="w-full border border-stone-300 rounded-lg p-3 text-xs focus:ring-2 focus:ring-leaf-500 focus:outline-none font-sans"></textarea>
+                <div id="q4-alert" class="hidden text-xs bg-red-100 text-red-800 p-2.5 rounded mt-2 border border-red-200 font-semibold">⚠️ Keyword Stuffing Detected: Use complete sentences.</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div class="bg-stone-50 p-4 rounded-lg text-xs">
+                        <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-2">Required Concepts Check:</span>
+                        <div class="flex flex-wrap gap-1.5" id="q4-check-badges"></div>
+                        <div class="mt-4 border-t pt-2 text-[10px] text-stone-600 space-y-1">
+                            <div id="q4-req-len" class="font-semibold text-red-600">❌ Under minimum 350 characters</div>
+                            <div id="q4-req-link" class="font-semibold text-red-600">❌ Missing comparative words</div>
+                        </div>
+                    </div>
+                    <div class="bg-leaf-50 p-4 rounded-lg border border-leaf-100 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-leaf-800 uppercase tracking-wider">Estimated Score Rank:</span>
+                            <div class="text-xl font-black text-leaf-700 mt-1" id="q4-grade">Not Achieved (N)</div>
+                        </div>
+                        <p class="text-[11px] text-leaf-650 mt-1.5" id="q4-feedback">Detail the differences between codominance (Iᴬ, Iᴮ) and complete dominance (i).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q5: Lethal Alleles -->
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-5">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="w-7 h-7 rounded-full bg-leaf-100 text-leaf-700 flex items-center justify-center font-bold text-xs">Q5</span>
+                    <h3 class="font-extrabold text-stone-800 text-xs uppercase tracking-wide">Lethal Alleles & Modified Phenotypic Ratios</h3>
+                </div>
+                <div class="bg-stone-50 p-3.5 rounded-lg text-xs text-stone-700 mb-4 border italic">
+                    "Explain what lethal alleles are, and discuss how they alter expected Mendelian ratios in offspring (such as producing a 2:1 ratio instead of 3:1)."
+                </div>
+                <textarea id="essay-q5" oninput="checkWrittenQ5()" rows="4" placeholder="Explain that homozygous pairings cause embryonic mortality, removing that class entirely from live-born ratios..." class="w-full border border-stone-300 rounded-lg p-3 text-xs focus:ring-2 focus:ring-leaf-500 focus:outline-none font-sans"></textarea>
+                <div id="q5-alert" class="hidden text-xs bg-red-100 text-red-800 p-2.5 rounded mt-2 border border-red-200 font-semibold">⚠️ Keyword Stuffing Detected: Use complete sentences.</div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                    <div class="bg-stone-50 p-4 rounded-lg text-xs">
+                        <span class="text-[10px] font-bold text-stone-500 uppercase tracking-wider block mb-2">Required Concepts Check:</span>
+                        <div class="flex flex-wrap gap-1.5" id="q5-check-badges"></div>
+                        <div class="mt-4 border-t pt-2 text-[10px] text-stone-600 space-y-1">
+                            <div id="q5-req-len" class="font-semibold text-red-600">❌ Under minimum 350 characters</div>
+                            <div id="q5-req-link" class="font-semibold text-red-600">❌ Missing consequence/linking words</div>
+                        </div>
+                    </div>
+                    <div class="bg-leaf-50 p-4 rounded-lg border border-leaf-100 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-bold text-leaf-800 uppercase tracking-wider">Estimated Score Rank:</span>
+                            <div class="text-xl font-black text-leaf-700 mt-1" id="q5-grade">Not Achieved (N)</div>
+                        </div>
+                        <p class="text-[11px] text-leaf-650 mt-1.5" id="q5-feedback">Explain how the non-viable class shifts phenotypic observations in live populations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 5: 25 FLASHCARDS -->
+        <div id="view-vocab" class="tab-content max-w-3xl mx-auto text-center">
+            <div class="mb-6 text-left">
+                <span class="text-[10px] font-black uppercase tracking-wider text-leaf-700 bg-leaf-100 px-3 py-1 rounded-full">Active Recall</span>
+                <h2 class="text-2xl font-extrabold text-stone-900 mt-2.5">25 Key NCEA Genetic Vocabulary Terms</h2>
+                <p class="text-stone-600 text-xs mt-1">Review standard definitions for all structural genetics terminology.</p>
+            </div>
+            
+            <div class="flex flex-col items-center justify-center gap-5 mt-8">
+                <div class="w-full max-w-md h-64 cursor-pointer relative flashcard" id="flashcard-box" onclick="flipFlashcard()">
+                    <div class="flashcard-inner w-full h-full">
+                        <!-- Front of Card -->
+                        <div class="flashcard-front absolute inset-0 bg-white rounded-2xl shadow-md border-2 border-stone-200/80 p-8 flex flex-col justify-between transition-all duration-300 backface-hidden" id="card-front-shell">
+                            <span class="text-[10px] font-black text-stone-400 uppercase tracking-widest">Card <span id="card-idx-lbl">1/25</span></span>
+                            <h3 class="text-2xl font-black text-stone-800 my-auto" id="card-front-text">Loading Term...</h3>
+                            <span class="text-[11px] text-leaf-600 font-bold bg-leaf-50 py-1 px-3 rounded-full self-center">🔄 Click card to flip and view definition</span>
+                        </div>
+                        <!-- Back of Card -->
+                        <div class="flashcard-back absolute inset-0 bg-leaf-50 rounded-2xl shadow-md border-2 border-leaf-200 p-8 flex flex-col justify-between transition-all duration-300 backface-hidden" id="card-back-shell">
+                            <span class="text-[10px] font-black text-leaf-700 uppercase tracking-widest">NCEA Standard Definition</span>
+                            <p class="text-xs text-stone-700 font-bold leading-relaxed my-auto px-2" id="card-back-text">Loading description...</p>
+                            <span class="text-[11px] text-leaf-800 font-bold">🔄 Click card to flip back</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 items-center mt-2">
+                    <button onclick="prevFlashcard()" class="w-10 h-10 rounded-full border-2 border-stone-200 bg-white hover:bg-stone-100 flex items-center justify-center font-extrabold text-stone-700 shadow-sm transition-colors">&larr;</button>
+                    <span class="text-xs font-bold text-stone-600 min-w-[100px]" id="card-pagination-num">Card 1 / 25</span>
+                    <button onclick="nextFlashcard()" class="w-10 h-10 rounded-full border-2 border-stone-200 bg-white hover:bg-stone-100 flex items-center justify-center font-extrabold text-stone-700 shadow-sm transition-colors">&rarr;</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 6: 20-QUESTION PRACTICE TEST -->
+        <div id="view-quiz" class="tab-content max-w-4xl mx-auto">
+            <div class="mb-6">
+                <span class="text-[10px] font-black uppercase tracking-wider text-royal-700 bg-royal-100 px-3 py-1 rounded-full">Knowledge Check</span>
+                <h2 class="text-2xl font-extrabold text-stone-900 mt-2.5">20-Question Practice Examination</h2>
+                <p class="text-stone-600 text-xs mt-1">Simulate multiple-choice scenarios based on genetic and evolutionary variations.</p>
+            </div>
+            
+            <div class="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden" id="quiz-block">
+                <div class="p-4 bg-stone-50 border-b border-stone-200 flex justify-between items-center text-[10px] font-black">
+                    <span class="text-stone-500 uppercase tracking-widest">Question <span id="quiz-curr-idx">1</span> of 20</span>
+                    <span class="text-leaf-700 bg-leaf-100 px-3 py-1 rounded-full" id="quiz-live-score">Score: 0 / 20</span>
+                </div>
+                <div class="w-full h-1.5 bg-stone-100">
+                    <div class="h-full bg-leaf-600 transition-all duration-300" id="quiz-progress-line" style="width: 5%"></div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-sm font-black text-stone-900 mb-5 leading-snug" id="quiz-question-txt">Loading Question...</h3>
+                    <div class="grid grid-cols-1 gap-3" id="quiz-options-box">
+                        <!-- Options populated dynamically -->
+                    </div>
+                    <div id="quiz-feedback-box" class="mt-5 bg-leaf-50 border border-leaf-100 p-4 rounded-lg text-xs text-leaf-800 leading-relaxed hidden">
+                        <!-- Question commentary dynamic -->
+                    </div>
+                    <div class="mt-5 flex justify-end">
+                        <button id="quiz-next-btn" onclick="advanceQuiz()" class="bg-leaf-600 hover:bg-leaf-700 text-white font-bold text-xs px-5 py-2.5 rounded-lg hidden shadow">Next Question &rarr;</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Results Panel -->
+            <div id="quiz-completion-panel" class="bg-stone-900 text-white rounded-2xl p-8 text-center hidden border border-stone-800">
+                <span class="text-xl font-bold">Practice Exam Completed!</span>
+                <div class="text-5xl font-black text-leaf-400 my-6" id="quiz-final-score">0 / 20</div>
+                <div class="text-xs text-stone-400 max-w-sm mx-auto mb-6 bg-stone-800/40 p-4 rounded-lg border border-stone-800" id="quiz-final-grade">Achieved</div>
+                <button onclick="resetQuizTest()" class="bg-white text-stone-950 text-xs font-bold px-6 py-3 rounded-lg hover:bg-stone-100 transition-all">🔄 Restart Examination</button>
+            </div>
+        </div>
+
+        <!-- MODULE 7: CONCEPTS REFERENCE GUIDE -->
+        <div id="view-concepts" class="tab-content max-w-5xl mx-auto pb-12">
+            <h2 class="text-2xl font-extrabold text-stone-900 mb-5">Core Concepts Reference Guide</h2>
+            <div class="space-y-6">
+                
+                <!-- Topic 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="font-extrabold text-stone-800 text-sm mb-3 border-b pb-2 flex items-center gap-2">
+                        <span class="bg-leaf-100 text-leaf-800 rounded px-2 py-0.5">Topic 1</span> Mutations and the Gene Pool
+                    </h3>
+                    <div class="text-xs text-stone-600 space-y-2 leading-relaxed">
+                        <p><strong>Mutations</strong> are permanent, irreversible changes in the base sequence of DNA. They are the <strong>only</strong> source of brand new alleles in a species. They can be somatic or gametic:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Somatic Mutations:</strong> Occur in non-reproductive body cells (e.g. skin, organs). They only affect the individual and are not passed on to offspring.</li>
+                            <li><strong>Gametic Mutations:</strong> Occur in germline cells or gametes (sperm/egg). They can be inherited by offspring, introducing new alleles to the gene pool of the next generation.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="font-extrabold text-stone-800 text-sm mb-3 border-b pb-2 flex items-center gap-2">
+                        <span class="bg-ocean-100 text-ocean-800 rounded px-2 py-0.5">Topic 2</span> Meiotic Variation Mechanics
+                    </h3>
+                    <div class="text-xs text-stone-600 space-y-2 leading-relaxed">
+                        <p><strong>Meiosis</strong> shuffles existing alleles into unique combinations across gametes via three processes:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Crossing Over (Prophase I):</strong> Homologous chromosomes align side-by-side. Non-sister chromatids form chiasmata and exchange structural blocks. This breaks linkages and builds recombinant chromatids.</li>
+                            <li><strong>Independent Assortment (Metaphase I):</strong> Homologous chromosome pairs align randomly at the cellular equator. Which maternal or paternal chromosome goes to which side is completely independent of other pairs. This creates 2ⁿ combinations.</li>
+                            <li><strong>Segregation (Anaphase I & II):</strong> Spindle fibers separate homologous chromosomes and sister chromatids, forcing allele pairs to separate so each gamete ends up with exactly one allele per gene locus.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="font-extrabold text-stone-800 text-sm mb-3 border-b pb-2 flex items-center gap-2">
+                        <span class="bg-royal-100 text-royal-800 rounded px-2 py-0.5">Topic 3</span> Inheritance Patterns
+                    </h3>
+                    <div class="text-xs text-stone-600 space-y-2 leading-relaxed">
+                        <p>Genotype-to-phenotype ratios are altered by several distinct dominance mechanics:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Complete Dominance:</strong> The dominant allele fully masks the expression of the recessive allele in heterozygotes (3:1 ratio in heterozygote crosses).</li>
+                            <li><strong>Incomplete Dominance:</strong> Neither allele is fully dominant. Heterozygous individuals express a blended, intermediate phenotype (e.g., RR red, WW white, RW pink flowers; 1:2:1 ratio).</li>
+                            <li><strong>Co-dominance:</strong> Both alleles are dominant and independently, fully expressed in heterozygotes (e.g., roan cattle showing both red and white hairs; 1:2:1 ratio).</li>
+                            <li><strong>Multiple Alleles:</strong> More than two alleles exist at a single gene locus within a population (e.g. human ABO blood groups with alleles Iᴬ, Iᴮ, i), though any individual inherits only two.</li>
+                            <li><strong>Lethal Alleles:</strong> An allele pairing (typically homozygous recessive) that causes death in the womb, eliminating that phenotype category and shifting the live-born Mendelian ratio to 2:1.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Topic 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h3 class="font-extrabold text-stone-800 text-sm mb-3 border-b pb-2 flex items-center gap-2">
+                        <span class="bg-amber-100 text-amber-800 rounded px-2 py-0.5">Topic 4</span> Population Genetics & Evolutionary Forces
+                    </h3>
+                    <div class="text-xs text-stone-600 space-y-2 leading-relaxed">
+                        <p>The total collection of alleles in a breeding population is the <strong>gene pool</strong>. Allele frequencies fluctuate due to:</p>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Genetic Drift:</strong> Random changes in allele frequencies due to chance events, especially active in small populations.</li>
+                            <li><strong>Founder Effect:</strong> A tiny, unrepresentative pioneer group migrates and establishes a new colony, carrying a biased subset of the parent gene pool.</li>
+                            <li><strong>Bottleneck Effect:</strong> A severe, catastrophic event randomly collapses the population size, killing off massive numbers of individuals and permanently destroying genetic variation.</li>
+                            <li><strong>Natural Selection:</strong> Selective pressures (e.g. climate, predators, disease) favor advantageous phenotypes, increasing the frequency of helpful alleles.</li>
+                            <li><strong>Gene Flow:</strong> The exchange of alleles between populations via migration (immigration/emigration).</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- VIEW NAVIGATION CONTROLLER ---
+        const navItems = document.querySelectorAll('.nav-item');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                item.classList.add('active');
+                const targetId = item.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+                if(targetId === 'view-simulator') alleleChart.update();
+            });
+        });
+
+        // --- EVOLUTION / FOUNDER EFFECT GRAPH LOGIC ---
+        let generation = 0;
+        let alleleA = 50;
+        let historyLabels = ['Gen 0'];
+        let historyA = [50];
+        let history_a = [50];
+        let simMode = 'drift';
+
+        const ctx = document.getElementById('alleleChart').getContext('2d');
+        const alleleChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: historyLabels,
+                datasets: [
+                    { label: 'Allele A % (Dominant)', data: historyA, borderColor: '#16a34a', backgroundColor: 'rgba(22, 163, 74, 0.05)', borderWidth: 3, fill: true, tension: 0.15 },
+                    { label: 'Allele a % (Recessive)', data: history_a, borderColor: '#a8a29e', borderDash: [4, 4], borderWidth: 1.5, fill: false, tension: 0.15 }
+                ]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: { labels: { font: { family: 'Inter', weight: 'bold', size: 11 } } }
+                },
+                scales: { 
+                    y: { min: 0, max: 100, ticks: { callback: function(value) { return value + "%" } } } 
+                } 
+            }
+        });
+
+        const inputPop = document.getElementById('input-pop');
+        const inputMut = document.getElementById('input-mut');
+        const inputStart = document.getElementById('input-start-freq');
+        const lblPopSize = document.getElementById('lbl-pop-size');
+        const lblMutRate = document.getElementById('lbl-mut-rate');
+        const lblStartFreq = document.getElementById('lbl-start-freq');
+        
+        inputPop.addEventListener('input', () => {
+            const val = inputPop.value;
+            lblPopSize.innerText = val < 100 ? `${val} (Critically Small)` : `${val} (Large pool)`;
+        });
+        inputMut.addEventListener('input', () => { 
+            lblMutRate.innerText = `${(inputMut.value / 10).toFixed(1)}% / gen`; 
+        });
+        inputStart.addEventListener('input', () => {
+            lblStartFreq.innerText = `${inputStart.value}%`;
+            if (generation === 0) {
+                alleleA = parseInt(inputStart.value);
+                historyA[0] = alleleA;
+                history_a[0] = 100 - alleleA;
+                alleleChart.update();
+            }
+        });
+
+        document.getElementById('btn-drift').addEventListener('click', () => {
+            simMode = 'drift'; updateSimUI('🎲 Mode: Random Genetic Drift', 'Random sampling errors dictate allele fluctuations. Smaller populations see rapid fixation or loss.');
+        });
+        document.getElementById('btn-selection').addEventListener('click', () => {
+            simMode = 'selection'; updateSimUI('🦅 Mode: Directional Selection', 'Selection pressures actively eliminate recessive homozygotes, driving dominant allele counts upward.');
+        });
+        document.getElementById('btn-founder').addEventListener('click', () => {
+            simMode = 'founder';
+            inputPop.value = 10;
+            lblPopSize.innerText = '10 (Critically Small Colony Founder Group)';
+            alleleA = Math.random() > 0.5 ? 90 : 10; // Skewed pioneer gene profile
+            updateSimUI('🏝️ Event: Founder Colonization', 'A tiny pioneer subgroup splits away. This creates an instantly skewed starting gene pool compared to the original population.');
+            runSimGeneration();
+        });
+
+        function updateSimUI(title, desc) {
+            document.getElementById('sim-info-title').innerText = title;
+            document.getElementById('sim-info-desc').innerText = desc;
+        }
+
+        function runSimGeneration() {
+            if (alleleA >= 100 || alleleA <= 0) return;
+            generation++;
+            historyLabels.push(`G ${generation}`);
+
+            const popSize = parseInt(inputPop.value);
+            const mutRate = (parseInt(inputMut.value) / 10) / 100;
+
+            // Apply mutation pressure: recessive turns to dominant
+            if (alleleA < 100) { alleleA += (100 - alleleA) * mutRate; }
+
+            // Mode evolution logic equations
+            if (simMode === 'drift' || simMode === 'founder') {
+                const variance = Math.sqrt((alleleA * (100 - alleleA)) / popSize) * 2.5;
+                alleleA += (Math.random() - 0.5) * variance * 3;
+            } else if (simMode === 'selection') {
+                // Dominant A selected for, aa selected against
+                const s = 0.15; // Selection coefficient
+                const p = alleleA / 100;
+                const q = 1 - p;
+                const next_p = p / (1 - s * q * q);
+                alleleA = next_p * 100 + (Math.random() - 0.5) * 2;
+            }
+
+            alleleA = Math.max(0, Math.min(100, alleleA));
+            historyA.push(parseFloat(alleleA.toFixed(2)));
+            history_a.push(parseFloat((100 - alleleA).toFixed(2)));
+            alleleChart.update();
+            document.getElementById('sim-status-lbl').innerText = `Generations Logged: ${generation}`;
+        }
+
+        document.getElementById('btn-simulate').addEventListener('click', runSimGeneration);
+        document.getElementById('btn-sim-10').addEventListener('click', () => { for(let i=0; i<10; i++) runSimGeneration(); });
+        document.getElementById('btn-sim-50').addEventListener('click', () => { for(let i=0; i<50; i++) runSimGeneration(); });
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            generation = 0; 
+            alleleA = parseInt(inputStart.value); 
+            historyLabels.length = 0; 
+            historyA.length = 0; 
+            history_a.length = 0;
+            historyLabels.push('Gen 0'); 
+            historyA.push(alleleA); 
+            history_a.push(100 - alleleA); 
+            alleleChart.update();
+            document.getElementById('sim-status-lbl').innerText = `Generations Logged: 0`;
+        });
+
+        // --- MEIOSIS CELL INTERACTION SIMULATOR ENGINE ---
+        let currentMeiosisStage = 0;
+        function setMeiosisStage(stageIndex) {
+            currentMeiosisStage = stageIndex;
+            const buttons = document.querySelectorAll('.meiosis-step-btn');
+            buttons.forEach((b, idx) => {
+                b.className = idx === stageIndex 
+                    ? "meiosis-step-btn px-4 py-2 bg-leaf-50 border-b-2 border-leaf-600 text-leaf-700 font-bold transition-all" 
+                    : "meiosis-step-btn px-4 py-2 text-stone-500 hover:bg-stone-50 transition-all";
+            });
+            renderMeiosisGraphics();
+        }
+
+        function toggleMeiosisMechanisms() { renderMeiosisGraphics(); }
+
+        // Helper to generate a stylized HTML Chromatid column showing Gene A and Gene B bands
+        function createChromatidHTML(tag, colorA, colorB, labelA, labelB) {
+            return `
+                <div class="flex flex-col items-center gap-0.5 w-10">
+                    <span class="text-[8px] text-stone-400 font-bold font-mono">${tag}</span>
+                    <div class="w-7 border border-stone-900 rounded-full overflow-hidden flex flex-col bg-stone-900">
+                        <!-- Locus Gene A Band -->
+                        <div class="h-8 ${colorA} flex items-center justify-center text-[11px] font-black border-b border-stone-900/40 text-stone-950">
+                            ${labelA}
+                        </div>
+                        <!-- Centromere spacer -->
+                        <div class="h-1.5 bg-stone-900"></div>
+                        <!-- Locus Gene B Band -->
+                        <div class="h-8 ${colorB} flex items-center justify-center text-[11px] font-black text-stone-950">
+                            ${labelB}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMeiosisGraphics() {
+            const container = document.getElementById('meiosis-render-box');
+            const title = document.getElementById('meiosis-stage-title');
+            const desc = document.getElementById('meiosis-stage-desc');
+            const hint = document.getElementById('meiosis-impact-hint');
+            const cellMembrane = document.getElementById('cell-membrane');
+            const analysisBox = document.getElementById('meiosis-dynamic-analysis');
+
+            const isCrossed = document.getElementById('chk-crossing').checked;
+            const isFlipped = document.getElementById('chk-assortment').checked;
+
+            // Colors representing maternal (emerald-green/light-green) & paternal (red/orange)
+            const mColor = "bg-emerald-400";
+            const pColor = "bg-red-400";
+
+            container.innerHTML = "";
+            cellMembrane.className = "relative w-full max-w-xl min-h-[260px] border-2 border-stone-800 rounded-full flex items-center justify-center bg-stone-950/40 p-4 transition-all duration-500";
+
+            if (currentMeiosisStage === 0) {
+                title.innerText = "Prophase I: Homologous Pairing & Synapsis";
+                desc.innerText = "Maternal and paternal homologous chromosome pairs find each other and pair up. Adjusting 'Crossing Over' models the physical swapping of non-sister chromatid segments at chiasmata.";
+                hint.innerText = "Crossing over scrambles maternal and paternal alleles, breaking gene linkages to create recombinant chromosomes.";
+                
+                // Left Homologous (Maternal) - 2 chromatids
+                const matChr1_A_color = mColor;
+                const matChr1_B_color = mColor;
+                const matChr2_A_color = mColor;
+                const matChr2_B_color = isCrossed ? pColor : mColor; 
+                const matChr2_B_label = isCrossed ? "b" : "B";
+
+                // Right Homologous (Paternal) - 2 chromatids
+                const patChr3_A_color = pColor;
+                const patChr3_B_color = isCrossed ? mColor : pColor; 
+                const patChr3_B_label = isCrossed ? "B" : "b";
+                const patChr4_A_color = pColor;
+                const patChr4_B_color = pColor;
+
+                container.innerHTML = `
+                    <div class="flex gap-8 items-center bg-stone-900/40 p-4 rounded-3xl border border-stone-800 shadow-xl">
+                        <!-- Maternal Chromosome -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] font-bold text-emerald-400 mb-1">Maternal Homologue</span>
+                            <div class="flex gap-1">
+                                ${createChromatidHTML("Sister 1", matChr1_A_color, matChr1_B_color, "A", "B")}
+                                ${createChromatidHTML("Sister 2", matChr2_A_color, matChr2_B_color, "A", matChr2_B_label)}
+                            </div>
+                        </div>
+                        
+                        <!-- Chiasma indicator -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs text-stone-500 font-extrabold">${isCrossed ? '🔗 Chiasma' : '||'}</span>
+                            <span class="text-[9px] text-stone-600">${isCrossed ? 'Swapped' : 'Parallel'}</span>
+                        </div>
+
+                        <!-- Paternal Chromosome -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] font-bold text-red-400 mb-1">Paternal Homologue</span>
+                            <div class="flex gap-1">
+                                ${createChromatidHTML("Sister 3", patChr3_A_color, patChr3_B_color, "a", patChr3_B_label)}
+                                ${createChromatidHTML("Sister 4", patChr4_A_color, patChr4_B_color, "a", "b")}
+                            </div>
+                        </div>
+                    </div>`;
+
+                analysisBox.innerHTML = `
+                    <p><strong>Allele Movement:</strong> Homologous chromosomes are paired. Allele complexes A-B and a-b lie side-by-side.</p>
+                    <p><strong>Variation Impact:</strong> ${isCrossed ? '<strong>Crossing over is active!</strong> Non-sister chromatids have exchanged the Gene B locus. This splits linked alleles, transforming maternal copy S2 from A-B to recombinant <strong>A-b</strong>, and paternal copy S3 from a-b to recombinant <strong>a-B</strong>.' : 'No crossing over active. Alleles remain in their original parental configurations (A-B and a-b). Chromatid linkages are unbroken.'}</p>
+                `;
+
+            } else if (currentMeiosisStage === 1) {
+                title.innerText = "Metaphase I: Independent Assortment";
+                desc.innerText = "Homologous chromosome pairs align randomly on either side of the cell equator. Toggling 'Flip Alignment' models Independent Assortment, randomizing which homologue heads to which pole.";
+                hint.innerText = "The chromosome alignment sets up which alleles migrate together during division.";
+                
+                // Define chromatids for both homologues
+                const maternalGroup = `
+                    <div class="flex flex-col items-center p-2 bg-emerald-950/20 rounded-xl border border-emerald-900/30">
+                        <span class="text-[8px] font-bold text-emerald-400">Maternal (Chr 1)</span>
+                        <div class="flex gap-1 mt-1">
+                            ${createChromatidHTML("S1", mColor, mColor, "A", "B")}
+                            ${createChromatidHTML("S2", mColor, isCrossed ? pColor : mColor, "A", isCrossed ? "b" : "B")}
+                        </div>
+                    </div>`;
+
+                const paternalGroup = `
+                    <div class="flex flex-col items-center p-2 bg-red-950/20 rounded-xl border border-red-900/30">
+                        <span class="text-[8px] font-bold text-red-400">Paternal (Chr 2)</span>
+                        <div class="flex gap-1 mt-1">
+                            ${createChromatidHTML("S3", pColor, isCrossed ? mColor : pColor, "a", isCrossed ? "B" : "b")}
+                            ${createChromatidHTML("S4", pColor, pColor, "a", "b")}
+                        </div>
+                    </div>`;
+
+                container.innerHTML = `
+                    <div class="w-full flex flex-col items-center gap-4">
+                        <div class="h-0.5 w-full bg-stone-800 border-dashed border border-stone-700 flex justify-center items-center">
+                            <span class="bg-stone-950 px-3 text-[9px] text-stone-500 tracking-widest font-mono font-bold">METAPHASE EQUATOR</span>
+                        </div>
+                        <div class="flex gap-16 justify-center items-center">
+                            ${isFlipped ? paternalGroup : maternalGroup}
+                            <div class="text-xl text-stone-600 font-extrabold">↔</div>
+                            ${isFlipped ? maternalGroup : paternalGroup}
+                        </div>
+                    </div>`;
+
+                analysisBox.innerHTML = `
+                    <p><strong>Allele Movement:</strong> Homologous pairs line up on the equator. Maternal alleles (A/B) and paternal alleles (a/b) are aligned.</p>
+                    <p><strong>Variation Impact:</strong> ${isFlipped ? 'The homologous alignment is flipped! Paternal chromosome is sorting to the left pole, and maternal chromosome to the right. This random shuffling dictates which combination of traits will be grouped together.' : 'Default alignment is active. Maternal traits sort to the left pole, paternal to the right. Shuffling alignment yields diverse gamete pairings.'}</p>
+                `;
+
+            } else if (currentMeiosisStage === 2) {
+                title.innerText = "Anaphase I: Segregation of Alleles";
+                desc.innerText = "Spindle fibers contract, separating homologous pairs to opposite poles. Homologous allele pairs segregate, meaning each resulting daughter cell will inherit only one allele per locus.";
+                hint.innerText = "Because whole chromosomes are segregated, each pole inherits a unique assortment of maternal and paternal alleles.";
+
+                const maternalGroup = `
+                    <div class="flex gap-1 bg-emerald-950/20 p-2 rounded-lg border border-emerald-900/40">
+                        ${createChromatidHTML("S1", mColor, mColor, "A", "B")}
+                        ${createChromatidHTML("S2", mColor, isCrossed ? pColor : mColor, "A", isCrossed ? "b" : "B")}
+                    </div>`;
+
+                const paternalGroup = `
+                    <div class="flex gap-1 bg-red-950/20 p-2 rounded-lg border border-red-900/40">
+                        ${createChromatidHTML("S3", pColor, isCrossed ? mColor : pColor, "a", isCrossed ? "B" : "b")}
+                        ${createChromatidHTML("S4", pColor, pColor, "a", "b")}
+                    </div>`;
+
+                container.innerHTML = `
+                    <div class="flex items-center justify-between w-full px-4 gap-2">
+                        <!-- Left Pole -->
+                        <div class="flex flex-col items-center gap-1">
+                            <span class="text-[9px] font-bold text-stone-400">Pole A</span>
+                            ${isFlipped ? paternalGroup : maternalGroup}
+                        </div>
+                        
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] text-stone-500 font-mono font-bold">&larr; Separating &rarr;</span>
+                            <div class="w-16 h-0.5 bg-stone-800"></div>
+                        </div>
+                        
+                        <!-- Right Pole -->
+                        <div class="flex flex-col items-center gap-1">
+                            <span class="text-[9px] font-bold text-stone-400">Pole B</span>
+                            ${isFlipped ? maternalGroup : paternalGroup}
+                        </div>
+                    </div>`;
+
+                analysisBox.innerHTML = `
+                    <p><strong>Allele Movement:</strong> Spindle fibers contract, separating allele pairs. Gene A locus (A/a) and Gene B locus (B/b) have separated.</p>
+                    <p><strong>Variation Impact:</strong> Homologous allele pairs segregate. The left side receives a single-allele cluster, and the right side receives its homologous alternative. This ensures gametes remain haploid.</p>
+                `;
+
+            } else if (currentMeiosisStage === 3) {
+                title.innerText = "Meiosis II: Chromatid Separation";
+                desc.innerText = "Both daughter cells divide again. Spindle fibers pull individual sister chromatids apart. Sister chromatids are now individual chromosomes in their own right.";
+                hint.innerText = "Notice how crossing over makes chromatids non-identical. When they separate, it generates further distinct genetic combinations.";
+                
+                cellMembrane.className = "relative w-full max-w-xl min-h-[300px] border-2 border-stone-800 rounded-full flex items-center justify-center bg-stone-950/40 p-4 transition-all duration-500 gap-6 flex-col";
+
+                // Cell L contains whatever sorted left in Metaphase/Anaphase
+                const leftChrA_1_A = isFlipped ? pColor : mColor;
+                const leftChrA_1_B = isFlipped ? (isCrossed ? mColor : pColor) : mColor;
+                const leftChrA_1_labelA = isFlipped ? "a" : "A";
+                const leftChrA_1_labelB = isFlipped ? (isCrossed ? "B" : "b") : "B";
+
+                const leftChrA_2_A = isFlipped ? pColor : mColor;
+                const leftChrA_2_B = pColor;
+                const leftChrA_2_labelA = isFlipped ? "a" : "A";
+                const leftChrA_2_labelB = isFlipped ? "b" : (isCrossed ? "b" : "B");
+
+                // Cell R contains whatever sorted right
+                const rightChrB_1_A = isFlipped ? mColor : pColor;
+                const rightChrB_1_B = isFlipped ? mColor : (isCrossed ? mColor : pColor);
+                const rightChrB_1_labelA = isFlipped ? "A" : "a";
+                const rightChrB_1_labelB = isFlipped ? "B" : (isCrossed ? "B" : "b");
+
+                const rightChrB_2_A = isFlipped ? mColor : pColor;
+                const rightChrB_2_B = isFlipped ? (isCrossed ? pColor : mColor) : pColor;
+                const rightChrB_2_labelA = isFlipped ? "A" : "a";
+                const rightChrB_2_labelB = isFlipped ? (isCrossed ? "b" : "B") : "b";
+
+                container.innerHTML = `
+                    <div class="grid grid-cols-2 gap-4 w-full">
+                        <!-- Cell 1 (Left sorting products) -->
+                        <div class="border border-stone-800 bg-stone-900/50 p-3 rounded-2xl flex flex-col items-center">
+                            <span class="text-[9px] text-stone-400 font-bold mb-2">Cell 1</span>
+                            <div class="flex gap-4">
+                                ${createChromatidHTML("Chr 1", leftChrA_1_A, leftChrA_1_B, leftChrA_1_labelA, leftChrA_1_labelB)}
+                                ${createChromatidHTML("Chr 2", leftChrA_2_A, leftChrA_2_B, leftChrA_2_labelA, leftChrA_2_labelB)}
+                            </div>
+                        </div>
+                        
+                        <!-- Cell 2 (Right sorting products) -->
+                        <div class="border border-stone-800 bg-stone-900/50 p-3 rounded-2xl flex flex-col items-center">
+                            <span class="text-[9px] text-stone-400 font-bold mb-2">Cell 2</span>
+                            <div class="flex gap-4">
+                                ${createChromatidHTML("Chr 3", rightChrB_1_A, rightChrB_1_B, rightChrB_1_labelA, rightChrB_1_labelB)}
+                                ${createChromatidHTML("Chr 4", rightChrB_2_A, rightChrB_2_B, rightChrB_2_labelA, rightChrB_2_labelB)}
+                            </div>
+                        </div>
+                    </div>`;
+
+                analysisBox.innerHTML = `
+                    <p><strong>Allele Movement:</strong> Double-chromatid structures split. Individual chromatids are pulled apart into four single units.</p>
+                    <p><strong>Variation Impact:</strong> ${isCrossed ? '<strong>Recombinant separation:</strong> Chromatids are non-identical due to crossing over in Prophase I. Their final separation in Meiosis II guarantees that all four resulting gamete tracks possess unique genetic sequences.' : 'Chromatid lines are separated. Because crossing over did not occur, sister chromatids are identical, reducing the maximum diversity of the final gametes.'}</p>
+                `;
+
+            } else {
+                title.innerText = "Final Step: Four Genetically Unique Haploid Gametes";
+                desc.innerText = "Cell division concludes, producing four haploid gametes. If crossing over occurred, all four gametes carry completely unique combinations of alleles.";
+                hint.innerText = "Compare the allele labels in each gamete! You now have a complete mixture of parental variations ready for random fertilization.";
+                
+                cellMembrane.className = "relative w-full max-w-xl min-h-[260px] border-2 border-stone-800 rounded-full flex items-center justify-center bg-stone-950/40 p-2 transition-all duration-500";
+
+                // Setup gamete combinations dynamically
+                let gametes = [];
+                if (!isFlipped) {
+                    // Left maternal, Right paternal
+                    gametes.push({ name: "Gamete 1", colorA: mColor, colorB: mColor, a: "A", b: "B" });
+                    gametes.push({ name: "Gamete 2", colorA: mColor, colorB: isCrossed ? pColor : mColor, a: "A", b: isCrossed ? "b" : "B" });
+                    gametes.push({ name: "Gamete 3", colorA: pColor, colorB: isCrossed ? mColor : pColor, a: "a", b: isCrossed ? "B" : "b" });
+                    gametes.push({ name: "Gamete 4", colorA: pColor, colorB: pColor, a: "a", b: "b" });
+                } else {
+                    // Left paternal, Right maternal
+                    gametes.push({ name: "Gamete 1", colorA: pColor, colorB: isCrossed ? mColor : pColor, a: "a", b: isCrossed ? "B" : "b" });
+                    gametes.push({ name: "Gamete 2", colorA: pColor, colorB: pColor, a: "a", b: "b" });
+                    gametes.push({ name: "Gamete 3", colorA: mColor, colorB: mColor, a: "A", b: "B" });
+                    gametes.push({ name: "Gamete 4", colorA: mColor, colorB: isCrossed ? pColor : mColor, a: "A", b: isCrossed ? "b" : "B" });
+                }
+
+                let gametesHTML = `<div class="grid grid-cols-4 gap-2 w-full">`;
+                gametes.forEach(g => {
+                    gametesHTML += `
+                        <div class="flex flex-col items-center bg-stone-900/60 p-2 rounded-xl border border-stone-800 shadow-lg">
+                            <span class="text-[8px] text-stone-400 font-extrabold mb-1">${g.name}</span>
+                            ${createChromatidHTML("Haploid", g.colorA, g.colorB, g.a, g.b)}
+                        </div>`;
+                });
+                gametesHTML += `</div>`;
+                container.innerHTML = gametesHTML;
+
+                analysisBox.innerHTML = `
+                    <p><strong>Allele Movement:</strong> Meiosis complete. Four haploid gametes are formed, each carrying exactly one allele for Gene A and Gene B.</p>
+                    <p><strong>Variation Impact:</strong> ${isCrossed ? '<strong>Maximum genetic diversity!</strong> Due to crossing over and independent assortment, we have four distinct genetic profiles: Parental (A-B and a-b) alongside Recombinants (A-b and a-B).' : 'Reduced genetic diversity. Since crossing over was skipped, we only have the parental combinations (A-B and a-b).'}</p>
+                `;
+            }
+        }
+        setMeiosisStage(0);
+
+        // --- INTERACTIVE DIHYBRID PUNNETT SQUARE ENGINES ---
+        function calculatePunnettSquare() {
+            const p1 = document.getElementById('parent1-select').value;
+            const p2 = document.getElementById('parent2-select').value;
+            const table = document.getElementById('punnett-table');
+
+            function getGametes(genotype) {
+                const alleles1 = [genotype[0], genotype[1]]; // A, a
+                const alleles2 = [genotype[2], genotype[3]]; // B, b
+                return [
+                    alleles1[0] + alleles2[0], // AB
+                    alleles1[0] + alleles2[1], // Ab
+                    alleles1[1] + alleles2[0], // aB
+                    alleles1[1] + alleles2[1]  // ab
+                ];
+            }
+
+            const g1 = getGametes(p1);
+            const g2 = getGametes(p2);
+
+            let html = `<tr><th class="p-2 bg-stone-100 border border-stone-300">♂ \\ ♀</th>`;
+            g2.forEach(gamete => { html += `<th class="p-2 bg-stone-100 border border-stone-300 text-royal-700 font-bold">${gamete}</th>`; });
+            html += `</tr>`;
+
+            const phenotypeCounts = { "Both Dominant (A_B_): Round Yellow": 0, "Dominant A, Recessive b (A_bb): Round Green": 0, "Recessive a, Dominant b (aaB_): Wrinkled Yellow": 0, "Both Recessive (aabb): Wrinkled Green": 0 };
+
+            g1.forEach(gam1 => {
+                html += `<tr><th class="p-2 bg-stone-100 border border-stone-300 text-royal-700 font-bold">${gam1}</th>`;
+                g2.forEach(gam2 => {
+                    const aArr = [gam1[0], gam2[0]].sort();
+                    const bArr = [gam1[1], gam2[1]].sort();
+                    const zygote = aArr[0] + aArr[1] + bArr[0] + bArr[1];
+
+                    const hasA = zygote.includes('A');
+                    const hasB = zygote.includes('B');
+                    let phenoClass = "";
+                    let bgStyle = "";
+
+                    if (hasA && hasB) { phenoClass = "Both Dominant (A_B_): Round Yellow"; bgStyle = "bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100"; }
+                    else if (hasA && !hasB) { phenoClass = "Dominant A, Recessive b (A_bb): Round Green"; bgStyle = "bg-blue-50 text-blue-900 border-blue-300 hover:bg-blue-100"; }
+                    else if (!hasA && hasB) { phenoClass = "Recessive a, Dominant b (aaB_): Wrinkled Yellow"; bgStyle = "bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100"; }
+                    else { phenoClass = "Both Recessive (aabb): Wrinkled Green"; bgStyle = "bg-red-50 text-red-900 border-red-300 hover:bg-red-100"; }
+
+                    phenotypeCounts[phenoClass]++;
+
+                    html += `<td class="p-3 border border-stone-300 font-bold tracking-wider hover:scale-105 transition-all cursor-crosshair ${bgStyle}" title="Phenotype category: ${phenoClass}">${zygote}</td>`;
+                });
+                html += `</tr>`;
+            });
+
+            table.innerHTML = html;
+
+            // Generate phenotypic stats summary panel
+            const ratioBox = document.getElementById('punnett-ratio-box');
+            ratioBox.innerHTML = "";
+            for (let pheno in phenotypeCounts) {
+                const count = phenotypeCounts[pheno];
+                const pct = ((count / 16) * 100).toFixed(1);
+                ratioBox.innerHTML += `
+                    <div class="flex justify-between items-center text-xs p-2 border-b bg-white rounded px-3 shadow-xs">
+                        <span class="font-semibold text-stone-700">${pheno.split(':')[1]}</span>
+                        <span class="font-extrabold text-stone-900">${count}/16 (${pct}%)</span>
+                    </div>`;
+            }
+        }
+        calculatePunnettSquare();
+
+        // --- WRITTEN PRACTICE AUTOMARKER ENGINE (ANTI-STUFFING STRICTIONS) ---
+        function isStrictKeywordStuffed(text) {
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+            if (words.length < 15) return false;
+            const structuralConnectors = words.filter(w => ["is", "are", "the", "and", "to", "by", "leads", "causes", "because", "resulting", "occurs"].includes(w.toLowerCase()));
+            return structuralConnectors.length < (words.length * 0.12);
+        }
+
+        const q1KeyConcepts = { "Homologous pairs align": ["homologous", "chromosome pairs"], "Crossing over segments": ["crossing over", "exchange", "chiasmata"], "Independent assortment equator": ["independent assortment", "random", "equator"], "Segregation of alleles": ["segregation", "separate allele"] };
+        const q2KeyConcepts = { "F1 heterozygous profile": ["f1", "heterozygous", "aabb"], "9:3:3:1 Phenotypic Ratio": ["9:3:3:1", "nine to three"], "Independent assortment rules": ["assort", "independent"], "Four unique gametes": ["gametes", "ab", "combinations"] };
+        const q3KeyConcepts = { "Population crash limits": ["bottleneck", "crash", "decline"], "Drift random loss factors": ["drift", "random", "loss"], "Vulnerability risks": ["diversity", "susceptible", "disease"], "Human cross preservation": ["translocation", "breeding", "flow"] };
+        const q4KeyConcepts = { "Three or more choices": ["three", "more than two"], "Dominance structural rank": ["hierarchy", "codominant"], "Zygote carrying boundaries": ["only inherit two", "carries two"], "Complete dominance variance": ["complete dominance", "contrast"] };
+        const q5KeyConcepts = { "Homozygous lethal pairings": ["homozygous", "lethal allele"], "Developmental fetal arrest": ["embryonic", "dies", "development"], "Shifted Mendelian ratios": ["2:1", "altered", "ratio"] };
+
+        const standardConnectors = ["leads to", "consequently", "therefore", "results in", "because", "due to"];
+        const contrastConnectors = ["whereas", "compared to", "unlike", "instead of", "while"];
+
+        function evaluateEssayText(text, conceptsMap, badgeId, alertId, lenId, linkId, gradeId, feedbackId, connectors, lengthBound = 350) {
+            text = text.toLowerCase();
+            let matches = 0;
+            const container = document.getElementById(badgeId);
+            container.innerHTML = "";
+
+            for (let concept in conceptsMap) {
+                const found = conceptsMap[concept].some(phrase => text.includes(phrase));
+                const badge = document.createElement('span');
+                if (found) {
+                    matches++;
+                    badge.className = "text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 font-semibold shadow-xs";
+                    badge.innerText = `✅ ${concept}`;
+                } else {
+                    badge.className = "text-[10px] px-2 py-0.5 rounded bg-stone-150 text-stone-400 border border-stone-200";
+                    badge.innerText = concept;
+                }
+                container.appendChild(badge);
+            }
+
+            const lenOk = text.length >= lengthBound;
+            const linkOk = connectors.some(c => text.includes(c));
+            const stuffed = isStrictKeywordStuffed(text);
+
+            document.getElementById(lenId).innerHTML = lenOk ? `✅ Minimum ${lengthBound} characters met` : `❌ Under minimum ${lengthBound} characters`;
+            document.getElementById(linkId).innerHTML = linkOk ? '✅ Transitional/Linking links verified' : '❌ Missing transitional/linking words';
+            document.getElementById(alertId).style.display = stuffed ? "block" : "none";
+
+            const gEl = document.getElementById(gradeId);
+            const fEl = document.getElementById(feedbackId);
+
+            if (text.length < 40 || stuffed) { gEl.innerText = "Not Achieved (N)"; fEl.innerText = "Write complete sentences explaining how these processes occur and connect your ideas."; return 0; }
+            if (matches >= 4 && lenOk && linkOk) { gEl.innerText = "Excellence (E)"; fEl.innerText = "Superb! Clear linking of physical processes directly to the biological consequences of variation."; return 3; }
+            if (matches >= 2 && text.length > 200) { gEl.innerText = "Merit (M)"; fEl.innerText = "Good explanation. Link your points together with more consequence words to aim for Excellence."; return 2; }
+            gEl.innerText = "Achieved (A)"; fEl.innerText = "Achieved. Core biological facts are present. Now expand on the direct genetic consequences."; return 1;
+        }
+
+        function checkWrittenQ1() { evaluateEssayText(document.getElementById('essay-q1').value, q1KeyConcepts, 'q1-check-badges', 'q1-alert', 'q1-req-len', 'q1-req-link', 'q1-grade', 'q1-feedback', standardConnectors); }
+        function checkWrittenQ2() { evaluateEssayText(document.getElementById('essay-q2').value, q2KeyConcepts, 'q2-check-badges', 'q2-alert', 'q2-req-len', 'q2-req-link', 'q2-grade', 'q2-feedback', standardConnectors); }
+        function checkWrittenQ3() { evaluateEssayText(document.getElementById('essay-q3').value, q3KeyConcepts, 'q3-check-badges', 'q3-alert', 'q3-req-len', 'q3-req-link', 'q3-grade', 'q3-feedback', standardConnectors); }
+        function checkWrittenQ4() { evaluateEssayText(document.getElementById('essay-q4').value, q4KeyConcepts, 'q4-check-badges', 'q4-alert', 'q4-req-len', 'q4-req-link', 'q4-grade', 'q4-feedback', contrastConnectors); }
+        function checkWrittenQ5() { evaluateEssayText(document.getElementById('essay-q5').value, q5KeyConcepts, 'q5-check-badges', 'q5-alert', 'q5-req-len', 'q5-req-link', 'q5-grade', 'q5-feedback', standardConnectors); }
+
+        // --- FLASHCARDS SYSTEM DATA ---
+        const flashcardsData = [
+            { front: "Allele", back: "An alternative form of a gene, created by differences in the DNA base sequence." },
+            { front: "Mutation", back: "A permanent change in the base sequence of DNA. This is the only source of entirely new alleles." },
+            { front: "Meiosis", back: "Cell division that produces four genetically unique haploid gametes with half the chromosome number of the parent cell." },
+            { front: "Independent Assortment", back: "The random sorting and orientation of homologous chromosome pairs along the cell equator during Metaphase I." },
+            { front: "Crossing Over", back: "The exchange of genetic segments between non-sister chromatids of homologous chromosomes during Prophase I, breaking gene linkages." },
+            { front: "Segregation", back: "The process by which homologous chromosomes separate during division, ensuring each gamete receives only one allele for each gene locus." },
+            { front: "Gamete", back: "A haploid sex cell (sperm, egg, pollen, ovule) carrying genetic material for sexual reproduction." },
+            { front: "Somatic Mutation", back: "A mutation that occurs in a non-reproductive body cell. It is not passed on to descendants." },
+            { front: "Gametic Mutation", back: "A mutation that occurs in a sex cell or germline. It can be passed to future generations and enter the gene pool." },
+            { front: "Founder Effect", back: "When a small, unrepresentative group colonizes a new habitat, establishing a unique gene pool with skewed allele frequencies." },
+            { front: "Bottleneck Effect", back: "A catastrophic population drop that randomly wipes out alleles, leaving a small group with significantly reduced genetic diversity." },
+            { front: "Natural Selection", back: "The process by which organisms with favorable traits survive to reproduce, passing on those beneficial alleles to the next generation." },
+            { front: "Complete Dominance", back: "An inheritance pattern where the dominant allele completely masks the recessive allele in heterozygous individuals." },
+            { front: "Co-dominance", back: "An inheritance pattern where both alleles are fully and independently expressed in the phenotype of heterozygous individuals." },
+            { front: "Incomplete Dominance", back: "An inheritance pattern where neither allele is completely dominant, resulting in a blended, intermediate phenotype in heterozygotes." },
+            { front: "Multiple Alleles", back: "When three or more alternative alleles exist for a single gene locus within a population, though an individual inherits only two." },
+            { front: "Lethal Alleles", back: "Allele combinations (usually homozygous recessive) that cause embryonic death, removing that genetic class from phenotypic outcomes." },
+            { front: "Dihybrid Cross", back: "A genetic cross examining the inheritance of two separate, unlinked traits simultaneously." },
+            { front: "Monohybrid Cross", back: "A genetic cross examining the inheritance of a single trait." },
+            { front: "Gene Pool", back: "The total set of genes and alleles present in a population at any given time." },
+            { front: "Allele Frequency", back: "The proportion or percentage of a specific allele relative to all alleles at that locus in a gene pool." },
+            { front: "Genetic Drift", back: "Random fluctuations in allele frequencies from generation to generation, caused by chance events in small populations." },
+            { front: "Linked Genes", back: "Genes located close together on the same chromosome that tend to be inherited together unless separated by crossing over." },
+            { front: "Unlinked Genes", back: "Genes located on different chromosomes (or far apart on the same chromosome) that assort independently during meiosis." },
+            { front: "Pedigree Chart", back: "A diagram showing the occurrence of phenotypes across generations of a family." }
+        ];
+
+        let currentCardIndex = 0;
+        function flipFlashcard() {
+            const card = document.getElementById('flashcard-box');
+            card.classList.toggle('flipped');
+        }
+
+        function updateCardUI() {
+            const card = flashcardsData[currentCardIndex];
+            document.getElementById('card-front-text').innerText = card.front;
+            document.getElementById('card-back-text').innerText = card.back;
+            document.getElementById('card-idx-lbl').innerText = `${currentCardIndex + 1}/${flashcardsData.length}`;
+            document.getElementById('card-pagination-num').innerText = `Card ${currentCardIndex + 1} / ${flashcardsData.length}`;
+        }
+        function nextFlashcard() { 
+            document.getElementById('flashcard-box').classList.remove('flipped');
+            currentCardIndex = (currentCardIndex + 1) % flashcardsData.length; 
+            setTimeout(updateCardUI, 150); 
+        }
+        function prevFlashcard() { 
+            document.getElementById('flashcard-box').classList.remove('flipped');
+            currentCardIndex = (currentCardIndex - 1 + flashcardsData.length) % flashcardsData.length; 
+            setTimeout(updateCardUI, 150); 
+        }
+        updateCardUI();
+
+        // --- 20 QUESTIONS PRACTICE TEST ---
+        const examQuestions = [
+            { q: "What is the primary function of crossing over in meiosis?", options: ["To reduce the ploidy level from diploid to haploid", "To create entirely new alleles in the gene pool", "To swap genetic segments and produce recombinant chromosomes", "To speed up chromosome alignment along the equator"], correct: 2, exp: "Crossing over swaps segments between homologous maternal and paternal chromatids, creating unique recombinant chromosomes." },
+            { q: "Where can a somatic mutation occur?", options: ["Sperm cells", "Egg cells", "Skin and muscle cells", "Germline tissue"], correct: 2, exp: "Somatic mutations occur strictly in non-reproductive body cells and are not inherited by offspring." },
+            { q: "Independent assortment occurs during which phase of meiosis?", options: ["Prophase I", "Metaphase I", "Anaphase II", "Telophase I"], correct: 1, exp: "Homologous chromosome pairs align randomly at the equator during Metaphase I before separating." },
+            { q: "Which process is the ONLY way to create entirely brand new alleles?", options: ["Segregation", "Independent assortment", "Random fertilization", "Mutation"], correct: 3, exp: "Meiosis reshuffles pre-existing alleles; only mutations modify the DNA base sequence to create brand new alleles." },
+            { q: "In incomplete dominance, crossing a red flower (RR) with a white flower (WW) yields which phenotypic outcome?", options: ["All red flowers", "All white flowers", "All pink flowers", "3 red : 1 white"], correct: 2, exp: "Incomplete dominance results in a blended intermediate phenotype (pink) in heterozygous individuals." },
+            { q: "What is genetic drift?", options: ["The movement of alleles between different populations", "The random fluctuation of allele frequencies due to chance events", "The selective pressure that favors one allele over another", "The pairing of homologous chromosomes during meiosis"], correct: 1, exp: "Genetic drift is the change in the gene pool of a small population due to random chance events, not natural selection." },
+            { q: "How do lethal alleles alter typical Mendelian crosses?", options: ["They result in a 3:1 ratio", "They result in a 2:1 ratio because homozygotes die in the womb", "They double the number of dominant offspring", "They eliminate all recessive phenotypes"], correct: 1, exp: "Lethal alleles cause death in homozygous recessive individuals, altering the surviving offspring ratio to 2:1." },
+            { q: "What occurs during the process of segregation in meiosis?", options: ["Chromosomes swap segments with non-sister chromatids", "Allele pairs separate so each gamete carries only one allele for each gene", "Gametes fuse randomly during fertilization", "Unlinked genes align independently along the equator"], correct: 1, exp: "Segregation separates allele pairs during meiosis, ensuring each gamete receives only one allele per gene." },
+            { q: "Why are somatic mutations not passed on to offspring?", options: ["They are always repaired by enzymes", "They occur only in gametic tissue", "They occur in body cells and do not form gametes", "They are always dominant and cause cell death"], correct: 2, exp: "Somatic mutations occur in non-reproductive tissues, meaning they cannot be inherited by offspring." },
+            { q: "Which of the following is an example of multiple alleles?", options: ["Red, white, and pink snapdragons", "Human ABO blood groups (A, B, and O alleles)", "Skin color pigmentation", "Tall and short pea plants"], correct: 1, exp: "Human ABO blood groups are controlled by three alleles (Iᴬ, Iᴮ, and i), making it a classic multiple allele system." },
+            { q: "A population bottleneck occurs when:", options: ["A small group of pioneers migrates to a new island", "A catastrophic event randomly reduces a population to a small size", "Natural selection favors heterozygous individuals", "New alleles are introduced into the population via migration"], correct: 1, exp: "A bottleneck is caused by a sudden, drastic population crash that randomly reduces genetic diversity." },
+            { q: "In codominance, what is the phenotype of a heterozygote?", options: ["A blended intermediate of both alleles", "Only the dominant phenotype is expressed", "Both alleles are fully and independently expressed", "Neither allele is expressed"], correct: 2, exp: "In codominance, both alleles are fully expressed in the phenotype, such as a roan cow with both red and white hairs." },
+            { q: "Linked genes are located:", options: ["On different chromosomes", "Close together on the same chromosome", "Only on sex chromosomes", "In the mitochondria"], correct: 1, exp: "Linked genes are physically situated close together on the same chromosome, meaning they tend to be inherited together." },
+            { q: "What is the expected phenotypic ratio of a dihybrid cross of two unlinked heterozygotes (AaBb x AaBb)?", options: ["3:1", "1:2:1", "9:3:3:1", "1:1:1:1"], correct: 2, exp: "A dihybrid cross of unlinked heterozygotes yields a classic Mendelian phenotypic ratio of 9:3:3:1." },
+            { q: "Which statement best describes a founder effect?", options: ["An entire population migrates to a new habitat together", "A small group of individuals colonizes a new area, carrying a skewed sample of alleles", "A population is wiped out by a natural disaster", "A mutation rate increases significantly due to radiation"], correct: 1, exp: "The founder effect occurs when a small pioneer group establishes a new colony, resulting in a gene pool that is not representative of the source population." },
+            { q: "Why does crossing over rarely separate linked genes that are located very close together?", options: ["They are protected by special proteins", "They assort independently", "The physical distance between them is too small for a crossover event to occur between them", "They always mutate together"], correct: 2, exp: "Genes situated very close together on a chromosome are rarely separated because there is very little physical space between them for a chiasma to form." },
+            { q: "The term 'haploid' refers to a cell that has:", options: ["Two complete sets of chromosomes", "One set of chromosomes (half the parent number)", "Four sets of chromosomes", "Only sex chromosomes"], correct: 1, exp: "Haploid cells, like gametes, contain only one set of chromosomes (n)." },
+            { q: "Which evolutionary force reduces genetic variation in a small population the fastest?", options: ["Gene flow", "Mutation", "Genetic drift", "Large population mating"], correct: 2, exp: "Genetic drift can cause alleles to quickly become fixed or lost by chance alone in small populations." },
+            { q: "Homologous chromosomes are:", options: ["Identical copies of the same chromosome from one parent", "Chromosomes that carry the same genes at the same loci, with one inherited from each parent", "Chromosomes that do not pair during meiosis", "Only found in bacteria"], correct: 1, exp: "Homologous chromosomes carry the same genes at the same loci, though they may carry different alleles." },
+            { q: "Which of the following describes sex-linked inheritance?", options: ["Traits that are only expressed during mating seasons", "Genes located on the sex chromosomes (usually X) showing gender-biased expression", "Traits passed down strictly from father to son on the Y chromosome", "Incomplete dominance interactions between X and Y alleles"], correct: 1, exp: "Sex-linked inheritance refers to genes carried on sex chromosomes. Recessive alleles on the X chromosome are expressed much more frequently in males because they have only one X chromosome." }
+        ];
+
+        let quizIndex = 0; let quizScore = 0;
+        function loadQuizQuestion() {
+            if(quizIndex >= examQuestions.length) {
+                document.getElementById('quiz-block').classList.add('hidden');
+                document.getElementById('quiz-completion-panel').classList.remove('hidden');
+                document.getElementById('quiz-final-score').innerText = `${quizScore} / ${examQuestions.length}`;
+                
+                let gradeEquivalent = "Not Achieved";
+                if (quizScore >= 18) gradeEquivalent = "NCEA Level 2 Biology equivalent: Excellence! 🌟";
+                else if (quizScore >= 14) gradeEquivalent = "NCEA Level 2 Biology equivalent: Merit! 👍";
+                else if (quizScore >= 10) gradeEquivalent = "NCEA Level 2 Biology equivalent: Achieved! 👌";
+                document.getElementById('quiz-final-grade').innerText = gradeEquivalent;
+                return;
+            }
+            const data = examQuestions[quizIndex];
+            document.getElementById('quiz-curr-idx').innerText = quizIndex + 1;
+            document.getElementById('quiz-question-txt').innerText = data.q;
+            document.getElementById('quiz-live-score').innerText = `Score: ${quizScore} / ${examQuestions.length}`;
+            document.getElementById('quiz-progress-line').style.width = `${((quizIndex+1)/examQuestions.length)*100}%`;
+
+            const box = document.getElementById('quiz-options-box');
+            box.innerHTML = "";
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 rounded-lg border text-left text-xs font-semibold bg-white hover:bg-stone-50 transition-all border-stone-200";
+                btn.innerText = opt;
+                btn.onclick = () => selectQuizOption(idx, btn);
+                box.appendChild(btn);
+            });
+            document.getElementById('quiz-feedback-box').classList.add('hidden');
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+        }
+
+        function selectQuizOption(chosenIdx, element) {
+            const data = examQuestions[quizIndex];
+            const buttons = document.getElementById('quiz-options-box').getElementsByTagName('button');
+            for(let b of buttons) b.disabled = true;
+
+            if (chosenIdx === data.correct) {
+                element.className = "w-full p-3 rounded-lg border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold text-xs";
+                quizScore++;
+            } else {
+                element.className = "w-full p-3 rounded-lg border-2 border-red-500 bg-red-50 text-red-900 font-bold text-xs";
+                buttons[data.correct].className = "w-full p-3 rounded-lg border-2 border-emerald-500 bg-emerald-50 text-emerald-900 font-bold text-xs";
+            }
+            const fb = document.getElementById('quiz-feedback-box');
+            fb.innerHTML = `<strong>NCEA Explains:</strong> ${data.exp}`;
+            fb.classList.remove('hidden');
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function advanceQuiz() { quizIndex++; loadQuizQuestion(); }
+        function resetQuizTest() { quizIndex = 0; quizScore = 0; document.getElementById('quiz-block').classList.remove('hidden'); document.getElementById('quiz-completion-panel').classList.add('hidden'); loadQuizQuestion(); }
+        
+        // Run initializations
+        loadQuizQuestion();
+        checkWrittenQ1(); checkWrittenQ2(); checkWrittenQ3(); checkWrittenQ4(); checkWrittenQ5();
+    </script>
+</body>
+</html>
