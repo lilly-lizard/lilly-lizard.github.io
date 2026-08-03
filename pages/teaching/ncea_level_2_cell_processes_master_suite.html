@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCEA Level 2 Cell Processes Master Suite (AS91156)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bio: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            950: '#052e16',
+                        },
+                        darkbg: '#0b0f17',
+                        cardbg: '#131b2e',
+                        borderbg: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b0f17;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #16a34a;
+        }
+
+        /* Custom range sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #1e293b;
+            height: 6px;
+            border-radius: 3px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #22c55e;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            transition: transform 0.1s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #22c55e;
+            color: #4ade80;
+            background-color: rgba(34, 197, 94, 0.08);
+        }
+
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(34, 197, 94, 0.5); }
+        }
+        .glow-active {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-bio-700 to-bio-400 flex items-center justify-center shadow-lg shadow-bio-900/50">
+                    <i class="fa-solid font-bold fa-dna text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white flex items-center gap-2">
+                        NCEA Level 2 Cell Biology <span class="text-xs px-2 py-0.5 rounded bg-bio-950 text-bio-400 border border-bio-800">AS91156</span>
+                    </h1>
+                    <p class="text-xs text-gray-400">Aligned with One Tree Hill College 12BIO Curriculum (NZ Standards)</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs (Desktop) -->
+            <nav class="hidden lg:flex items-center space-x-1 text-xs font-medium">
+                <button onclick="switchTab('sav')" id="tab-sav" class="tab-btn active px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-cube mr-1"></i> SA:V & Transport
+                </button>
+                <button onclick="switchTab('enzymes')" id="tab-enzymes" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-flask-vial mr-1"></i> Enzymes
+                </button>
+                <button onclick="switchTab('photosynthesis')" id="tab-photosynthesis" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-sun mr-1 text-amber-400"></i> Photosynthesis
+                </button>
+                <button onclick="switchTab('respiration')" id="tab-respiration" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-bolt mr-1 text-red-400"></i> Respiration
+                </button>
+                <button onclick="switchTab('mitosis')" id="tab-mitosis" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-code-fork mr-1"></i> DNA & Mitosis
+                </button>
+                <button onclick="switchTab('organelles')" id="tab-organelles" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-leaf mr-1"></i> Organelles
+                </button>
+                <button onclick="switchTab('practice')" id="tab-practice" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-pen-to-square mr-1"></i> Practice
+                </button>
+                <button onclick="switchTab('resources')" id="tab-resources" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-folder-open mr-1 text-amber-400"></i> Resources
+                </button>
+                <button onclick="switchTab('glossary')" id="tab-glossary" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-bio-400 transition">
+                    <i class="fa-solid fa-book-bookmark mr-1"></i> Glossary
+                </button>
+            </nav>
+
+            <!-- Target Grade Badge -->
+            <div class="hidden sm:flex items-center space-x-3">
+                <span class="text-xs bg-bio-900/60 border border-bio-700 text-bio-300 px-3 py-1 rounded-full font-mono">
+                    <i class="fa-solid fa-award text-amber-400 mr-1"></i> Target: Excellence
+                </span>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Bar -->
+        <div class="lg:hidden flex overflow-x-auto border-t border-gray-800 bg-cardbg px-2 py-1 text-xs space-x-1">
+            <button onclick="switchTab('sav')" class="px-3 py-1.5 rounded whitespace-nowrap bg-bio-900/40 text-bio-300">SA:V & Transport</button>
+            <button onclick="switchTab('enzymes')" class="px-3 py-1.5 rounded whitespace-nowrap text-gray-300">Enzymes</button>
+            <button onclick="switchTab('photosynthesis')" class="px-3 py-1.5 rounded whitespace-nowrap text-amber-400 font-bold">Photosynthesis</button>
+            <button onclick="switchTab('respiration')" class="px-3 py-1.5 rounded whitespace-nowrap text-red-400 font-bold">Respiration</button>
+            <button onclick="switchTab('mitosis')" class="px-3 py-1.5 rounded whitespace-nowrap text-gray-300">DNA & Mitosis</button>
+            <button onclick="switchTab('organelles')" class="px-3 py-1.5 rounded whitespace-nowrap text-gray-300">Organelles</button>
+            <button onclick="switchTab('practice')" class="px-3 py-1.5 rounded whitespace-nowrap text-gray-300">Practice</button>
+            <button onclick="switchTab('resources')" class="px-3 py-1.5 rounded whitespace-nowrap text-amber-400">Resources</button>
+            <button onclick="switchTab('glossary')" class="px-3 py-1.5 rounded whitespace-nowrap text-gray-300">Glossary</button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <section id="section-sav" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-bio-400">Cytology & Membrane Sandbox</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Surface Area : Volume (SA:V), Diffusion & Tonicity
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Explore how cell dimensions restrict passive diffusion and analyse osmotic tonicity (hypertonic, isotonic, hypotonic) in plant vs animal cells.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="resetSavSim()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-xs font-medium rounded-lg text-gray-300 border border-gray-700 transition">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Reset Simulation
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Visual Canvas & Solute Transport Simulation -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-4 border border-borderbg flex flex-col justify-between shadow-xl">
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="inline-block w-3 h-3 rounded-full bg-bio-400 animate-ping"></span>
+                            <span class="text-sm font-semibold text-gray-200">Live Solute & Osmosis Canvas</span>
+                        </div>
+                        <span id="diff-status-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-bio-950 text-bio-400 border border-bio-800">
+                            Diffusing into Cytosol...
+                        </span>
+                    </div>
+
+                    <div class="relative w-full aspect-square max-h-[380px] bg-darkbg rounded-xl overflow-hidden border border-gray-800 flex items-center justify-center">
+                        <canvas id="savCanvas" class="w-full h-full"></canvas>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Surface Area</div>
+                            <div id="metric-sa" class="text-lg font-bold text-bio-400 font-mono">54 µm²</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Volume</div>
+                            <div id="metric-vol" class="text-lg font-bold text-cyan-400 font-mono">27 µm³</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">SA : V Ratio</div>
+                            <div id="metric-ratio" class="text-lg font-bold text-amber-400 font-mono">2.00 : 1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls & Tonicity Interactive Panel -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                        <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-sliders text-bio-400"></i> Cell Size & Environment Controls
+                        </h3>
+
+                        <!-- Side Length Slider -->
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-300">Cell Cube Side Length (<i>s</i>):</span>
+                                <span id="val-side" class="font-mono text-bio-400 font-bold">3 µm</span>
+                            </div>
+                            <input type="range" id="slider-side" min="1" max="10" step="1" value="3" class="w-full">
+                            <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                                <span>1 µm (Tiny)</span>
+                                <span>5 µm (Optimal)</span>
+                                <span>10 µm (Critical)</span>
+                            </div>
+                        </div>
+
+                        <!-- Solution Tonicity Selection -->
+                        <div class="space-y-2 mb-4">
+                            <label class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Solution Tonicity (Osmosis Environment)</label>
+                            <div class="grid grid-cols-3 gap-1.5">
+                                <button type="button" onclick="setTonicity('hypo')" id="btn-ton-hypo" class="px-2 py-1.5 rounded text-xs font-semibold border border-gray-700 bg-darkbg text-gray-400">Hypotonic</button>
+                                <button type="button" onclick="setTonicity('iso')" id="btn-ton-iso" class="px-2 py-1.5 rounded text-xs font-semibold border border-bio-600 bg-bio-950 text-bio-300">Isotonic</button>
+                                <button type="button" onclick="setTonicity('hyper')" id="btn-ton-hyper" class="px-2 py-1.5 rounded text-xs font-semibold border border-gray-700 bg-darkbg text-gray-400">Hypertonic</button>
+                            </div>
+                        </div>
+
+                        <!-- Cell Type Response Summary -->
+                        <div id="tonicity-desc-box" class="bg-darkbg p-3.5 rounded-xl border border-gray-800 text-xs leading-relaxed text-gray-300 mb-4">
+                            <strong class="text-bio-400">Isotonic Solution:</strong> Equal solute concentration inside and outside. Net water movement is zero. Animal cells maintain normal shape; plant cells are flaccid.
+                        </div>
+
+                        <!-- Physics Calculations -->
+                        <div class="bg-darkbg p-3.5 rounded-xl border border-gray-800 space-y-2 text-xs font-mono">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Max Diffusion Distance:</span>
+                                <span id="calc-dist" class="text-white">1.5 µm</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Time to Cell Core:</span>
+                                <span id="calc-time" class="text-amber-400 font-bold">~ 2.25 sec</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Metabolic Status:</span>
+                                <span id="calc-eff" class="text-bio-400 font-bold">High Efficiency</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-enzymes" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-bio-400">Biochemistry Kinetic Sandbox</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Enzyme Kinetics, Inhibitors & Bioenergetics
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Simulate activation energy, induced fit, temperature/pH denaturation, competitive vs non-competitive inhibitors, and metabolic pathways.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Live Graph Canvas -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-gray-200">Enzyme Activity & Reaction Rate Curve</span>
+                            <span id="enzyme-state-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-bio-950 text-bio-400 border border-bio-800">
+                                Active - Optimal Shape
+                            </span>
+                        </div>
+
+                        <div class="w-full h-[260px] bg-darkbg rounded-xl border border-gray-800 p-2 relative">
+                            <canvas id="enzymeGraphCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Active Site Visualiser -->
+                    <div class="mt-4 bg-darkbg p-4 rounded-xl border border-gray-800 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div id="enzyme-shape-icon" class="w-12 h-12 rounded-lg bg-bio-900 border border-bio-600 flex items-center justify-center text-bio-300 text-2xl">
+                                <i class="fa-solid fa-puzzle-piece"></i>
+                            </div>
+                            <div>
+                                <h4 id="enzyme-shape-title" class="text-sm font-bold text-white">Active Site Intact</h4>
+                                <p id="enzyme-shape-desc" class="text-xs text-gray-400">Substrate fits complementary active site via induced fit model.</p>
+                            </div>
+                        </div>
+                        <div class="text-right font-mono">
+                            <div class="text-xs text-gray-400">Relative Rate</div>
+                            <div id="metric-rate" class="text-xl font-bold text-bio-400">88 %</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sliders & Inhibitor Controls -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-temperature-half text-amber-400"></i> Reaction Variables
+                    </h3>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Temperature (°C):</span>
+                            <span id="val-temp" class="font-mono text-amber-400 font-bold">37 °C</span>
+                        </div>
+                        <input type="range" id="slider-temp" min="0" max="70" step="1" value="37" class="w-full">
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">pH Level:</span>
+                            <span id="val-ph" class="font-mono text-cyan-400 font-bold">7.0</span>
+                        </div>
+                        <input type="range" id="slider-ph" min="1" max="14" step="0.5" value="7" class="w-full">
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Substrate Concentration:</span>
+                            <span id="val-sub" class="font-mono text-bio-400 font-bold">80 %</span>
+                        </div>
+                        <input type="range" id="slider-sub" min="0" max="100" step="5" value="80" class="w-full">
+                    </div>
+
+                    <div class="space-y-2 pt-2 border-t border-gray-800">
+                        <label class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Inhibitors / Co-factors</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="setInhibitor('none')" id="btn-inh-none" class="px-2 py-1.5 rounded text-xs font-semibold border border-bio-600 bg-bio-950 text-bio-300">None</button>
+                            <button type="button" onclick="setInhibitor('comp')" id="btn-inh-comp" class="px-2 py-1.5 rounded text-xs font-semibold border border-gray-700 bg-darkbg text-gray-400">Competitive</button>
+                            <button type="button" onclick="setInhibitor('noncomp')" id="btn-inh-noncomp" class="px-2 py-1.5 rounded text-xs font-semibold border border-gray-700 bg-darkbg text-gray-400">Non-Comp</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-photosynthesis" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-400">Plant Bioenergetics & Metabolic Processes</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Photosynthesis: Processes, Cycles & Limiting Factors
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Detailed study of the Light-Dependent and Light-Independent (Calvin Cycle) reactions, overall biological significance, and environmental limiting factors.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Overall Chemical Equation Banner -->
+            <div class="bg-gradient-to-r from-bio-950 via-cardbg to-amber-950 p-4 rounded-2xl border border-bio-800 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-bio-900 border border-bio-500 flex items-center justify-center text-amber-400 text-2xl">
+                        <i class="fa-solid fa-sun animate-spin" style="animation-duration: 12s;"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-white">Balanced Photosynthesis Equation</h3>
+                        <p class="text-xs text-bio-300 font-mono mt-0.5">
+                            6CO<sub>2</sub> + 6H<sub>2</sub>O + Solar Light Energy &rarr; C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> (Glucose) + 6O<sub>2</sub>
+                        </p>
+                    </div>
+                </div>
+                <div class="text-xs bg-darkbg/80 border border-gray-700 px-3 py-2 rounded-xl text-gray-300">
+                    <i class="fa-solid fa-circle-info text-bio-400 mr-1"></i> Enzyme-controlled anabolic process inside <strong>Chloroplasts</strong>
+                </div>
+            </div>
+
+            <!-- Interactive Photosynthesis Simulator & Limiting Factor Sandbox -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-gray-200">Interactive Photosynthesis Rate & Oxygen Output</span>
+                            <span id="photo-limiting-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-bio-950 text-bio-400 border border-bio-800">
+                                Light is Limiting Factor
+                            </span>
+                        </div>
+
+                        <div class="w-full h-[250px] bg-darkbg rounded-xl border border-gray-800 p-2 relative">
+                            <canvas id="photoGraphCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Photosynthetic Rate</div>
+                            <div id="metric-photo-rate" class="text-lg font-bold text-bio-400 font-mono">42 %</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">O<sub>2</sub> Production</div>
+                            <div id="metric-o2-rate" class="text-lg font-bold text-cyan-400 font-mono">Moderate</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Limiting Factor</div>
+                            <div id="metric-limit-factor" class="text-lg font-bold text-amber-400 font-mono">Light Intensity</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environmental Sliders -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-seedling text-bio-400"></i> Environmental Variables
+                    </h3>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Light Intensity (%):</span>
+                            <span id="val-photo-light" class="font-mono text-amber-400 font-bold">40 %</span>
+                        </div>
+                        <input type="range" id="slider-photo-light" min="0" max="100" step="1" value="40" class="w-full">
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">CO<sub>2</sub> Concentration (ppm):</span>
+                            <span id="val-photo-co2" class="font-mono text-cyan-400 font-bold">400 ppm</span>
+                        </div>
+                        <input type="range" id="slider-photo-co2" min="0" max="1000" step="20" value="400" class="w-full">
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Temperature (°C):</span>
+                            <span id="val-photo-temp" class="font-mono text-bio-400 font-bold">22 °C</span>
+                        </div>
+                        <input type="range" id="slider-photo-temp" min="0" max="50" step="1" value="22" class="w-full">
+                    </div>
+
+                    <div id="photo-explanation-box" class="bg-darkbg p-3.5 rounded-xl border border-gray-800 text-xs leading-relaxed text-gray-300">
+                        At low light levels, photolysis of water in the thylakoids slows down, reducing ATP and NADPH supply for the Calvin Cycle.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Process Breakdown Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- LIGHT DEPENDENT REACTION -->
+                <div class="bg-cardbg rounded-2xl p-6 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-amber-950 border border-amber-600 flex items-center justify-center text-amber-400 text-xl">
+                                <i class="fa-solid fa-sun"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">1. Light-Dependent Phase</h3>
+                                <span class="text-xs text-amber-400 font-mono">Location: Thylakoid Membranes (Grana)</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-gray-300 leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-bio-400 mt-0.5"></i>
+                                <span><strong>Light Absorption:</strong> Chlorophyll pigments embedded in thylakoid membranes capture photons of light energy.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-bio-400 mt-0.5"></i>
+                                <span><strong>Photolysis of Water:</strong> Solar energy splits water molecules: 2H<sub>2</sub>O &rarr; 4H<sup>+</sup> + 4e<sup>-</sup> + O<sub>2</sub>. Oxygen gas is released as a metabolic byproduct through stomata.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-bio-400 mt-0.5"></i>
+                                <span><strong>Photophosphorylation:</strong> High-energy electrons pass along electron transport chains, driving ATP Synthase to convert ADP + Pi into <strong>ATP</strong>, and reducing NADP<sup>+</sup> into <strong>NADPH</strong>.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-gray-800 text-xs font-mono text-gray-400">
+                        <strong>Inputs:</strong> H<sub>2</sub>O, Light Energy, ADP, NADP<sup>+</sup><br>
+                        <strong>Outputs:</strong> O<sub>2</sub> (gas byproduct), ATP, NADPH
+                    </div>
+                </div>
+
+                <!-- LIGHT INDEPENDENT REACTION (CALVIN CYCLE) -->
+                <div class="bg-cardbg rounded-2xl p-6 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl bg-bio-950 border border-bio-600 flex items-center justify-center text-bio-400 text-xl">
+                                <i class="fa-solid fa-arrows-spin"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">2. Light-Independent Phase (Calvin Cycle)</h3>
+                                <span class="text-xs text-bio-400 font-mono">Location: Fluid Stroma</span>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-gray-300 leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-bio-400 mt-0.5"></i>
+                                <span><strong>Carbon Fixation:</strong> Carbon dioxide gas diffusing in through stomata is fixed into 3-carbon compounds, catalysed by the enzyme <strong>RuBisCO</strong>.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-bio-400 mt-0.5"></i>
+                                <span><strong>Reduction Phase:</strong> Chemical energy stored in ATP and NADPH from the light-dependent phase is utilised to reduce 3-PGA into Triose Phosphate (G3P).</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle-check text-bio-400 mt-0.5"></i>
+                                <span><strong>Glucose Synthesis:</strong> Triose phosphate molecules exit the cycle and combine to form high-energy <strong>Glucose (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>)</strong> or starch for storage.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-gray-800 text-xs font-mono text-gray-400">
+                        <strong>Inputs:</strong> CO<sub>2</sub>, ATP, NADPH<br>
+                        <strong>Outputs:</strong> Glucose (C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>), ADP, NADP<sup>+</sup>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-respiration" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-red-400">Cellular Bioenergetics & ATP Yield</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Cellular Respiration: Aerobic vs Anaerobic Pathways
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Master the biochemical breakdown of glucose into ATP energy across Glycolysis, the Krebs Cycle, and the Electron Transport Chain (ETC).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Balanced Chemical Equations Banner -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-gradient-to-r from-red-950 via-cardbg to-amber-950 p-4 rounded-2xl border border-red-800 shadow-xl flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-red-900 border border-red-500 flex items-center justify-center text-amber-400 text-2xl flex-shrink-0">
+                        <i class="fa-solid fa-bolt animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold text-white uppercase tracking-wider text-red-400">Aerobic Respiration Equation (With O<sub>2</sub>)</h3>
+                        <p class="text-xs text-amber-300 font-mono mt-1">
+                            C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub> &rarr; 6CO<sub>2</sub> + 6H<sub>2</sub>O + <strong>36–38 ATP Energy</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-slate-900 via-cardbg to-red-950 p-4 rounded-2xl border border-gray-800 shadow-xl flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-gray-900 border border-gray-700 flex items-center justify-center text-red-400 text-2xl flex-shrink-0">
+                        <i class="fa-solid fa-skull-crossbones"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xs font-bold text-white uppercase tracking-wider text-gray-400">Anaerobic Respiration / Fermentation (No O<sub>2</sub>)</h3>
+                        <p class="text-xs text-gray-300 font-mono mt-1">
+                            Animals: Glucose &rarr; 2 Lactic Acid + <strong>2 ATP</strong><br>
+                            Plants/Yeast: Glucose &rarr; 2 Ethanol + 2 CO<sub>2</sub> + <strong>2 ATP</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Respiration Simulator & Interactive Graph -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Live ATP Yield Graph Canvas -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-gray-200">Interactive Respiration Kinetics & ATP Output</span>
+                            <span id="resp-pathway-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-red-950 text-red-400 border border-red-800">
+                                Aerobic Mode (High Efficiency)
+                            </span>
+                        </div>
+
+                        <div class="w-full h-[250px] bg-darkbg rounded-xl border border-gray-800 p-2 relative">
+                            <canvas id="respGraphCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">ATP Yield / Glucose</div>
+                            <div id="metric-atp-yield" class="text-lg font-bold text-amber-400 font-mono">38 ATP</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Pathway Mode</div>
+                            <div id="metric-resp-mode" class="text-lg font-bold text-bio-400 font-mono">Aerobic</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Limiting Factor</div>
+                            <div id="metric-resp-limit" class="text-lg font-bold text-cyan-400 font-mono">Oxygen Saturation</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Respiration Controls -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-gauge-high text-red-400"></i> Respiration Variables
+                    </h3>
+
+                    <!-- Oxygen Level Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Oxygen Concentration (%):</span>
+                            <span id="val-resp-o2" class="font-mono text-cyan-400 font-bold">80 %</span>
+                        </div>
+                        <input type="range" id="slider-resp-o2" min="0" max="100" step="5" value="80" class="w-full">
+                        <div class="flex justify-between text-[10px] text-gray-500 font-mono">
+                            <span>0% (Anaerobic)</span>
+                            <span>20% (Threshold)</span>
+                            <span>100% (Saturated)</span>
+                        </div>
+                    </div>
+
+                    <!-- Glucose Substrate Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Glucose Availability (%):</span>
+                            <span id="val-resp-glucose" class="font-mono text-amber-400 font-bold">75 %</span>
+                        </div>
+                        <input type="range" id="slider-resp-glucose" min="0" max="100" step="5" value="75" class="w-full">
+                    </div>
+
+                    <!-- Temperature Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Cell Temperature (°C):</span>
+                            <span id="val-resp-temp" class="font-mono text-bio-400 font-bold">37 °C</span>
+                        </div>
+                        <input type="range" id="slider-resp-temp" min="0" max="60" step="1" value="37" class="w-full">
+                    </div>
+
+                    <div id="resp-explanation-box" class="bg-darkbg p-3.5 rounded-xl border border-gray-800 text-xs leading-relaxed text-gray-300">
+                        High oxygen concentration enables the mitochondrial Electron Transport Chain to generate maximum ATP (~38 ATP per glucose) via oxidative phosphorylation.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Respiration 4 Stage Step-by-Step Breakdown Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- 1. GLYCOLYSIS -->
+                <div class="bg-cardbg rounded-2xl p-4 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2.5 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-blue-950 border border-blue-600 flex items-center justify-center text-blue-400 text-sm font-bold">
+                                1
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Glycolysis</h4>
+                                <p class="text-[10px] text-blue-400 font-mono">Cytoplasm (Anaerobic)</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                            1 x Glucose (6C) is split into 2 x Pyruvate (3C). Does <strong>not require oxygen</strong>. Yields 2 net ATP and 2 NADH.
+                        </p>
+                    </div>
+
+                    <div class="bg-darkbg p-2 rounded-lg border border-gray-800 text-[11px] font-mono text-gray-400">
+                        <strong>Yield:</strong> 2 ATP + 2 Pyruvate
+                    </div>
+                </div>
+
+                <!-- 2. TRANSITION / KREBS CYCLE -->
+                <div class="bg-cardbg rounded-2xl p-4 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2.5 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-950 border border-amber-600 flex items-center justify-center text-amber-400 text-sm font-bold">
+                                2
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Krebs Cycle</h4>
+                                <p class="text-[10px] text-amber-400 font-mono">Mitochondrial Matrix</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                            Pyruvate enters matrix and is broken down in a cycle. Releases CO<sub>2</sub> gas and produces NADH and FADH<sub>2</sub> electron carriers.
+                        </p>
+                    </div>
+
+                    <div class="bg-darkbg p-2 rounded-lg border border-gray-800 text-[11px] font-mono text-gray-400">
+                        <strong>Yield:</strong> 2 ATP + 6CO<sub>2</sub> + NADH
+                    </div>
+                </div>
+
+                <!-- 3. ELECTRON TRANSPORT CHAIN -->
+                <div class="bg-cardbg rounded-2xl p-4 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2.5 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-red-950 border border-red-600 flex items-center justify-center text-red-400 text-sm font-bold">
+                                3
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Electron Transport (ETC)</h4>
+                                <p class="text-[10px] text-red-400 font-mono">Mitochondrial Cristae</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                            Electrons pass down cristae membrane proteins. Oxygen acts as final electron acceptor, bonding H<sup>+</sup> to form H<sub>2</sub>O.
+                        </p>
+                    </div>
+
+                    <div class="bg-darkbg p-2 rounded-lg border border-gray-800 text-[11px] font-mono text-gray-400">
+                        <strong>Yield:</strong> 32–34 ATP + 6H<sub>2</sub>O
+                    </div>
+                </div>
+
+                <!-- 4. ANAEROBIC FERMENTATION -->
+                <div class="bg-cardbg rounded-2xl p-4 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2.5 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-purple-950 border border-purple-600 flex items-center justify-center text-purple-400 text-sm font-bold">
+                                4
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Anaerobic Path</h4>
+                                <p class="text-[10px] text-purple-400 font-mono">Cytoplasm (No O<sub>2</sub>)</p>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                            Occurs when oxygen is deficient. Prevents NADH backlog by converting pyruvate to lactic acid (animals) or ethanol (plants/yeast).
+                        </p>
+                    </div>
+
+                    <div class="bg-darkbg p-2 rounded-lg border border-gray-800 text-[11px] font-mono text-gray-400">
+                        <strong>Yield:</strong> 2 ATP (Fast, low yield)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table: Aerobic vs Anaerobic Respiration -->
+            <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-code-compare text-bio-400"></i> Comparative Summary: Aerobic vs Anaerobic Respiration (Excellence Key)
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-gray-300 border-collapse">
+                        <thead>
+                            <tr class="border-b border-gray-800 text-gray-400 uppercase font-mono">
+                                <th class="py-2.5 px-3">Feature</th>
+                                <th class="py-2.5 px-3 text-bio-400">Aerobic Respiration</th>
+                                <th class="py-2.5 px-3 text-red-400">Anaerobic Respiration</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-800/60">
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-white">Oxygen Requirement</td>
+                                <td class="py-2.5 px-3">Required (Final electron acceptor in ETC)</td>
+                                <td class="py-2.5 px-3">Not required</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-white">Cellular Location</td>
+                                <td class="py-2.5 px-3">Cytoplasm (Glycolysis) & Mitochondria (Krebs + ETC)</td>
+                                <td class="py-2.5 px-3">Cytoplasm only</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-white">Net ATP Yield</td>
+                                <td class="py-2.5 px-3 font-bold text-amber-400">High (~36–38 ATP per glucose)</td>
+                                <td class="py-2.5 px-3 font-bold text-red-400">Very Low (2 ATP per glucose)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-white">End Products</td>
+                                <td class="py-2.5 px-3">Carbon Dioxide (CO<sub>2</sub>) and Water (H<sub>2</sub>O)</td>
+                                <td class="py-2.5 px-3">Lactic acid (animals) OR Ethanol & CO<sub>2</sub> (yeast/plants)</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2.5 px-3 font-semibold text-white">Biological Purpose & Limitation</td>
+                                <td class="py-2.5 px-3">Sustained energy production for growth, active transport & metabolism. Slower rate.</td>
+                                <td class="py-2.5 px-3">Rapid emergency energy burst during hypoxia. Toxic byproduct buildup causes muscle fatigue.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-mitosis" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-bio-400">Cell Division & Molecular Genetics</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Cell Cycle, DNA Replication & Mitosis
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Understand semi-conservative DNA replication (S phase) and somatic cell division (PMAT + Cytokinesis).
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Interactive DNA Replication Fork Visualiser -->
+                <div class="lg:col-span-6 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-dna text-bio-400"></i> Semi-Conservative DNA Replication Fork
+                        </h3>
+                        <p class="text-xs text-gray-400 mb-4">
+                            Occurs in the <strong>S Phase</strong> of Interphase prior to mitosis. Helicase unzips hydrogen bonds; DNA Polymerase builds 5' to 3'.
+                        </p>
+
+                        <!-- SVG Replication Fork Diagram -->
+                        <div class="w-full h-56 bg-darkbg rounded-xl border border-gray-800 p-3 relative overflow-hidden flex items-center justify-center">
+                            <svg class="w-full h-full" viewBox="0 0 400 200">
+                                <!-- Unzipped Parental Strands -->
+                                <path d="M 20 100 Q 120 100, 200 40 L 380 40" fill="none" stroke="#38bdf8" stroke-width="4" />
+                                <path d="M 20 100 Q 120 100, 200 160 L 380 160" fill="none" stroke="#38bdf8" stroke-width="4" />
+
+                                <!-- Unopened Double Helix -->
+                                <path d="M 20 100 C 40 80, 60 120, 80 100 C 100 80, 120 120, 140 100" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="4,4"/>
+
+                                <!-- New Daughter Strands -->
+                                <path d="M 210 50 L 380 50" fill="none" stroke="#4ade80" stroke-width="3" stroke-dasharray="8,2" />
+                                <path d="M 250 150 L 380 150" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="12,4" />
+
+                                <!-- Enzymes -->
+                                <circle cx="150" cy="100" r="14" fill="#ef4444" opacity="0.8"/>
+                                <text x="150" y="104" fill="#fff" font-size="9" font-family="sans-serif" text-anchor="middle" font-weight="bold">Helicase</text>
+
+                                <rect x="230" y="32" width="40" height="16" rx="4" fill="#22c55e"/>
+                                <text x="250" y="43" fill="#fff" font-size="8" font-family="sans-serif" text-anchor="middle">DNA Pol</text>
+
+                                <rect x="280" y="152" width="35" height="14" rx="4" fill="#f59e0b"/>
+                                <text x="297" y="162" fill="#fff" font-size="7" font-family="sans-serif" text-anchor="middle">Ligase</text>
+
+                                <!-- Labels -->
+                                <text x="370" y="30" fill="#38bdf8" font-size="9" font-family="sans-serif">Leading Strand</text>
+                                <text x="370" y="180" fill="#f59e0b" font-size="9" font-family="sans-serif">Lagging (Okazaki)</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-darkbg p-2.5 rounded-lg border border-gray-800">
+                            <strong class="text-bio-400">Leading Strand:</strong> Continuous 5' to 3' synthesis toward replication fork by DNA Polymerase.
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-lg border border-gray-800">
+                            <strong class="text-amber-400">Lagging Strand:</strong> Discontinuous synthesis creating Okazaki fragments joined by Ligase.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Mitosis Stages -->
+                <div class="lg:col-span-6 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-nodes text-cyan-400"></i> Somatic Mitosis Stage Visualiser
+                        </h3>
+                        <p class="text-xs text-gray-400 mb-3">
+                            Mitosis ensures identical growth and tissue repair by separating sister chromatids into 2 identical diploid (2n) daughter cells.
+                        </p>
+
+                        <!-- Stage Selector Buttons -->
+                        <div class="grid grid-cols-5 gap-1.5 mb-4">
+                            <button onclick="showMitosisStage('prophase')" id="btn-stage-prophase" class="px-2 py-1.5 rounded text-[11px] font-semibold border border-bio-600 bg-bio-950 text-bio-300">Prophase</button>
+                            <button onclick="showMitosisStage('metaphase')" id="btn-stage-metaphase" class="px-2 py-1.5 rounded text-[11px] font-semibold border border-gray-700 bg-darkbg text-gray-400">Metaphase</button>
+                            <button onclick="showMitosisStage('anaphase')" id="btn-stage-anaphase" class="px-2 py-1.5 rounded text-[11px] font-semibold border border-gray-700 bg-darkbg text-gray-400">Anaphase</button>
+                            <button onclick="showMitosisStage('telophase')" id="btn-stage-telophase" class="px-2 py-1.5 rounded text-[11px] font-semibold border border-gray-700 bg-darkbg text-gray-400">Telophase</button>
+                            <button onclick="showMitosisStage('cytokinesis')" id="btn-stage-cytokinesis" class="px-2 py-1.5 rounded text-[11px] font-semibold border border-gray-700 bg-darkbg text-gray-400">Cytokinesis</button>
+                        </div>
+
+                        <!-- Mitosis SVG Display -->
+                        <div class="w-full h-44 bg-darkbg rounded-xl border border-gray-800 p-2 flex items-center justify-center">
+                            <div id="mitosis-stage-graphic" class="w-full h-full">
+                                <!-- Injected dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="mitosis-stage-desc" class="mt-4 bg-darkbg p-3.5 rounded-xl border border-gray-800 text-xs text-gray-300 leading-relaxed">
+                        <strong class="text-bio-400">Prophase:</strong> Chromatin condenses into visible chromosomes. The nuclear envelope breaks down and spindle fibres begin to form from centrioles.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-organelles" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-bio-400">Cytology & Leaf Anatomy</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Mitochondria, Chloroplasts & Leaf Adaptations
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Compare organelle ultrastructure and explore leaf cross-section adaptations for maximised light capture and gas exchange.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- MITOCHONDRIA -->
+                <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-950 border border-amber-600 flex items-center justify-center text-amber-400 text-lg">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Mitochondrion</h3>
+                                <span class="text-xs text-amber-400 font-mono">Aerobic Respiration (36–38 ATP)</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-darkbg p-3 rounded-xl border border-gray-800 space-y-2 text-xs text-gray-300 mb-3">
+                            <p><strong>Glycolysis:</strong> Cytoplasm (2 ATP + Pyruvate)</p>
+                            <p><strong>Krebs Cycle:</strong> Fluid Matrix (2 ATP + CO<sub>2</sub>)</p>
+                            <p><strong>Electron Transport:</strong> Folded Cristae (32–34 ATP)</p>
+                            <p><strong>Structural Adaptation:</strong> High inner membrane folding (cristae) expands surface area for maximum ETC complexes and ATP Synthase enzymes.</p>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-gray-400 font-mono border-t border-gray-800 pt-2">
+                        C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub> &rarr; 6CO<sub>2</sub> + 6H<sub>2</sub>O + ATP Energy
+                    </div>
+                </div>
+
+                <!-- CHLOROPLAST -->
+                <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-bio-950 border border-bio-600 flex items-center justify-center text-bio-400 text-lg">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Chloroplast</h3>
+                                <span class="text-xs text-bio-400 font-mono">Photosynthesis (Glucose)</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-darkbg p-3 rounded-xl border border-gray-800 space-y-2 text-xs text-gray-300 mb-3">
+                            <p><strong>Light Dependent:</strong> Thylakoids/Grana (Water split by solar energy, NADPH made)</p>
+                            <p><strong>Light Independent:</strong> Stroma fluid (Calvin cycle fixes CO<sub>2</sub> into glucose)</p>
+                            <p><strong>Structural Adaptation:</strong> Stacked thylakoid discs (grana) maximize chlorophyll density for photon capture.</p>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-gray-400 font-mono border-t border-gray-800 pt-2">
+                        6CO<sub>2</sub> + 6H<sub>2</sub>O + Light Energy &rarr; C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> + 6O<sub>2</sub>
+                    </div>
+                </div>
+
+                <!-- LEAF ANATOMY -->
+                <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <div class="w-10 h-10 rounded-xl bg-cyan-950 border border-cyan-600 flex items-center justify-center text-cyan-400 text-lg">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">Leaf Cross-Section</h3>
+                                <span class="text-xs text-cyan-400 font-mono">Structural Adaptations</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-darkbg p-3 rounded-xl border border-gray-800 space-y-2 text-xs text-gray-300">
+                            <p><strong>Palisade Layer:</strong> Tightly packed upper cells rich in chloroplasts for light capture.</p>
+                            <p><strong>Spongy Layer:</strong> Loosely packed cells with air spaces facilitating gas diffusion.</p>
+                            <p><strong>Stomata & Guard Cells:</strong> Lower epidermis pores regulating CO<sub>2</sub>/O<sub>2</sub> and transpiration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-practice" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-bio-400">Excellence Answer Builder</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        NCEA AS91156 Interactive Exam Practice
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Type responses to authentic One Tree Hill College & NZQA exam prompts with live keyword detection and instant N/A/M/E grade analysis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Question Selection & Response Area -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-6 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Select NCEA Exam Prompt:</label>
+                            <select id="exam-q-select" onchange="onQuestionChange()" class="w-full bg-darkbg border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-bio-500">
+                                <option value="q1">Q1: SA:V Ratio & Cell Transport Limits in Epithelial Cells</option>
+                                <option value="q2">Q2: Temperature, pH & Denaturation Effects on Enzyme Catalysis</option>
+                                <option value="q3">Q3: Photosynthesis Phases (Light-Dependent vs Calvin Cycle) & Limiting Factors</option>
+                                <option value="q4">Q4: Cellular Respiration Pathways (Aerobic vs Anaerobic) & Mitochondrial Cristae</option>
+                                <option value="q5">Q5: Compare Structural Adaptations of Mitochondria vs Chloroplast Organelles</option>
+                                <option value="q6">Q6: DNA Replication Enzymes & Semi-Conservative Mechanism</option>
+                                <option value="q7">Q7: Mitosis Function & Factors Affecting Cell Division Rates</option>
+                            </select>
+                        </div>
+
+                        <div id="prompt-box" class="bg-darkbg p-4 rounded-xl border border-gray-800 mb-4 text-sm text-gray-200 leading-relaxed">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-xs text-gray-400">
+                                <span>Your Written Explanation:</span>
+                                <span id="char-count" class="font-mono">0 / 350 chars min</span>
+                            </div>
+                            <textarea id="student-answer" oninput="evaluateAnswer()" rows="9" placeholder="Type your connected explanation here. Include key vocabulary, process steps, and linking words (because, therefore, resulting in)..." class="w-full bg-darkbg border border-gray-700 rounded-xl p-4 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-bio-500 font-sans leading-relaxed"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="stuffing-warning" class="hidden mt-3 p-3 bg-red-950/80 border border-red-700 rounded-xl text-xs text-red-300 flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-red-400 text-base"></i>
+                        <span><strong>Keyword Stuffing Flagged:</strong> Write complete, grammatically connected sentences using verbs instead of isolated key terms!</span>
+                    </div>
+                </div>
+
+                <!-- Live Evaluation Panel -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-bio-400"></i> Estimated Grade
+                            </h3>
+                            <span id="grade-badge" class="px-3 py-1 rounded-full text-xs font-bold font-mono bg-red-950 text-red-400 border border-red-800">
+                                Not Achieved (N)
+                            </span>
+                        </div>
+
+                        <div class="w-full bg-darkbg rounded-full h-3 overflow-hidden border border-gray-800 flex mb-3">
+                            <div id="grade-bar-n" class="bg-red-500 h-full w-1/4 transition-all duration-300"></div>
+                            <div id="grade-bar-a" class="bg-amber-500 h-full w-0 transition-all duration-300"></div>
+                            <div id="grade-bar-m" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+                            <div id="grade-bar-e" class="bg-bio-500 h-full w-0 transition-all duration-300"></div>
+                        </div>
+
+                        <p id="grade-feedback" class="text-xs text-gray-300 leading-relaxed bg-darkbg p-3 rounded-xl border border-gray-800">
+                            Provide a minimum response of 350 characters covering fundamental definitions to achieve a passing grade.
+                        </p>
+                    </div>
+
+                    <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Key Concept Checklist</h4>
+                        <div id="concept-checklist" class="space-y-1.5 text-xs max-h-56 overflow-y-auto pr-1">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-resources" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-400">External Study & Exam Portal</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        12BIO Cell Processes Study Resources & Links
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Direct links to the unit plan's Quizlet flashcard sets, NZQA exam papers, YouTube tutorial webinars, and interactive biology games.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quizlet Decks from Unit Plan -->
+            <div>
+                <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-bio-400"></i> Unit Plan Quizlet Vocabulary Decks
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <a href="https://quizlet.com/nz/490999027/24-vocabulary-full-list-flash-cards/" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-bio-500 transition group flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono text-bio-400 uppercase tracking-wider">Full Set</span>
+                            <h4 class="text-xs font-bold text-white group-hover:text-bio-400 transition mt-1">Full 2.4 Vocab List</h4>
+                        </div>
+                        <span class="text-[11px] text-gray-400 mt-3 flex items-center gap-1">Open Quizlet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></span>
+                    </a>
+
+                    <a href="https://quizlet.com/nz/491109346/24-vocabulary-cell-structure-transport-only-flash-cards/" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-bio-500 transition group flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono text-bio-400 uppercase tracking-wider">Topic 1</span>
+                            <h4 class="text-xs font-bold text-white group-hover:text-bio-400 transition mt-1">Cell Structure & Transport</h4>
+                        </div>
+                        <span class="text-[11px] text-gray-400 mt-3 flex items-center gap-1">Open Quizlet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></span>
+                    </a>
+
+                    <a href="https://quizlet.com/nz/491110463/24-vocabulary-enzymes-only-flash-cards/" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-bio-500 transition group flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono text-bio-400 uppercase tracking-wider">Topic 2</span>
+                            <h4 class="text-xs font-bold text-white group-hover:text-bio-400 transition mt-1">Enzymes Kinetics</h4>
+                        </div>
+                        <span class="text-[11px] text-gray-400 mt-3 flex items-center gap-1">Open Quizlet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></span>
+                    </a>
+
+                    <a href="https://quizlet.com/nz/498309888/24-vocabulary-photosynthesis-respiration-only-flash-cards/" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-bio-500 transition group flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono text-bio-400 uppercase tracking-wider">Topic 3</span>
+                            <h4 class="text-xs font-bold text-white group-hover:text-bio-400 transition mt-1">Photosynthesis & Respiration</h4>
+                        </div>
+                        <span class="text-[11px] text-gray-400 mt-3 flex items-center gap-1">Open Quizlet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></span>
+                    </a>
+
+                    <a href="https://quizlet.com/nz/498313799/24-vocabulary-cell-cycle-dna-replication-mitosis-only-flash-cards/" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-bio-500 transition group flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] font-mono text-bio-400 uppercase tracking-wider">Topic 4</span>
+                            <h4 class="text-xs font-bold text-white group-hover:text-bio-400 transition mt-1">Cell Cycle & Mitosis</h4>
+                        </div>
+                        <span class="text-[11px] text-gray-400 mt-3 flex items-center gap-1">Open Quizlet <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- YouTube Video Tutorials & Webinars -->
+            <div>
+                <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+                    <i class="fa-brands fa-youtube text-red-500"></i> Video Tutorials & Exam Webinars
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <a href="https://www.youtube.com/watch?v=X6thbXO5wkg" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-red-500 transition flex items-start space-x-3">
+                        <i class="fa-solid fa-video text-red-500 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Douglas Walker NCEA 2.4 Webinar</h4>
+                            <p class="text-[11px] text-gray-400 mt-1">Complete standard review & exam strategy breakdown.</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=ULc0zzJeU7g" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-red-500 transition flex items-start space-x-3">
+                        <i class="fa-solid fa-play text-red-500 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">LearnCoach Level 2 Biology</h4>
+                            <p class="text-[11px] text-gray-400 mt-1">Concise NCEA Level 2 cell process tutorials.</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=CMiPYHNNg28" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-red-500 transition flex items-start space-x-3">
+                        <i class="fa-solid fa-film text-red-500 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Amoeba Sisters Bioenergetics</h4>
+                            <p class="text-[11px] text-gray-400 mt-1">Photosynthesis & Cellular Respiration animated guide.</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.youtube.com/watch?v=Hc3Mg0Yc7kI" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-red-500 transition flex items-start space-x-3">
+                        <i class="fa-solid fa-flask text-red-500 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="text-xs font-bold text-white">Beetroot Practical Video</h4>
+                            <p class="text-[11px] text-gray-400 mt-1">Membrane permeability & temperature experiment walk-through.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- External Portals & Interactive Games -->
+            <div>
+                <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-cyan-400"></i> Past Exams & Interactive Games
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="https://www.nobraintoosmall.co.nz/html/level2_biology/l2_bio_cellprocesses.html" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-cyan-500 transition">
+                        <h4 class="text-xs font-bold text-white flex items-center justify-between">
+                            <span>No Brain Too Small (NCEA L2 Bio)</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-cyan-400 text-xs"></i>
+                        </h4>
+                        <p class="text-[11px] text-gray-400 mt-2">Access past exam questions, topic collated papers, and answer schedules specifically for AS91156.</p>
+                    </a>
+
+                    <a href="https://biomanbio.com/HTML5GamesandLabs/Cellgames/celldefensehtml5page.html" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-cyan-500 transition">
+                        <h4 class="text-xs font-bold text-white flex items-center justify-between">
+                            <span>BioMan Cell Defense Lab</span>
+                            <i class="fa-solid fa-gamepad text-cyan-400 text-xs"></i>
+                        </h4>
+                        <p class="text-[11px] text-gray-400 mt-2">Interactive game to learn transport mechanisms across cell membranes (diffusion, osmosis, active transport).</p>
+                    </a>
+
+                    <a href="https://www.nzqa.govt.nz/ncea/subjects/biology/levels/" target="_blank" class="bg-cardbg p-4 rounded-xl border border-borderbg hover:border-cyan-500 transition">
+                        <h4 class="text-xs font-bold text-white flex items-center justify-between">
+                            <span>NZQA AS91156 Standard Portal</span>
+                            <i class="fa-solid fa-award text-cyan-400 text-xs"></i>
+                        </h4>
+                        <p class="text-[11px] text-gray-400 mt-2">Official NZQA examination papers, exemplar answers, and assessment specifications.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-glossary" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-bio-400">Comprehensive Vocabulary</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Unit Plan Key Biology Glossary (80+ Terms)
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Complete dictionary of definitions required for Achievement, Merit, and Excellence answers.
+                    </p>
+                </div>
+                <div>
+                    <input type="text" id="glossary-search" oninput="filterGlossary()" placeholder="Search terms (e.g. Cristae, Glycolysis, Tonicity)..." class="bg-cardbg border border-gray-700 text-xs text-white px-4 py-2 rounded-xl focus:outline-none focus:border-bio-500 w-full sm:w-72">
+                </div>
+            </div>
+
+            <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Injected dynamically via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-auto border-t border-gray-800 bg-cardbg py-6 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="text-bio-400 font-bold">NCEA Level 2 Cell Biology Suite</span>
+                <span>— Aligned with One Tree Hill College 12BIO Unit Plan (NZ English)</span>
+            </div>
+            <div>
+                <span>Designed for NCEA Excellence. Single-page offline functional web app.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let activeTab = 'sav';
+        let tonicityMode = 'iso'; // 'hypo', 'iso', 'hyper'
+        let inhibitorMode = 'none'; // 'none', 'comp', 'noncomp'
+
+        const GLOSSARY_TERMS = [
+            { term: 'Cell', category: 'Structure', def: 'Most basic structural and functional unit of life.' },
+            { term: 'Cell membrane', category: 'Transport', def: 'Semipermeable phospholipid barrier surrounding the cytoplasm of a cell.' },
+            { term: 'Cell wall', category: 'Structure', def: 'Rigid structural organelle outside the cell membrane providing support to plant cells.' },
+            { term: 'Chlorophyll', category: 'Photosynthesis', def: 'Green pigment in plant thylakoids capturing light energy to split water molecules.' },
+            { term: 'Chloroplast', category: 'Photosynthesis', def: 'Organelle in plant cells that is the site of photosynthesis.' },
+            { term: 'Chromatin', category: 'Cell Division', def: 'DNA in its loose, uncoiled form during interphase of the cell cycle.' },
+            { term: 'Cristae', category: 'Respiration', def: 'Infoldings of the inner mitochondrial membrane expanding surface area for the electron transport chain.' },
+            { term: 'Cytoplasm', category: 'Structure', def: 'Jelly-like fluid cytosol inside the cell in which organelles are suspended.' },
+            { term: 'Extracellular', category: 'Structure', def: 'Term referring to space or fluid located outside of the cell membrane.' },
+            { term: 'Grana', category: 'Photosynthesis', def: 'Stacks of thylakoids inside chloroplasts.' },
+            { term: 'Matrix', category: 'Respiration', def: 'Fluid contained within the inner mitochondrial membrane; site of the Krebs cycle.' },
+            { term: 'Mitochondria', category: 'Respiration', def: 'Organelle in plant and animal cells that converts glucose into ATP energy via aerobic respiration.' },
+            { term: 'Nuclear envelope', category: 'Structure', def: 'Double phospholipid bilayer membrane enclosing the nucleus.' },
+            { term: 'Nuclear pore', category: 'Structure', def: 'Protein channel through the nuclear envelope allowing RNA and protein transport.' },
+            { term: 'Nucleus', category: 'Structure', def: 'Organelle containing genetic material (DNA) and site of DNA replication.' },
+            { term: 'Organelle', category: 'Structure', def: 'Subcellular functional unit inside a cell performing specific metabolic tasks.' },
+            { term: 'Phospholipid bilayer', category: 'Transport', def: 'Two layers of phospholipids forming the cell membrane boundary with hydrophobic tails inside.' },
+            { term: 'Semi-permeable', category: 'Transport', def: 'Membrane property allowing selective passage of certain solutes while restricting others.' },
+            { term: 'Stroma', category: 'Photosynthesis', def: 'Colourless fluid surrounding grana inside chloroplasts; site of the Light Independent Calvin Cycle.' },
+            { term: 'Surface Area', category: 'Transport', def: 'Total boundary area occupied by the exterior of an object or membrane.' },
+            { term: 'Thylakoid', category: 'Photosynthesis', def: 'Flattened membrane discs in chloroplasts containing chlorophyll for Light Dependent Reactions.' },
+            { term: 'Turgor pressure', category: 'Transport', def: 'Internal water pressure pushing the plant cell membrane against the rigid cell wall.' },
+            { term: 'Vacuole', category: 'Structure', def: 'Fluid-filled organelle storing water, ions, and waste in plant and animal cells.' },
+            { term: 'Aerobic respiration', category: 'Respiration', def: 'Enzyme-controlled process requiring oxygen that yields 36–38 ATP per glucose molecule.' },
+            { term: 'Carrier proteins', category: 'Transport', def: 'Transmembrane proteins that change shape to transport specific molecules across membranes.' },
+            { term: 'Channel proteins', category: 'Transport', def: 'Transmembrane pore proteins facilitating rapid passive movement of specific ions or molecules.' },
+            { term: 'Concentration gradient', category: 'Transport', def: 'Difference in solute particle concentration between two adjacent areas.' },
+            { term: 'Diffusion', category: 'Transport', def: 'Passive net movement of solutes down a concentration gradient from high to low concentration.' },
+            { term: 'Facilitated diffusion', category: 'Transport', def: 'Passive transport down a concentration gradient via channel or carrier proteins without ATP.' },
+            { term: 'Osmosis', category: 'Transport', def: 'Net movement of water molecules across a semipermeable membrane from high to low water concentration.' },
+            { term: 'Passive transport', category: 'Transport', def: 'Substance movement across a membrane down its concentration gradient without cell energy expenditure.' },
+            { term: 'Photosynthesis', category: 'Photosynthesis', def: 'Enzyme-controlled anabolic process using solar energy to combine CO2 and H2O into glucose and oxygen.' },
+            { term: 'SA : V ratio', category: 'Transport', def: 'Mathematical ratio between a cell’s surface area and internal volume.' },
+            { term: 'Volume', category: 'Transport', def: 'Total 3D space enclosed within a cell boundary.' },
+            { term: 'Active transport', category: 'Transport', def: 'Movement of molecules against a concentration gradient requiring cellular ATP energy.' },
+            { term: 'Flaccid', category: 'Transport', def: 'State of a plant cell in an isotonic solution where turgor pressure is low.' },
+            { term: 'Hypertonic', category: 'Transport', def: 'Solution with higher solute concentration than cytosol, causing water loss from cells.' },
+            { term: 'Hypotonic', category: 'Transport', def: 'Solution with lower solute concentration than cytosol, causing water entry into cells.' },
+            { term: 'Isotonic', category: 'Transport', def: 'Solution with equal solute concentration relative to the cytosol.' },
+            { term: 'Lysis', category: 'Transport', def: 'Bursting of an animal cell membrane due to excessive water intake in hypotonic solutions.' },
+            { term: 'Solute', category: 'Transport', def: 'Substance dissolved in a solvent to form a solution.' },
+            { term: 'Tonicity', category: 'Transport', def: 'Relative concentration of solutes in two solutions determining osmotic water direction.' },
+            { term: 'Activation energy', category: 'Enzymes', def: 'Minimum kinetic energy required for reactant molecules to initiate a chemical reaction.' },
+            { term: 'Active site', category: 'Enzymes', def: '3D binding pocket on an enzyme where substrate molecules attach and undergo reaction.' },
+            { term: 'Anabolic reaction', category: 'Enzymes', def: 'Metabolic pathway where enzymes join smaller molecules into larger complex compounds.' },
+            { term: 'Catabolic reaction', category: 'Enzymes', def: 'Metabolic pathway where enzymes break down complex molecules into simpler products.' },
+            { term: 'Catalyst', category: 'Enzymes', def: 'Substance that speeds up a chemical reaction rate without being consumed in the process.' },
+            { term: 'Co-enzyme', category: 'Enzymes', def: 'Organic non-protein cofactor molecule assisting enzyme catalysis at the active site.' },
+            { term: 'Co-factor', category: 'Enzymes', def: 'Inorganic metal ion helper required for proper active site catalytic function.' },
+            { term: 'Competitive inhibitor', category: 'Enzymes', def: 'Inhibitor molecule that competes directly with substrate for active site binding.' },
+            { term: 'Denature', category: 'Enzymes', def: 'Permanent unfolding of protein tertiary structure altering active site shape due to high heat or pH.' },
+            { term: 'Disulfide bridge', category: 'Enzymes', def: 'Strong covalent sulfur bond maintaining protein tertiary structure.' },
+            { term: 'Enzyme', category: 'Enzymes', def: 'Biological protein catalyst that accelerates metabolic reaction rates by lowering activation energy.' },
+            { term: 'Hydrogen bond', category: 'Enzymes', def: 'Weak bond holding secondary/tertiary protein folds and complementary DNA strand bases together.' },
+            { term: 'Induced fit model', category: 'Enzymes', def: 'Model where active site flexibly moulds around substrate for optimal catalytic positioning.' },
+            { term: 'Lock & key model', category: 'Enzymes', def: 'Rigid model where substrate fits perfectly into a pre-shaped enzyme active site.' },
+            { term: 'Non-competitive inhibitor', category: 'Enzymes', def: 'Inhibitor binding to an allosteric site outside the active site, inducing shape change.' },
+            { term: 'pH', category: 'Enzymes', def: 'Measure of acidity/alkalinity influencing enzyme active site ionic charge and denaturation.' },
+            { term: 'Substrate', category: 'Enzymes', def: 'Reactant molecule acted upon by a specific enzyme.' },
+            { term: 'Light-dependent reaction', category: 'Photosynthesis', def: 'First phase of photosynthesis in thylakoids splitting water using solar light energy.' },
+            { term: 'Light-independent reaction', category: 'Photosynthesis', def: 'Second phase of photosynthesis in stroma fixing CO2 into glucose (Calvin Cycle).' },
+            { term: 'NADPH', category: 'Photosynthesis', def: 'Coenzyme electron carrier transporting hydrogen ions from thylakoid to stroma.' },
+            { term: 'RuBisCO', category: 'Photosynthesis', def: 'Primary enzyme in stroma that fixes atmospheric carbon dioxide into organic molecules.' },
+            { term: 'Photolysis', category: 'Photosynthesis', def: 'Splitting of water molecules using solar energy to release oxygen, protons and electrons.' },
+            { term: 'Palisade layer', category: 'Photosynthesis', def: 'Upper leaf tissue containing tightly packed cells rich in chloroplasts for light absorption.' },
+            { term: 'Spongy layer', category: 'Photosynthesis', def: 'Loosely packed lower leaf cells with air spaces facilitating CO2/O2 gas diffusion.' },
+            { term: 'Stomata', category: 'Photosynthesis', def: 'Microscopic leaf pores regulated by guard cells for gas exchange and transpiration.' },
+            { term: 'Anaerobic respiration', category: 'Respiration', def: 'Respiration without oxygen producing 2 ATP per glucose and lactic acid (in animals).' },
+            { term: 'ATP', category: 'Respiration', def: 'Adenosine triphosphate; universal cellular energy currency.' },
+            { term: 'Electron transport chain', category: 'Respiration', def: 'Cristae membrane protein complexes pumping hydrogen ions to synthesise maximal ATP.' },
+            { term: 'Glycolysis', category: 'Respiration', def: 'Cytoplasm pathway splitting glucose into 2 pyruvate molecules yielding 2 ATP.' },
+            { term: 'Krebs cycle', category: 'Respiration', def: 'Mitochondrial matrix pathway breaking pyruvate derivative into CO2, NADH and FADH2.' },
+            { term: 'Lactic acid', category: 'Respiration', def: 'Byproduct of anaerobic animal respiration causing muscle fatigue.' },
+            { term: 'Pyruvate', category: 'Respiration', def: '3-carbon product of glycolysis fed into mitochondria during aerobic respiration.' },
+            { term: 'Chromosome', category: 'Cell Division', def: 'Condensed, visible structure of DNA coiled around histone proteins during mitosis.' },
+            { term: 'DNA polymerase', category: 'Cell Division', def: 'Enzyme synthesising new complementary DNA daughter strands during replication.' },
+            { term: 'DNA replication', category: 'Cell Division', def: 'Process during Interphase S-phase duplicating the genetic genome semi-conservatively.' },
+            { term: 'Helicase', category: 'Cell Division', def: 'Enzyme unzipping DNA double helix by breaking hydrogen bonds between base pairs.' },
+            { term: 'Lagging strand', category: 'Cell Division', def: 'Daughter strand synthesised discontinuously in short Okazaki fragments.' },
+            { term: 'Leading strand', category: 'Cell Division', def: 'Daughter strand synthesised continuously toward the replication fork.' },
+            { term: 'Ligase', category: 'Cell Division', def: 'Enzyme sealing sugar-phosphate backbone gaps between Okazaki fragments.' },
+            { term: 'Okazaki fragment', category: 'Cell Division', def: 'Short newly synthesised DNA segments on the lagging strand.' },
+            { term: 'Primase', category: 'Cell Division', def: 'Enzyme laying short RNA primers to initiate DNA polymerase extension.' },
+            { term: 'Semi-conservative', category: 'Cell Division', def: 'Replication mechanism where each new DNA molecule consists of 1 parent and 1 new strand.' },
+            { term: 'Mitosis', category: 'Cell Division', def: 'Somatic nuclear division yielding two genetically identical diploid (2n) daughter cells.' },
+            { term: 'Sister chromatid', category: 'Cell Division', def: 'Identical duplicated chromosome halves held together at the centromere.' },
+            { term: 'Spindle fibres', category: 'Cell Division', def: 'Protein microtubules separating sister chromatids during anaphase.' }
+        ];
+
+        const EXAM_QUESTIONS = {
+            q1: {
+                prompt: "Discuss why cells are limited in size. In your answer: Define Surface Area to Volume ratio (SA:V); Explain how simple diffusion becomes inefficient as cell side length increases; Describe how cells adapt (e.g. division or microvilli) or use active transport.",
+                keywords: ['surface area', 'volume', 'ratio', 'diffusion', 'distance', 'inefficient', 'active transport', 'microvilli', 'divide'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            },
+            q2: {
+                prompt: "Discuss the effects of temperature and pH on enzyme activity and cell survival. In your answer: Explain kinetic energy increases up to optimum; Describe structural denaturation at high temperatures; Contrast competitive vs non-competitive inhibition.",
+                keywords: ['enzyme', 'active site', 'kinetic energy', 'optimum', 'denature', 'tertiary structure', 'hydrogen bonds', 'substrate', 'inhibit'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            },
+            q3: {
+                prompt: "Discuss the process of photosynthesis and how environmental factors affect its rate. In your answer: Contrast the Light-Dependent phase (thylakoid/grana) with the Light-Independent Calvin Cycle (stroma); Explain the role of enzymes like RuBisCO; Discuss how light intensity, CO2 concentration, and temperature act as limiting factors.",
+                keywords: ['photosynthesis', 'thylakoid', 'grana', 'stroma', 'photolysis', 'rubisco', 'calvin cycle', 'light intensity', 'limiting factor', 'denature'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            },
+            q4: {
+                prompt: "Discuss cellular respiration in eukaryotic cells. In your answer: Compare Aerobic and Anaerobic respiration pathways in terms of cellular location, oxygen requirements, and ATP yield; Explain how folded mitochondrial cristae adapt the cell for maximum ATP production.",
+                keywords: ['respiration', 'aerobic', 'anaerobic', 'glycolysis', 'krebs', 'electron transport', 'cristae', 'matrix', 'atp', 'lactic acid'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            },
+            q5: {
+                prompt: "Compare and contrast the structural adaptations of mitochondria and chloroplasts for energy output. In your answer: Discuss cristae vs thylakoid grana surface area; Matrix vs Stroma enzyme fluid; Compare aerobic respiration ATP yield to photosynthesis glucose production.",
+                keywords: ['mitochondria', 'chloroplast', 'cristae', 'thylakoid', 'grana', 'surface area', 'matrix', 'stroma', 'atp', 'glucose', 'respiration', 'photosynthesis'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            },
+            q6: {
+                prompt: "Discuss the process of DNA replication in cells. In your answer: Explain why DNA replication is termed semi-conservative; Describe the role of enzymes (Helicase, Primase, DNA Polymerase, Ligase); Contrast leading and lagging strand synthesis.",
+                keywords: ['semi-conservative', 'helicase', 'polymerase', 'ligase', 'primase', 'leading', 'lagging', 'okazaki', 'hydrogen bonds', 'interphase'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            },
+            q7: {
+                prompt: "Explain the purpose and process of Mitosis in somatic cells. In your answer: Describe the key stages (Prophase, Metaphase, Anaphase, Telophase); Explain the role of spindle fibres; Discuss factors affecting mitosis rates.",
+                keywords: ['mitosis', 'somatic', 'chromatid', 'spindle fibres', 'equator', 'anaphase', 'identical', 'growth', 'repair'],
+                linkers: ['because', 'therefore', 'resulting in', 'consequently', 'leads to', 'due to', 'whereas']
+            }
+        };
+
+        function switchTab(tabId) {
+            activeTab = tabId;
+            ['sav', 'enzymes', 'photosynthesis', 'respiration', 'mitosis', 'organelles', 'practice', 'resources', 'glossary'].forEach(t => {
+                const sec = document.getElementById('section-' + t);
+                const btn = document.getElementById('tab-' + t);
+                if (t === tabId) {
+                    if (sec) sec.classList.remove('hidden');
+                    if (btn) btn.classList.add('active');
+                } else {
+                    if (sec) sec.classList.add('hidden');
+                    if (btn) btn.classList.remove('active');
+                }
+            });
+
+            if (tabId === 'sav') initSavCanvas();
+            if (tabId === 'enzymes') drawEnzymeGraph();
+            if (tabId === 'photosynthesis') drawPhotosynthesisGraph();
+            if (tabId === 'respiration') drawRespirationGraph();
+            if (tabId === 'mitosis') showMitosisStage('prophase');
+            if (tabId === 'practice') onQuestionChange();
+            if (tabId === 'glossary') renderGlossary();
+        }
+
+        function initSavCanvas() {
+            const canvas = document.getElementById('savCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            const s = parseFloat(document.getElementById('slider-side').value);
+            const sa = 6 * s * s;
+            const vol = s * s * s;
+            const ratio = (sa / vol).toFixed(2);
+            const dist = (s / 2).toFixed(2);
+            const time = (0.25 * (s / 2) * (s / 2)).toFixed(2);
+
+            document.getElementById('val-side').innerText = s + ' µm';
+            document.getElementById('metric-sa').innerText = sa + ' µm²';
+            document.getElementById('metric-vol').innerText = vol + ' µm³';
+            document.getElementById('metric-ratio').innerText = ratio + ' : 1';
+            document.getElementById('calc-dist').innerText = dist + ' µm';
+            document.getElementById('calc-time').innerText = '~ ' + time + ' sec';
+
+            const effElem = document.getElementById('calc-eff');
+            if (ratio >= 2.0) {
+                effElem.innerText = "High Efficiency";
+                effElem.className = "text-bio-400 font-bold";
+            } else if (ratio >= 1.0) {
+                effElem.innerText = "Moderate (Boundary Warning)";
+                effElem.className = "text-amber-400 font-bold";
+            } else {
+                effElem.innerText = "Critical Bottleneck (Divide!)";
+                effElem.className = "text-red-400 font-bold";
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#060911';
+            ctx.fillRect(0, 0, width, height);
+
+            let cellScale = 1.0;
+            if (tonicityMode === 'hypo') cellScale = 1.15;
+            if (tonicityMode === 'hyper') cellScale = 0.82;
+
+            const cellSizePx = (60 + (s / 10) * (width * 0.6 - 60)) * cellScale;
+            const cellX = (width - cellSizePx) / 2;
+            const cellY = (height - cellSizePx) / 2;
+
+            ctx.fillStyle = tonicityMode === 'hyper' ? 'rgba(239, 68, 68, 0.15)' : 'rgba(34, 197, 94, 0.12)';
+            ctx.fillRect(cellX, cellY, cellSizePx, cellSizePx);
+
+            ctx.strokeStyle = tonicityMode === 'hyper' ? '#ef4444' : '#22c55e';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(cellX, cellY, cellSizePx, cellSizePx);
+
+            // Plant cell outer wall boundary
+            ctx.strokeStyle = '#15803d';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cellX - 6, cellY - 6, cellSizePx + 12, cellSizePx + 12);
+
+            // Nucleus
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+            ctx.beginPath();
+            ctx.arc(width / 2, height / 2, cellSizePx * 0.15, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px Inter';
+            ctx.fillText('Cytosol (' + s + 'x' + s + ' µm)', cellX + 6, cellY + 16);
+        }
+
+        function setTonicity(mode) {
+            tonicityMode = mode;
+            ['hypo', 'iso', 'hyper'].forEach(m => {
+                const btn = document.getElementById('btn-ton-' + m);
+                if (m === mode) {
+                    btn.className = "px-2 py-1.5 rounded text-xs font-semibold border border-bio-600 bg-bio-950 text-bio-300";
+                } else {
+                    btn.className = "px-2 py-1.5 rounded text-xs font-semibold border border-gray-700 bg-darkbg text-gray-400";
+                }
+            });
+
+            const descBox = document.getElementById('tonicity-desc-box');
+            if (mode === 'hypo') {
+                descBox.innerHTML = '<strong class="text-cyan-400">Hypotonic Solution:</strong> Lower solute outside. Water rushes into cell via osmosis. Animal cells burst (<strong class="text-red-400">Lysis</strong>); Plant cells expand against cell wall becoming firm (<strong class="text-bio-400">Turgid</strong>).';
+            } else if (mode === 'iso') {
+                descBox.innerHTML = '<strong class="text-bio-400">Isotonic Solution:</strong> Equal solute concentration. No net water movement. Animal cells are normal; Plant cells are <strong class="text-amber-400">Flaccid</strong>.';
+            } else {
+                descBox.innerHTML = '<strong class="text-red-400">Hypertonic Solution:</strong> Higher solute outside. Water leaves cell via osmosis. Animal cells shrink/crenate; Plant cell membrane pulls away from cell wall (<strong class="text-red-400">Plasmolysis</strong>).';
+            }
+
+            initSavCanvas();
+        }
+
+        function resetSavSim() {
+            document.getElementById('slider-side').value = 3;
+            setTonicity('iso');
+        }
+
+        function drawEnzymeGraph() {
+            const canvas = document.getElementById('enzymeGraphCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            const temp = parseFloat(document.getElementById('slider-temp').value);
+            const ph = parseFloat(document.getElementById('slider-ph').value);
+            const sub = parseFloat(document.getElementById('slider-sub').value);
+
+            document.getElementById('val-temp').innerText = temp + ' °C';
+            document.getElementById('val-ph').innerText = ph.toFixed(1);
+            document.getElementById('val-sub').innerText = sub + ' %';
+
+            let tempFactor = temp <= 40 ? Math.pow(temp / 40, 2) : Math.max(0, 1 - (temp - 40) / 15);
+            let phFactor = Math.max(0, 1 - Math.abs(ph - 7.0) / 3.5);
+            let subFactor = sub / (sub + 20);
+            let inhibitorMultiplier = inhibitorMode === 'comp' ? 0.55 : inhibitorMode === 'noncomp' ? 0.25 : 1.0;
+
+            const finalRate = Math.min(100, Math.round(tempFactor * phFactor * subFactor * inhibitorMultiplier * 100));
+            document.getElementById('metric-rate').innerText = finalRate + ' %';
+
+            const shapeTitle = document.getElementById('enzyme-shape-title');
+            const shapeDesc = document.getElementById('enzyme-shape-desc');
+            const shapeIcon = document.getElementById('enzyme-shape-icon');
+            const badge = document.getElementById('enzyme-state-badge');
+
+            if (temp > 48 || ph < 3.5 || ph > 10.5) {
+                shapeTitle.innerText = "DENATURED ACTIVE SITE";
+                shapeDesc.innerText = "Extreme heat/pH disrupted tertiary hydrogen bonds. Complementary fit lost!";
+                shapeIcon.className = "w-12 h-12 rounded-lg bg-red-950 border border-red-600 flex items-center justify-center text-red-400 text-2xl";
+                badge.innerText = "Denatured - Zero Binding";
+                badge.className = "text-xs px-2.5 py-1 rounded-full font-mono bg-red-950 text-red-400 border border-red-800";
+            } else if (finalRate > 70) {
+                shapeTitle.innerText = "Optimal Induced Fit";
+                shapeDesc.innerText = "Enzyme-Substrate complexes forming rapidly at high kinetic collisions.";
+                shapeIcon.className = "w-12 h-12 rounded-lg bg-bio-900 border border-bio-600 flex items-center justify-center text-bio-300 text-2xl";
+                badge.innerText = "Optimal Catalysis Rate";
+                badge.className = "text-xs px-2.5 py-1 rounded-full font-mono bg-bio-950 text-bio-400 border border-bio-800";
+            } else {
+                shapeTitle.innerText = "Substrate / Kinetic Limited";
+                shapeDesc.innerText = "Low kinetic energy or available substrates limiting maximal reaction rate.";
+                shapeIcon.className = "w-12 h-12 rounded-lg bg-amber-950 border border-amber-600 flex items-center justify-center text-amber-300 text-2xl";
+                badge.innerText = "Rate Limited";
+                badge.className = "text-xs px-2.5 py-1 rounded-full font-mono bg-amber-950 text-amber-400 border border-amber-800";
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+
+            const padding = 35;
+            ctx.beginPath();
+            ctx.moveTo(padding, 15);
+            ctx.lineTo(padding, height - padding);
+            ctx.lineTo(width - 15, height - padding);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#22c55e';
+            ctx.lineWidth = 3;
+
+            for (let x = 0; x <= width - padding - 20; x++) {
+                const tVal = (x / (width - padding - 20)) * 70;
+                let r = tVal <= 40 ? Math.pow(tVal / 40, 2) : Math.max(0, 1 - (tVal - 40) / 15);
+                r = r * phFactor * subFactor * inhibitorMultiplier;
+
+                const plotX = padding + x;
+                const plotY = (height - padding) - r * (height - padding - 30);
+
+                if (x === 0) ctx.moveTo(plotX, plotY);
+                else ctx.lineTo(plotX, plotY);
+            }
+            ctx.stroke();
+        }
+
+        function setInhibitor(type) {
+            inhibitorMode = type;
+            ['none', 'comp', 'noncomp'].forEach(t => {
+                const btn = document.getElementById('btn-inh-' + t);
+                if (t === type) btn.className = "px-2 py-1.5 rounded text-xs font-semibold border border-bio-600 bg-bio-950 text-bio-300";
+                else btn.className = "px-2 py-1.5 rounded text-xs font-semibold border border-gray-700 bg-darkbg text-gray-400";
+            });
+            drawEnzymeGraph();
+        }
+
+        function drawPhotosynthesisGraph() {
+            const canvas = document.getElementById('photoGraphCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            const light = parseFloat(document.getElementById('slider-photo-light').value);
+            const co2 = parseFloat(document.getElementById('slider-photo-co2').value);
+            const temp = parseFloat(document.getElementById('slider-photo-temp').value);
+
+            document.getElementById('val-photo-light').innerText = light + ' %';
+            document.getElementById('val-photo-co2').innerText = co2 + ' ppm';
+            document.getElementById('val-photo-temp').innerText = temp + ' °C';
+
+            let lightFactor = light / (light + 25);
+            let co2Factor = co2 / (co2 + 250);
+            let tempFactor = temp <= 30 ? Math.pow(temp / 30, 1.5) : Math.max(0, 1 - (temp - 30) / 15);
+
+            let minFactor = Math.min(lightFactor, co2Factor, tempFactor);
+            let overallRate = Math.min(100, Math.round(minFactor * 100));
+
+            let limitingName = "Light Intensity";
+            if (minFactor === co2Factor) limitingName = "CO2 Concentration";
+            if (minFactor === tempFactor) limitingName = "Temperature";
+
+            document.getElementById('metric-photo-rate').innerText = overallRate + ' %';
+            document.getElementById('metric-o2-rate').innerText = overallRate > 70 ? 'High' : overallRate > 35 ? 'Moderate' : 'Low';
+            document.getElementById('metric-limit-factor').innerText = limitingName;
+
+            const badge = document.getElementById('photo-limiting-badge');
+            badge.innerText = limitingName + ' is Limiting Factor';
+
+            const expBox = document.getElementById('photo-explanation-box');
+            if (limitingName === "Light Intensity") {
+                expBox.innerHTML = '<strong class="text-amber-400">Light Limited:</strong> Insufficient solar energy in thylakoids slows photolysis of water, limiting ATP and NADPH synthesis for the Calvin Cycle.';
+            } else if (limitingName === "CO2 Concentration") {
+                expBox.innerHTML = '<strong class="text-cyan-400">CO<sub>2</sub> Limited:</strong> Low carbon dioxide substrate availability limits RuBisCO fixation rate in the stroma during the light-independent reaction.';
+            } else {
+                expBox.innerHTML = temp > 38 ? '<strong class="text-red-400">High Temperature Denaturation:</strong> RuBisCO and photosynthetic enzymes are denaturing, destroying active site structures.' : '<strong class="text-bio-400">Low Temperature Kinetic Limit:</strong> Molecules possess low kinetic energy, leading to infrequent enzyme-substrate collisions.';
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#060911';
+            ctx.fillRect(0, 0, width, height);
+
+            const padding = 35;
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding, 15);
+            ctx.lineTo(padding, height - padding);
+            ctx.lineTo(width - 15, height - padding);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+
+            for (let x = 0; x <= width - padding - 20; x++) {
+                const lVal = (x / (width - padding - 20)) * 100;
+                let lFact = lVal / (lVal + 25);
+                let r = Math.min(lFact, co2Factor, tempFactor);
+
+                const plotX = padding + x;
+                const plotY = (height - padding) - r * (height - padding - 30);
+
+                if (x === 0) ctx.moveTo(plotX, plotY);
+                else ctx.lineTo(plotX, plotY);
+            }
+            ctx.stroke();
+
+            const currentX = padding + (light / 100) * (width - padding - 20);
+            const currentY = (height - padding) - minFactor * (height - padding - 30);
+            ctx.fillStyle = '#4ade80';
+            ctx.beginPath();
+            ctx.arc(currentX, currentY, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawRespirationGraph() {
+            const canvas = document.getElementById('respGraphCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const width = rect.width;
+            const height = rect.height;
+
+            const o2 = parseFloat(document.getElementById('slider-resp-o2').value);
+            const glucose = parseFloat(document.getElementById('slider-resp-glucose').value);
+            const temp = parseFloat(document.getElementById('slider-resp-temp').value);
+
+            document.getElementById('val-resp-o2').innerText = o2 + ' %';
+            document.getElementById('val-resp-glucose').innerText = glucose + ' %';
+            document.getElementById('val-resp-temp').innerText = temp + ' °C';
+
+            let isAerobic = o2 >= 15;
+            let glucoseFactor = glucose / (glucose + 20);
+            let tempFactor = temp <= 37 ? Math.pow(temp / 37, 1.5) : Math.max(0, 1 - (temp - 37) / 15);
+            let o2Factor = isAerobic ? (o2 / 100) : 0;
+
+            let maxPossibleATP = isAerobic ? (2 + 36 * Math.min(o2Factor, tempFactor, glucoseFactor)) : 2 * glucoseFactor;
+            let currentATP = Math.max(0, Math.round(maxPossibleATP));
+
+            document.getElementById('metric-atp-yield').innerText = currentATP + ' ATP';
+            document.getElementById('metric-resp-mode').innerText = isAerobic ? "Aerobic" : "Anaerobic";
+
+            let limiting = "Oxygen Level";
+            if (glucoseFactor <= o2Factor && glucoseFactor <= tempFactor) limiting = "Glucose Availability";
+            if (tempFactor <= o2Factor && tempFactor <= glucoseFactor) limiting = "Temperature";
+
+            document.getElementById('metric-resp-limit').innerText = limiting;
+
+            const badge = document.getElementById('resp-pathway-badge');
+            const expBox = document.getElementById('resp-explanation-box');
+
+            if (!isAerobic) {
+                badge.innerText = "Anaerobic Mode (Hypoxia)";
+                badge.className = "text-xs px-2.5 py-1 rounded-full font-mono bg-purple-950 text-purple-400 border border-purple-800";
+                expBox.innerHTML = '<strong class="text-purple-400">Anaerobic Fermentation Active:</strong> Oxygen is below the threshold. The cell bypasses mitochondria and relies solely on Cytoplasmic Glycolysis, producing <strong>2 ATP per glucose</strong> and creating toxic Lactic Acid (animals) or Ethanol (plants/yeast).';
+            } else if (temp > 45) {
+                badge.innerText = "Denaturation Failure";
+                badge.className = "text-xs px-2.5 py-1 rounded-full font-mono bg-red-950 text-red-400 border border-red-800";
+                expBox.innerHTML = '<strong class="text-red-400">Enzyme Denaturation:</strong> Extreme temperature has broken hydrogen bonds in mitochondrial respiratory enzymes (ATP Synthase, Citrate Synthase), stalling respiration.';
+            } else {
+                badge.innerText = "Aerobic Mode (High Efficiency)";
+                badge.className = "text-xs px-2.5 py-1 rounded-full font-mono bg-bio-950 text-bio-400 border border-bio-800";
+                expBox.innerHTML = '<strong class="text-bio-400">High Aerobic Yield:</strong> Sufficient oxygen enables the Krebs cycle and Electron Transport Chain inside mitochondrial matrix and cristae, generating up to <strong>38 ATP per glucose</strong>.';
+            }
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#060911';
+            ctx.fillRect(0, 0, width, height);
+
+            const padding = 35;
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(padding, 15);
+            ctx.lineTo(padding, height - padding);
+            ctx.lineTo(width - 15, height - padding);
+            ctx.stroke();
+
+            // Render Curve for ATP Output vs Oxygen Concentration
+            ctx.beginPath();
+            ctx.strokeStyle = isAerobic ? '#ef4444' : '#a855f7';
+            ctx.lineWidth = 3;
+
+            for (let x = 0; x <= width - padding - 20; x++) {
+                const oVal = (x / (width - padding - 20)) * 100;
+                let aero = oVal >= 15;
+                let oFact = aero ? (oVal / 100) : 0;
+                let yieldVal = aero ? (2 + 36 * Math.min(oFact, tempFactor, glucoseFactor)) : (2 * glucoseFactor);
+                let normRate = yieldVal / 38;
+
+                const plotX = padding + x;
+                const plotY = (height - padding) - normRate * (height - padding - 30);
+
+                if (x === 0) ctx.moveTo(plotX, plotY);
+                else ctx.lineTo(plotX, plotY);
+            }
+            ctx.stroke();
+
+            const currentX = padding + (o2 / 100) * (width - padding - 20);
+            const normCurrent = currentATP / 38;
+            const currentY = (height - padding) - normCurrent * (height - padding - 30);
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(currentX, currentY, 6, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function showMitosisStage(stage) {
+            ['prophase', 'metaphase', 'anaphase', 'telophase', 'cytokinesis'].forEach(s => {
+                const btn = document.getElementById('btn-stage-' + s);
+                if (btn) {
+                    if (s === stage) btn.className = "px-2 py-1.5 rounded text-[11px] font-semibold border border-bio-600 bg-bio-950 text-bio-300";
+                    else btn.className = "px-2 py-1.5 rounded text-[11px] font-semibold border border-gray-700 bg-darkbg text-gray-400";
+                }
+            });
+
+            const graphic = document.getElementById('mitosis-stage-graphic');
+            const desc = document.getElementById('mitosis-stage-desc');
+
+            if (stage === 'prophase') {
+                graphic.innerHTML = '<svg class="w-full h-full" viewBox="0 0 300 150"><circle cx="150" cy="75" r="60" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4"/><path d="M 130 65 Q 140 50, 145 65" stroke="#ef4444" stroke-width="4" fill="none"/><path d="M 160 85 Q 170 70, 175 85" stroke="#4ade80" stroke-width="4" fill="none"/><circle cx="100" cy="75" r="4" fill="#f59e0b"/><circle cx="200" cy="75" r="4" fill="#f59e0b"/></svg>';
+                desc.innerHTML = '<strong class="text-bio-400">Prophase:</strong> Chromatin condenses into visible double-stranded chromosomes. Nuclear envelope breaks down and spindle fibres form from centrioles.';
+            } else if (stage === 'metaphase') {
+                graphic.innerHTML = '<svg class="w-full h-full" viewBox="0 0 300 150"><line x1="60" y1="75" x2="240" y2="75" stroke="#475569" stroke-width="1" stroke-dasharray="2,2"/><path d="M 148 40 L 152 110" stroke="#ef4444" stroke-width="4"/><path d="M 152 40 L 148 110" stroke="#38bdf8" stroke-width="4"/><circle cx="60" cy="75" r="5" fill="#f59e0b"/><circle cx="240" cy="75" r="5" fill="#f59e0b"/></svg>';
+                desc.innerHTML = '<strong class="text-cyan-400">Metaphase:</strong> Chromosomes line up along the cell equator (metaphase plate). Spindle fibres attach to centromeres.';
+            } else if (stage === 'anaphase') {
+                graphic.innerHTML = '<svg class="w-full h-full" viewBox="0 0 300 150"><path d="M 100 50 L 110 75 L 100 100" stroke="#ef4444" stroke-width="3" fill="none"/><path d="M 200 50 L 190 75 L 200 100" stroke="#38bdf8" stroke-width="3" fill="none"/><circle cx="50" cy="75" r="5" fill="#f59e0b"/><circle cx="250" cy="75" r="5" fill="#f59e0b"/></svg>';
+                desc.innerHTML = '<strong class="text-amber-400">Anaphase:</strong> Spindle fibres shorten, pulling sister chromatids apart to opposite poles of the cell.';
+            } else if (stage === 'telophase') {
+                graphic.innerHTML = '<svg class="w-full h-full" viewBox="0 0 300 150"><ellipse cx="100" cy="75" rx="45" ry="55" fill="none" stroke="#38bdf8" stroke-width="2"/><ellipse cx="200" cy="75" rx="45" ry="55" fill="none" stroke="#38bdf8" stroke-width="2"/><circle cx="100" cy="75" r="18" fill="none" stroke="#4ade80" stroke-dasharray="2,2"/><circle cx="200" cy="75" r="18" fill="none" stroke="#4ade80" stroke-dasharray="2,2"/></svg>';
+                desc.innerHTML = '<strong class="text-bio-400">Telophase:</strong> Nuclear envelopes reform around separated daughter chromosomes. Chromosomes begin uncoiling back into chromatin.';
+            } else if (stage === 'cytokinesis') {
+                graphic.innerHTML = '<svg class="w-full h-full" viewBox="0 0 300 150"><circle cx="80" cy="75" r="45" fill="rgba(34, 197, 94, 0.15)" stroke="#22c55e" stroke-width="2"/><circle cx="220" cy="75" r="45" fill="rgba(34, 197, 94, 0.15)" stroke="#22c55e" stroke-width="2"/><circle cx="80" cy="75" r="12" fill="rgba(56, 189, 248, 0.5)"/><circle cx="220" cy="75" r="12" fill="rgba(56, 189, 248, 0.5)"/></svg>';
+                desc.innerHTML = '<strong class="text-cyan-400">Cytokinesis:</strong> Cytoplasm splits (cleavage furrow in animals, cell plate in plants), creating 2 genetically identical diploid daughter cells.';
+            }
+        }
+
+        function onQuestionChange() {
+            const selectedQ = document.getElementById('exam-q-select').value;
+            const qData = EXAM_QUESTIONS[selectedQ];
+            document.getElementById('prompt-box').innerText = qData.prompt;
+
+            // Render Checklist
+            const checklist = document.getElementById('concept-checklist');
+            checklist.innerHTML = '';
+            qData.keywords.forEach(kw => {
+                const item = document.createElement('div');
+                item.className = "flex items-center justify-between p-2 rounded-lg bg-darkbg border border-gray-800 text-gray-400";
+                item.id = 'chk-' + kw.replace(/\s+/g, '-');
+                item.innerHTML = `<span>Key term: <strong>${kw}</strong></span><i class="fa-solid fa-circle-xmark text-red-500"></i>`;
+                checklist.appendChild(item);
+            });
+
+            document.getElementById('student-answer').value = '';
+            evaluateAnswer();
+        }
+
+        function evaluateAnswer() {
+            const text = document.getElementById('student-answer').value;
+            const textLower = text.toLowerCase();
+            const charCount = text.length;
+            document.getElementById('char-count').innerText = `${charCount} / 350 chars min`;
+
+            const selectedQ = document.getElementById('exam-q-select').value;
+            const qData = EXAM_QUESTIONS[selectedQ];
+
+            let matchedCount = 0;
+            qData.keywords.forEach(kw => {
+                const elem = document.getElementById('chk-' + kw.replace(/\s+/g, '-'));
+                if (textLower.includes(kw.toLowerCase())) {
+                    matchedCount++;
+                    if (elem) {
+                        elem.className = "flex items-center justify-between p-2 rounded-lg bg-bio-950/80 border border-bio-800 text-bio-300";
+                        elem.innerHTML = `<span>Key term: <strong>${kw}</strong></span><i class="fa-solid fa-circle-check text-bio-400"></i>`;
+                    }
+                } else {
+                    if (elem) {
+                        elem.className = "flex items-center justify-between p-2 rounded-lg bg-darkbg border border-gray-800 text-gray-400";
+                        elem.innerHTML = `<span>Key term: <strong>${kw}</strong></span><i class="fa-solid fa-circle-xmark text-red-500"></i>`;
+                    }
+                }
+            });
+
+            let linkerCount = 0;
+            qData.linkers.forEach(lk => {
+                if (textLower.includes(lk)) linkerCount++;
+            });
+
+            // Stuffing check: words ratio
+            const words = text.trim().split(/\s+/).filter(w => w.length > 0);
+            const isStuffing = words.length > 0 && (matchedCount / words.length > 0.45);
+            const warningBox = document.getElementById('stuffing-warning');
+            if (isStuffing) warningBox.classList.remove('hidden');
+            else warningBox.classList.add('hidden');
+
+            const badge = document.getElementById('grade-badge');
+            const feedback = document.getElementById('grade-feedback');
+            const barN = document.getElementById('grade-bar-n');
+            const barA = document.getElementById('grade-bar-a');
+            const barM = document.getElementById('grade-bar-m');
+            const barE = document.getElementById('grade-bar-e');
+
+            if (charCount < 100 || matchedCount < 2) {
+                badge.innerText = "Not Achieved (N)";
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold font-mono bg-red-950 text-red-400 border border-red-800";
+                feedback.innerText = "Provide a minimum detailed response covering core biology terms to reach Achievement.";
+                barN.style.width = '100%'; barA.style.width = '0%'; barM.style.width = '0%'; barE.style.width = '0%';
+            } else if (matchedCount >= 2 && matchedCount < 5 || charCount < 300) {
+                badge.innerText = "Achieved (A)";
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold font-mono bg-amber-950 text-amber-400 border border-amber-800";
+                feedback.innerText = "Achieved level: Satisfactory definitions included. To reach Merit, explain 'how' and 'why' using linking words.";
+                barN.style.width = '25%'; barA.style.width = '75%'; barM.style.width = '0%'; barE.style.width = '0%';
+            } else if (matchedCount >= 5 && linkerCount < 2) {
+                badge.innerText = "Merit (M)";
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold font-mono bg-blue-950 text-blue-400 border border-blue-800";
+                feedback.innerText = "Merit level: Detailed biological processes explained well. Connect cause and effect using linking terms (because, therefore) for Excellence.";
+                barN.style.width = '25%'; barA.style.width = '25%'; barM.style.width = '50%'; barE.style.width = '0%';
+            } else {
+                badge.innerText = "Excellence (E)";
+                badge.className = "px-3 py-1 rounded-full text-xs font-bold font-mono bg-bio-950 text-bio-400 border border-bio-800";
+                feedback.innerText = "Excellence level! Outstanding response fully linking structure, function, energy yield, and biological consequences!";
+                barN.style.width = '25%'; barA.style.width = '25%'; barM.style.width = '25%'; barE.style.width = '25%';
+            }
+        }
+
+        function renderGlossary() {
+            const grid = document.getElementById('glossary-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            GLOSSARY_TERMS.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-cardbg p-4 rounded-xl border border-borderbg hover:border-bio-600 transition glossary-card";
+                card.setAttribute('data-term', item.term.toLowerCase());
+                card.setAttribute('data-def', item.def.toLowerCase());
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="text-sm font-bold text-white">${item.term}</h4>
+                        <span class="text-[10px] px-2 py-0.5 rounded bg-darkbg text-bio-400 border border-gray-800 font-mono">${item.category}</span>
+                    </div>
+                    <p class="text-xs text-gray-300 leading-relaxed">${item.def}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterGlossary() {
+            const query = document.getElementById('glossary-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.glossary-card');
+            cards.forEach(card => {
+                const term = card.getAttribute('data-term');
+                const def = card.getAttribute('data-def');
+                if (term.includes(query) || def.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (activeTab === 'sav') initSavCanvas();
+            if (activeTab === 'enzymes') drawEnzymeGraph();
+            if (activeTab === 'photosynthesis') drawPhotosynthesisGraph();
+            if (activeTab === 'respiration') drawRespirationGraph();
+        });
+
+        window.onload = function() {
+            // Initialize Sliders Event Listeners
+            document.getElementById('slider-side').addEventListener('input', initSavCanvas);
+            document.getElementById('slider-temp').addEventListener('input', drawEnzymeGraph);
+            document.getElementById('slider-ph').addEventListener('input', drawEnzymeGraph);
+            document.getElementById('slider-sub').addEventListener('input', drawEnzymeGraph);
+
+            document.getElementById('slider-photo-light').addEventListener('input', drawPhotosynthesisGraph);
+            document.getElementById('slider-photo-co2').addEventListener('input', drawPhotosynthesisGraph);
+            document.getElementById('slider-photo-temp').addEventListener('input', drawPhotosynthesisGraph);
+
+            document.getElementById('slider-resp-o2').addEventListener('input', drawRespirationGraph);
+            document.getElementById('slider-resp-glucose').addEventListener('input', drawRespirationGraph);
+            document.getElementById('slider-resp-temp').addEventListener('input', drawRespirationGraph);
+
+            renderGlossary();
+            switchTab('sav');
+        };
+    </script>
+</body>
+</html>

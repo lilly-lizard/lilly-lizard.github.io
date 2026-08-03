@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCEA Level 1 Biology: Genetic Variation Study Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        /* Perspective for 3D Flashcard flip */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .active-tab {
+            border-bottom: 3px solid #0284c7;
+            color: #0284c7;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-teal-500 text-slate-950 p-2.5 rounded-xl font-bold shadow-lg flex items-center justify-center">
+                        <i class="fa-solid font-bold fa-dna text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-teal-400 bg-teal-950/80 px-2 py-0.5 rounded border border-teal-800/50">NCEA Level 1</span>
+                            <span class="text-xs text-slate-400">AS 92022 (Chem & Bio 1.3)</span>
+                        </div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">Genetic Variation Study Hub</h1>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex space-x-1 text-sm font-medium">
+                    <button onclick="switchTab('notes')" id="nav-notes" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-book-open text-teal-400"></i> Notes & Concepts
+                    </button>
+                    <button onclick="switchTab('flashcards')" id="nav-flashcards" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-teal-400"></i> Flashcards
+                    </button>
+                    <button onclick="switchTab('interactive')" id="nav-interactive" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-flask text-teal-400"></i> Interactive Lab
+                    </button>
+                    <button onclick="switchTab('quiz')" id="nav-quiz" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-circle-question text-teal-400"></i> Multi-Choice
+                    </button>
+                    <button onclick="switchTab('ncea-marker')" id="nav-ncea-marker" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2 bg-indigo-900/60 border border-indigo-700/50">
+                        <i class="fa-solid fa-award text-amber-400"></i> NCEA Marker
+                    </button>
+                    <button onclick="switchTab('resources')" id="nav-resources" class="px-3 py-2 rounded-lg hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-bookmark text-teal-400"></i> Study Resources
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900 border-t border-slate-800 px-4 pt-2 pb-4 space-y-1">
+            <button onclick="switchTab('notes')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-book-open text-teal-400 mr-2"></i> Notes & Concepts
+            </button>
+            <button onclick="switchTab('flashcards')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-layer-group text-teal-400 mr-2"></i> Key Terms & Flashcards
+            </button>
+            <button onclick="switchTab('interactive')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-flask text-teal-400 mr-2"></i> Interactive Tools
+            </button>
+            <button onclick="switchTab('quiz')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-circle-question text-teal-400 mr-2"></i> Multi-Choice Section
+            </button>
+            <button onclick="switchTab('ncea-marker')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-amber-300 hover:bg-slate-800 font-semibold">
+                <i class="fa-solid fa-award text-amber-400 mr-2"></i> NCEA Self-Marking Evaluator
+            </button>
+            <button onclick="switchTab('resources')" class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-slate-200 hover:bg-slate-800">
+                <i class="fa-solid fa-bookmark text-teal-400 mr-2"></i> Study Resources & Links
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- TAB 1: STUDY NOTES & CONCEPTS -->
+        <section id="tab-notes" class="tab-content block space-y-8">
+            <!-- Banner -->
+            <div class="bg-gradient-to-r from-teal-800 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl">
+                <div class="max-w-3xl">
+                    <span class="inline-block bg-teal-400/20 text-teal-200 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-3">Unit Summary</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Understanding Genetic Variation</h2>
+                    <p class="mt-2 text-slate-200 text-sm sm:text-base leading-relaxed">
+                        Demonstrate understanding of genetic variation in relation to an identified characteristic. Learn how DNA structure leads to inherited traits, how sexual reproduction and mutation generate variation, and how selective pressures alter population gene pools in Aotearoa New Zealand.
+                    </p>
+                </div>
+            </div>
+
+            <!-- 3 Core Topic Modules -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Module 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">
+                            01
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">DNA, Genes & Chromosomes</h3>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Source & Nature of Variation</p>
+                        <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                            <li><strong class="text-slate-800">Nucleotide Structure:</strong> Deoxyribose sugar, phosphate group, and nitrogenous base (A, T, C, G).</li>
+                            <li><strong class="text-slate-800">Complementary Base Pairing:</strong> Adenine pairs with Thymine (A-T), Cytosine pairs with Guanine (C-G).</li>
+                            <li><strong class="text-slate-800">Genetic Code:</strong> Triplet codons code for specific amino acids, forming functional proteins.</li>
+                            <li><strong class="text-slate-800">Mutations:</strong> Permanent changes in DNA base sequences that produce new alleles.</li>
+                        </ul>
+                    </div>
+                    <button onclick="scrollToNote('topic-1')" class="mt-6 w-full text-center text-xs font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 py-2.5 rounded-lg transition">
+                        Read Detailed Notes &rarr;
+                    </button>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">
+                            02
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Reproduction & Selection</h3>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">How & Why Variation Occurs</p>
+                        <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                            <li><strong class="text-slate-800">Meiosis vs Mitosis:</strong> Mitosis produces 2 identical diploid somatic cells; Meiosis produces 4 unique haploid gametes.</li>
+                            <li><strong class="text-slate-800">Sources of Variation:</strong> Independent assortment, crossing over, and random fertilisation.</li>
+                            <li><strong class="text-slate-800">Genotype to Phenotype:</strong> Homozygous dominant, heterozygous, and recessive monohybrid ratios (3:1, 1:2:1).</li>
+                            <li><strong class="text-slate-800">Natural Selection:</strong> Favourable traits improve survivability and reproductive success.</li>
+                        </ul>
+                    </div>
+                    <button onclick="scrollToNote('topic-2')" class="mt-6 w-full text-center text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-2.5 rounded-lg transition">
+                        Read Detailed Notes &rarr;
+                    </button>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">
+                            03
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Gene Tracking & Pedigrees</h3>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Inheritance Methodologies</p>
+                        <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                            <li><strong class="text-slate-800">Pedigree Charts:</strong> Tracking inherited traits and genetic disorders across human or animal generations.</li>
+                            <li><strong class="text-slate-800">Genetic Markers:</strong> Using specific DNA sequences to determine carrier status or relatedness.</li>
+                            <li><strong class="text-slate-800">Changing Environments:</strong> Population bottleneck, small population size, migration, non-random mating.</li>
+                            <li><strong class="text-slate-800">Conservation Applications:</strong> Preserving genetic diversity in native species like kiwi and kakapo.</li>
+                        </ul>
+                    </div>
+                    <button onclick="scrollToNote('topic-3')" class="mt-6 w-full text-center text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 py-2.5 rounded-lg transition">
+                        Read Detailed Notes &rarr;
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Deep Dive Content -->
+            <div class="space-y-8 mt-10">
+                <!-- Topic 1 Detailed Notes -->
+                <div id="topic-1" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-teal-100 text-teal-800 text-sm px-3 py-1 rounded-full">Topic 1</span>
+                        DNA Structure, Alleles & Heritability
+                    </h3>
+                    <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
+                        <p>
+                            An individual organism carries a genetic code stored inside the nucleus of its cells. The physical structure of DNA (Deoxyribonucleic Acid) is a double-helix formed by repeating units called <strong>nucleotides</strong>. Each nucleotide consists of three main components: a sugar molecule (deoxyribose), a phosphate group forming the sugar-phosphate backbone, and a nitrogenous base.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider mb-2">DNA Hierarchy Analogy</h4>
+                                <ul class="text-xs sm:text-sm space-y-1">
+                                    <li>• <strong>Base Sequence / Codon:</strong> Individual letters & words</li>
+                                    <li>• <strong>Gene:</strong> A single recipe coding for a specific functional protein</li>
+                                    <li>• <strong>Chromosome:</strong> A complete recipe book (humans have 46 chromosomes in 23 pairs)</li>
+                                    <li>• <strong>Genome:</strong> The entire library in the cell nucleus</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider mb-2">Heritable vs Acquired Traits</h4>
+                                <ul class="text-xs sm:text-sm space-y-1">
+                                    <li>• <strong>Heritable Traits:</strong> Determined by DNA base sequences passed from parents via gametes (e.g., eye colour, blood type).</li>
+                                    <li>• <strong>Acquired Traits:</strong> Result from environmental influences and life experiences (e.g., dyed hair, large muscles from weightlifting, sunburn). Acquired traits cannot be passed on to offspring because they do not alter gamete DNA.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>
+                            <strong>Mutations:</strong> A mutation is a permanent change in the DNA base sequence. Mutations are the ultimate source of all new genetic variation because they create entirely new <strong>alleles</strong> (alternative forms of a gene). If a mutation occurs in somatic cells (body cells), it affects only that individual. However, if a mutation occurs in <strong>gametes</strong> (sperm or egg cells), it can be inherited by the next generation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Topic 2 Detailed Notes -->
+                <div id="topic-2" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full">Topic 2</span>
+                        Cell Division, Inheritance & Natural Selection
+                    </h3>
+                    <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
+                        <p>
+                            Sexual reproduction increases genetic variation within a population through cell division and fertilisation processes.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
+                            <div>
+                                <h4 class="font-bold text-indigo-950 text-sm uppercase tracking-wider mb-2">Mitosis vs Meiosis</h4>
+                                <p class="text-xs sm:text-sm text-slate-600 mb-2">
+                                    <strong>Mitosis:</strong> Produces 2 identical diploid body cells (46 chromosomes in humans) for growth and repair. No variation generated.
+                                </p>
+                                <p class="text-xs sm:text-sm text-slate-600">
+                                    <strong>Meiosis:</strong> Produces 4 genetically unique haploid gametes (23 chromosomes in humans) for sexual reproduction.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-indigo-950 text-sm uppercase tracking-wider mb-2">Key Meiosis Variation Factors</h4>
+                                <ul class="text-xs sm:text-sm space-y-1 text-slate-600">
+                                    <li>• <strong>Independent Assortment:</strong> Homologous chromosome pairs align randomly at the cell equator, yielding unique combinations of maternal and paternal chromosomes in gametes.</li>
+                                    <li>• <strong>Crossing Over:</strong> Homologous non-sister chromatids exchange segments of alleles during prophase I, creating new allele combinations.</li>
+                                    <li>• <strong>Random Fertilisation:</strong> Any sperm can fertilise any egg, producing millions of potential unique diploid zygotes.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p>
+                            <strong>Natural Selection & Gene Pool:</strong> In any population, environmental selection pressures (e.g., disease like kiwifruit PSA, predators attacking kiwi chicks, or climate shifts) act upon the individual phenotypes. Individuals possessing advantageous phenotypes (coded for by favourable alleles) have higher survivability and reproductive success. They pass these favourable alleles on to their offspring via gametes, causing an increase in the frequency of that allele in the population gene pool over successive generations.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Topic 3 Detailed Notes -->
+                <div id="topic-3" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-sky-100 text-sky-800 text-sm px-3 py-1 rounded-full">Topic 3</span>
+                        Gene Tracking, Pedigrees & Changing Populations
+                    </h3>
+                    <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
+                        <p>
+                            Pedigree charts and DNA markers are tools used by geneticists and conservation biologists to track the inheritance of characteristics across generations.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">Pedigree Symbols</h4>
+                                <p class="text-xs text-slate-600">Squares represent males, circles represent females. Shaded shapes indicate affected individuals possessing the studied phenotype.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">Monohybrid Ratios</h4>
+                                <p class="text-xs text-slate-600">Heterozygous cross (Aa x Aa) yields 3:1 dominant to recessive phenotype ratio, and 1:2:1 genotype ratio (1 AA : 2 Aa : 1 aa).</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">Population Dynamics</h4>
+                                <p class="text-xs text-slate-600">Small population sizes (bottlenecks), migration, and non-random mating significantly alter genetic diversity and allele frequencies.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: FLASHCARDS -->
+        <section id="tab-flashcards" class="tab-content hidden space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Key Vocabulary & Definitions</h2>
+                    <p class="text-xs sm:text-sm text-slate-500">Master essential NCEA Level 1 Genetics terminology using interactive flip cards.</p>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label for="flashcard-category" class="text-xs font-semibold text-slate-600">Category:</label>
+                    <select id="flashcard-category" onchange="filterFlashcards()" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none w-full sm:w-48">
+                        <option value="all">All Terms (30+)</option>
+                        <option value="dna">DNA & Cell Structure</option>
+                        <option value="inheritance">Inheritance & Genotype</option>
+                        <option value="reproduction">Cell Division & Reproduction</option>
+                        <option value="selection">Natural Selection & Gene Pool</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Flashcard Visual Deck -->
+            <div class="max-w-xl mx-auto py-6">
+                <div id="flashcard-card" onclick="flipCard()" class="perspective-1000 w-full h-72 cursor-pointer">
+                    <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d rounded-2xl shadow-lg border border-slate-200 bg-white">
+                        <!-- Front side -->
+                        <div class="absolute w-full h-full backface-hidden rounded-2xl p-8 flex flex-col justify-between items-center text-center bg-gradient-to-b from-white to-slate-50">
+                            <span id="card-tag" class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">DNA & Cell Structure</span>
+                            <div class="my-auto">
+                                <h3 id="card-term" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Nucleotide</h3>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i> Click card to flip definition</p>
+                            </div>
+                            <span class="text-xs text-slate-400 font-mono" id="card-counter">Card 1 of 32</span>
+                        </div>
+                        <!-- Back side -->
+                        <div class="absolute w-full h-full backface-hidden rotate-y-180 rounded-2xl p-8 flex flex-col justify-between items-center text-center bg-slate-900 text-white">
+                            <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Definition</span>
+                            <div class="my-auto px-2">
+                                <p id="card-definition" class="text-sm sm:text-base leading-relaxed text-slate-200">
+                                    The basic building block of DNA consisting of a deoxyribose sugar, a phosphate group, and a nitrogenous base (A, T, C, or G).
+                                </p>
+                            </div>
+                            <span class="text-xs text-slate-500">NCEA Biology Vocabulary</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="flex items-center justify-between mt-6 max-w-xl mx-auto px-4">
+                    <button onclick="prevCard()" class="px-4 py-2 bg-white text-slate-700 hover:bg-slate-100 border border-slate-300 font-semibold rounded-xl text-sm shadow-sm transition flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button onclick="shuffleCards()" class="px-3 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold rounded-xl text-xs transition" title="Shuffle Deck">
+                        <i class="fa-solid fa-shuffle mr-1"></i> Shuffle
+                    </button>
+                    <button onclick="nextCard()" class="px-4 py-2 bg-teal-600 text-white hover:bg-teal-700 font-semibold rounded-xl text-sm shadow-sm transition flex items-center gap-2">
+                        Next <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: INTERACTIVE TOOLS -->
+        <section id="tab-interactive" class="tab-content hidden space-y-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-xl font-bold text-slate-900">Interactive Genetics Calculators</h2>
+                <p class="text-xs sm:text-sm text-slate-500">Experiment with genetic crosses, base pairing, and monohybrid Punnett squares.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Tool 1: Interactive Punnett Square Calculator -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-table-cells-large"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Monohybrid Punnett Square Calculator</h3>
+                            <p class="text-xs text-slate-500">Select parent genotypes to predict phenotype and genotype ratios.</p>
+                        </div>
+                    </div>
+
+                    <!-- Inputs -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Parent 1 Genotype</label>
+                            <select id="parent1" onchange="calculatePunnett()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                                <option value="BB">Homozygous Dominant (BB)</option>
+                                <option value="Bb" selected>Heterozygous (Bb)</option>
+                                <option value="bb">Homozygous Recessive (bb)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Parent 2 Genotype</label>
+                            <select id="parent2" onchange="calculatePunnett()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                                <option value="BB">Homozygous Dominant (BB)</option>
+                                <option value="Bb" selected>Heterozygous (Bb)</option>
+                                <option value="bb">Homozygous Recessive (bb)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Punnett Grid Visual -->
+                    <div class="flex justify-center my-4">
+                        <div class="grid grid-cols-3 gap-2 text-center font-mono font-bold text-sm sm:text-base w-64 h-64 p-2 bg-slate-100 rounded-xl border border-slate-300">
+                            <!-- Empty Top-Left -->
+                            <div class="flex items-center justify-center bg-slate-200/50 rounded-lg text-xs text-slate-400 font-sans">♀ \ ♂</div>
+                            <!-- Parent 2 Alleles -->
+                            <div id="p2-a1" class="flex items-center justify-center bg-teal-100 text-teal-800 rounded-lg text-lg">B</div>
+                            <div id="p2-a2" class="flex items-center justify-center bg-teal-100 text-teal-800 rounded-lg text-lg">b</div>
+
+                            <!-- Parent 1 Allele 1 -->
+                            <div id="p1-a1" class="flex items-center justify-center bg-indigo-100 text-indigo-800 rounded-lg text-lg">B</div>
+                            <!-- Offspring Cells -->
+                            <div id="cell-1" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">BB</div>
+                            <div id="cell-2" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">Bb</div>
+
+                            <!-- Parent 1 Allele 2 -->
+                            <div id="p1-a2" class="flex items-center justify-center bg-indigo-100 text-indigo-800 rounded-lg text-lg">b</div>
+                            <div id="cell-3" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">Bb</div>
+                            <div id="cell-4" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">bb</div>
+                        </div>
+                    </div>
+
+                    <!-- Ratio Output -->
+                    <div id="punnett-results" class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2">
+                        <div class="flex justify-between border-b border-slate-200 pb-2">
+                            <span class="font-semibold text-slate-700">Genotypic Ratio:</span>
+                            <span id="genotype-ratio-text" class="font-mono font-bold text-indigo-700">1 BB : 2 Bb : 1 bb</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="font-semibold text-slate-700">Phenotypic Ratio:</span>
+                            <span id="phenotype-ratio-text" class="font-mono font-bold text-teal-700">3 Dominant Trait : 1 Recessive Trait (75% to 25%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool 2: DNA Base Pair & Codon Simulator -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-dna"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">DNA Base-Pairing & Codon Builder</h3>
+                            <p class="text-xs text-slate-500">Build a DNA template strand to see complementary base pairing and triplet codons.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-2">Click bases to construct DNA Strand (9 bases):</label>
+                        <div class="flex gap-2 mb-4">
+                            <button onclick="addBase('A')" class="flex-1 py-2 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-lg text-sm shadow-sm transition">A</button>
+                            <button onclick="addBase('T')" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-sm shadow-sm transition">T</button>
+                            <button onclick="addBase('C')" class="flex-1 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg text-sm shadow-sm transition">C</button>
+                            <button onclick="addBase('G')" class="flex-1 py-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-lg text-sm shadow-sm transition">G</button>
+                            <button onclick="clearBaseStrand()" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg text-xs transition">Clear</button>
+                        </div>
+                    </div>
+
+                    <!-- Strand Visualisation -->
+                    <div class="space-y-3 font-mono text-sm bg-slate-900 text-white p-4 rounded-xl shadow-inner">
+                        <div>
+                            <span class="text-slate-400 text-xs block mb-1">Template DNA Strand (5' to 3'):</span>
+                            <div id="dna-template-display" class="tracking-widest font-bold text-teal-400 min-h-[24px]">A T G - C C G - T A A</div>
+                        </div>
+                        <div class="border-t border-slate-800 pt-2">
+                            <span class="text-slate-400 text-xs block mb-1">Complementary DNA Strand (3' to 5'):</span>
+                            <div id="dna-complement-display" class="tracking-widest font-bold text-indigo-400 min-h-[24px]">T A C - G G C - A T T</div>
+                        </div>
+                    </div>
+
+                    <div id="codon-breakdown" class="bg-indigo-50/60 p-4 rounded-xl border border-indigo-100 text-xs space-y-1 text-slate-700">
+                        <span class="font-bold text-indigo-900 block mb-1">Triplet Codons Analysis:</span>
+                        <p id="codon-summary-text">Sequence consists of 3 triplets coding for 3 amino acids in protein synthesis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: MULTI-CHOICE QUIZ -->
+        <section id="tab-quiz" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Multiple-Choice Practice Quiz</h2>
+                    <p class="text-xs sm:text-sm text-slate-500">Test your knowledge across key NCEA Level 1 Genetics concepts with immediate feedback.</p>
+                </div>
+                <div id="quiz-score-badge" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-bold text-sm border border-slate-200">
+                    Score: <span id="quiz-score">0</span> / <span id="quiz-total">10</span>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="space-y-6">
+                <!-- Dynamically generated questions -->
+            </div>
+
+            <div class="flex justify-center pt-4">
+                <button onclick="resetQuiz()" class="px-6 py-3 bg-slate-900 text-white font-bold text-sm rounded-xl hover:bg-slate-800 shadow-md transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Reset & Retake Quiz
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 5: NCEA SELF-MARKING EVALUATOR -->
+        <section id="tab-ncea-marker" class="tab-content hidden space-y-8">
+            <div class="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 p-6 sm:p-8 rounded-2xl text-white shadow-xl">
+                <div class="max-w-3xl">
+                    <span class="inline-block bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Logical Link Evaluator</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">NCEA Standard Self-Marking System</h2>
+                    <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                        This marker evaluates your answer against official NZQA NCEA Level 1 Biology criteria. It does <strong>not</strong> just count simple keywords. It checks whether your scientific arguments are <strong>logically linked</strong> from mutation/DNA level through to phenotype, survivability, reproduction, and population gene pool allele frequency.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Input Panel -->
+                <div class="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
+                    <div>
+                        <label for="ncea-question-select" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Select NCEA Exam Question Prompt:</label>
+                        <select id="ncea-question-select" onchange="loadNceaQuestion()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <option value="q1">Q1: Natural Selection & Kiwifruit PSA Disease / Peppered Moths (Excellence level linking)</option>
+                            <option value="q2">Q2: Meiosis vs Mitosis & Gamete Genetic Variation (Achieved to Excellence)</option>
+                            <option value="q3">Q3: Pedigree Tracking & Inherited Traits across Generations</option>
+                        </select>
+                    </div>
+
+                    <!-- Question Prompt Details -->
+                    <div id="ncea-prompt-box" class="bg-indigo-50/70 p-5 rounded-xl border border-indigo-100 space-y-2">
+                        <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider block">Question Context:</span>
+                        <p id="ncea-prompt-text" class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                            Explain how a random mutation in a population can lead to a change in allele frequency over time when a new disease (such as Kiwifruit PSA) enters the environment. In your answer, link: mutation, base sequence, new allele, phenotype, survival advantage, reproduction, and gene pool frequency.
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="student-answer-input" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Your Answer (In NZ English):</label>
+                        <textarea id="student-answer-input" rows="10" placeholder="Write your full response here. Be sure to link concepts together (e.g. explain HOW the change in DNA leads to a new protein/phenotype and WHY that alters allele frequencies in the gene pool)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none font-sans leading-relaxed"></textarea>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="evaluateAnswer()" class="flex-1 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calculator"></i> Evaluate NCEA Grade & Links
+                        </button>
+                        <button onclick="clearAnswer()" class="px-4 py-3.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl text-xs transition">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Analysis & Feedback Panel -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Grade Result Box -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 text-center">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">Assessed NCEA Standard Grade</span>
+                        <div id="grade-badge" class="inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200">
+                            NOT EVALUATED
+                        </div>
+                        <p id="grade-summary" class="text-xs text-slate-500 mt-2">Submit your answer to analyze logical linkages.</p>
+                    </div>
+
+                    <!-- Logical Link Checklist -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
+                        <h4 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-link text-indigo-600"></i> Chain of Reasoning Verification
+                        </h4>
+                        <div id="link-checklist" class="space-y-2.5 text-xs">
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                                <span>A1: Mutation described as change in DNA base sequence</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                                <span>M1: Linked base change to altered protein and new allele/phenotype</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                                <span>M2: Linked phenotype to survival advantage in changing environment</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                                <span>E1: Linked survival to reproduction and passing alleles via gametes</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-400">
+                                <i class="fa-regular fa-circle text-slate-300"></i>
+                                <span>E2: Linked allele transmission to increased allele frequency in gene pool over generations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Targeted Upgrade Feedback -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-3">
+                        <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-500"></i> How to Upgrade Your Answer
+                        </h4>
+                        <p id="upgrade-feedback-text" class="text-xs text-slate-600 leading-relaxed">
+                            Write an answer above and click Evaluate to see specific advice on how to raise your grade to Merit or Excellence.
+                        </p>
+                    </div>
+
+                    <!-- Model Exemplar Answer -->
+                    <div class="bg-slate-900 rounded-2xl p-6 text-white space-y-3 shadow-lg">
+                        <button onclick="toggleExemplar()" class="w-full flex items-center justify-between text-left text-xs font-bold uppercase tracking-wider text-amber-400">
+                            <span><i class="fa-solid fa-star mr-1"></i> View Exemplar Excellence Answer</span>
+                            <i id="exemplar-chevron" class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div id="exemplar-content" class="hidden text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-3 leading-relaxed">
+                            <p id="exemplar-text">
+                                A mutation is a permanent change in the DNA base sequence. This change alters the triplet codon order, producing a different amino acid sequence that creates a functional protein producing a new allele and phenotype (e.g. disease resistance). When a selective pressure such as PSA disease enters the environment, non-resistant plants die while resistant individuals survive. Because surviving individuals reproduce sexually, they pass on the favourable allele via their haploid gametes to the next generation. Over successive generations, the proportion of resistant individuals increases, resulting in an increased allele frequency for disease resistance in the population gene pool.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: STUDY RESOURCES & EXTERNAL LINKS -->
+        <section id="tab-resources" class="tab-content hidden space-y-8">
+            <!-- Header Banner -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Recommended Study Resources & External Links</h2>
+                    <p class="text-xs sm:text-sm text-slate-500">Curated high-quality learning platforms, past exam repositories, video tutorials, and study strategy guides for NCEA Level 1 Biology.</p>
+                </div>
+                <div class="bg-teal-50 text-teal-800 border border-teal-200 text-xs font-semibold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                    <i class="fa-solid fa-check-circle text-teal-600"></i> NZ Curriculum Aligned
+                </div>
+            </div>
+
+            <!-- External Resources & Links Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Resource 1: NZQA Official Portal -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-sky-50 text-sky-700 px-2.5 py-1 rounded-full border border-sky-200">Official Exams</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">NZQA Official Standard & Exemplars</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Access official assessment specifications, past examination papers, schedules, and top-tier student exemplar answers directly from the New Zealand Qualifications Authority.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 space-y-2">
+                        <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=92022" target="_blank" class="w-full text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 py-2 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Standard 92022 Details</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        <a href="https://www.nzqa.govt.nz/ncea/assessment/search.do?query=90948" target="_blank" class="w-full text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 py-2 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Past 90948 Papers & Schedules</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resource 2: No Brain Too Small -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-brain"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-teal-50 text-teal-700 px-2.5 py-1 rounded-full border border-teal-200">NZ Revision Site</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">No Brain Too Small (NBTS)</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            New Zealand's ultimate high school science revision website. Offers bite-sized revision notes, topic flashcards, fill-in-the-blank worksheets, and past question compilations.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <a href="https://www.nobraintoosmall.co.nz/" target="_blank" class="w-full text-xs font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 py-2.5 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Visit No Brain Too Small</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resource 3: StudyTime NZ -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-full border border-indigo-200">Exam Preparation</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">StudyTime NZ Strategy & Guides</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Free NCEA Level 1 subject guides, breakdown of Excellence answer structures, key formula sheets, and strategy walkthroughs created by top NZ university graduates.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <a href="https://studytime.co.nz/" target="_blank" class="w-full text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-2.5 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Explore StudyTime NZ</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resource 4: Amoeba Sisters Biology -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-circle-play"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-rose-700 px-2.5 py-1 rounded-full border border-rose-200">Video Tutorials</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">Amoeba Sisters YouTube Channel</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Engaging, animated video tutorials explaining core biological concepts like DNA replication, alleles, monohybrid crosses, meiosis vs. mitosis, and natural selection.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <a href="https://www.youtube.com/@AmoebaSisters" target="_blank" class="w-full text-xs font-semibold text-rose-700 bg-rose-50 hover:bg-rose-100 py-2.5 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Watch Amoeba Sisters Videos</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resource 5: Education Perfect (EP) -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-700 px-2.5 py-1 rounded-full border border-amber-200">Interactive Tasks</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">Education Perfect (EP) Science</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Online curriculum-aligned learning platform used by NZ schools with interactive lessons, self-marking quizzes, and targeted drills for NCEA Genetics.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <a href="https://www.educationperfect.com/" target="_blank" class="w-full text-xs font-semibold text-amber-800 bg-amber-50 hover:bg-amber-100 py-2.5 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Open Education Perfect</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resource 6: Quizlet Decks -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-clone"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider bg-purple-50 text-purple-700 px-2.5 py-1 rounded-full border border-purple-200">Vocabulary Drills</span>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">Quizlet NCEA Genetics Decks</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Pre-made digital flashcard sets, matching games, and practice tests designed specifically for memorising key terms in NCEA Level 1 Genetic Variation.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100">
+                        <a href="https://quizlet.com/subject/ncea-level-1-genetics/" target="_blank" class="w-full text-xs font-semibold text-purple-700 bg-purple-50 hover:bg-purple-100 py-2.5 px-3 rounded-lg transition flex items-center justify-between">
+                            <span>Search NCEA Decks on Quizlet</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Exam Strategy & Writing Framework Guide -->
+            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xl">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-bold">The IDEL Answer Framework for NCEA Biology</h3>
+                        <p class="text-xs sm:text-sm text-slate-300">How to structure your written answers to reach Merit and Excellence grades.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-400 block mb-1">1. Identify (Achieved)</span>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Define the basic scientific term or state the direct observation (e.g. <em>"A mutation is a permanent change in the DNA base sequence."</em>)
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 block mb-1">2. Describe (Achieved+)</span>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Provide details on what happens or what the biological process looks like (e.g. <em>"Mutations in gamete cells can be inherited by offspring."</em>)
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">3. Explain (Merit)</span>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Explain <strong>HOW</strong> and <strong>WHY</strong> it happens (e.g. <em>"Changing the base order alters triplet codons, creating a new amino acid order and functional protein."</em>)
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">4. Link / Discuss (Excellence)</span>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Connect multiple concepts into a logical chain across generations (e.g. <em>"Survival advantage → sexual reproduction → passing allele via gametes → increased gene pool frequency."</em>)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-2">
+                    <span class="font-bold text-amber-300 block"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Common Exam Pitfalls to Avoid:</span>
+                    <ul class="list-disc list-inside space-y-1 text-slate-300">
+                        <li><strong>Don't confuse gene vs. allele:</strong> A gene is the section of DNA coding for a characteristic; an allele is the specific variation/version of that gene.</li>
+                        <li><strong>Don't forget gametes vs. somatic cells:</strong> Somatic cell mutations affect only the individual; only gamete mutations can be passed on to offspring.</li>
+                        <li><strong>Never say an organism "adapts to survive" in its lifetime:</strong> Individuals don't choose to mutate. Random mutations exist first; environmental pressures select for pre-existing beneficial phenotypes!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Downloadable/Printable Checklist Card -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-base">NCEA Level 1 Genetics Study Checklist</h4>
+                        <p class="text-xs text-slate-500">Self-assess your confidence across all required concepts before the external examination.</p>
+                    </div>
+                </div>
+                <button onclick="window.print()" class="w-full sm:w-auto px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl text-xs transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-print"></i> Print / Save Page
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <p class="font-semibold text-slate-300">NCEA Level 1 Science: Genetic Variation Study Hub</p>
+                <p class="text-slate-500 mt-1">Aligned with the New Zealand Curriculum & Achievement Standard 92022.</p>
+            </div>
+            <p class="text-slate-500">Written in New Zealand English spelling.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function scrollToNote(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==========================================
+        // FLASHCARDS DATA & LOGIC
+        // ==========================================
+        const flashcardsData = [
+            { term: "Nucleotide", category: "dna", def: "The structural unit of DNA consisting of a deoxyribose sugar, a phosphate group, and one of four nitrogenous bases (A, T, C, or G)." },
+            { term: "Gene", category: "dna", def: "A specific length of DNA base sequence that codes for a functional protein, which determines a particular characteristic." },
+            { term: "Allele", category: "dna", def: "An alternative or different form of a gene that codes for a specific variation of a trait." },
+            { term: "Chromosome", category: "dna", def: "A condensed thread-like structure of organized DNA and proteins found inside the cell nucleus." },
+            { term: "Mutation", category: "dna", def: "A permanent change in the base sequence of DNA. This is the ultimate source of all new alleles and genetic variation." },
+            { term: "Complementary Base Pairing", category: "dna", def: "The rule stating Adenine always pairs with Thymine (A-T) and Cytosine always pairs with Guanine (C-G)." },
+            { term: "Codon / Triplet", category: "dna", def: "A sequence of three consecutive DNA bases that codes for one specific amino acid during protein synthesis." },
+            
+            { term: "Genotype", category: "inheritance", def: "The specific combination of alleles possessed by an organism for a particular gene (e.g. BB, Bb, or bb)." },
+            { term: "Phenotype", category: "inheritance", def: "The physical expression or observable characteristic of an organism, determined by genotype and environment." },
+            { term: "Homozygous", category: "inheritance", def: "Having two identical alleles for a specific gene (e.g. BB or bb)." },
+            { term: "Heterozygous", category: "inheritance", def: "Having two different alleles for a specific gene (e.g. Bb)." },
+            { term: "Dominant Allele", category: "inheritance", def: "An allele that is always expressed in the phenotype if at least one copy is present (represented by capital letter)." },
+            { term: "Recessive Allele", category: "inheritance", def: "An allele that is only expressed in the phenotype when two copies are present in homozygous condition (e.g. bb)." },
+            { term: "Heritable Trait", category: "inheritance", def: "A characteristic encoded in DNA that can be passed from parents to offspring via gametes." },
+            { term: "Acquired Trait", category: "inheritance", def: "A non-heritable feature influenced by environment or life experience that does not alter gamete DNA." },
+            
+            { term: "Meiosis", category: "reproduction", def: "A type of cell division that produces 4 genetically unique haploid gametes with half the chromosome number." },
+            { term: "Mitosis", category: "reproduction", def: "Cell division producing 2 genetically identical diploid somatic cells for growth and tissue repair." },
+            { term: "Gamete", category: "reproduction", def: "A specialized haploid sex cell (sperm or egg) containing one set of chromosomes." },
+            { term: "Diploid", category: "reproduction", def: "A cell containing two complete sets of homologous chromosomes (2n = 46 in humans)." },
+            { term: "Haploid", category: "reproduction", def: "A cell containing a single set of unpaired chromosomes (n = 23 in human gametes)." },
+            { term: "Independent Assortment", category: "reproduction", def: "The random alignment and separation of maternal and paternal homologous chromosome pairs during meiosis I." },
+            { term: "Crossing Over", category: "reproduction", def: "The exchange of genetic material between non-sister chromatids of homologous chromosomes during prophase I of meiosis." },
+            
+            { term: "Natural Selection", category: "selection", def: "The process where individuals with advantageous phenotypes survive selective environmental pressures and reproduce more successfully." },
+            { term: "Gene Pool", category: "selection", def: "The total collection of all unique alleles present within an interbreeding population at a given time." },
+            { term: "Allele Frequency", category: "selection", def: "The percentage or proportion of a specific allele relative to all alleles for that gene in a gene pool." },
+            { term: "Selective Pressure", category: "selection", def: "An environmental factor (e.g. disease, drought, predators) that affects the survival and reproduction of individuals." },
+            { term: "Pedigree Chart", category: "selection", def: "A diagram showing family lineage and the occurrence of heritable phenotype characteristics across generations." }
+        ];
+
+        let currentCardIndex = 0;
+        let activeDeck = [...flashcardsData];
+        let isFlipped = false;
+
+        function updateFlashcardDisplay() {
+            const card = activeDeck[currentCardIndex];
+            if (!card) return;
+
+            document.getElementById('card-term').innerText = card.term;
+            document.getElementById('card-definition').innerText = card.def;
+            document.getElementById('card-counter').innerText = 'Card ' + (currentCardIndex + 1) + ' of ' + activeDeck.length;
+
+            const categoryMap = {
+                'dna': 'DNA & Cell Structure',
+                'inheritance': 'Inheritance & Genotype',
+                'reproduction': 'Cell Division & Reproduction',
+                'selection': 'Natural Selection & Gene Pool'
+            };
+            document.getElementById('card-tag').innerText = categoryMap[card.category] || 'Genetics';
+
+            // Reset flip
+            if (isFlipped) {
+                document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
+                isFlipped = false;
+            }
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                document.getElementById('flashcard-inner').classList.add('rotate-y-180');
+            } else {
+                document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            if (activeDeck.length === 0) return;
+            currentCardIndex = (currentCardIndex + 1) % activeDeck.length;
+            updateFlashcardDisplay();
+        }
+
+        function prevCard() {
+            if (activeDeck.length === 0) return;
+            currentCardIndex = (currentCardIndex - 1 + activeDeck.length) % activeDeck.length;
+            updateFlashcardDisplay();
+        }
+
+        function shuffleCards() {
+            activeDeck.sort(() => Math.random() - 0.5);
+            currentCardIndex = 0;
+            updateFlashcardDisplay();
+        }
+
+        function filterFlashcards() {
+            const category = document.getElementById('flashcard-category').value;
+            if (category === 'all') {
+                activeDeck = [...flashcardsData];
+            } else {
+                activeDeck = flashcardsData.filter(item => item.category === category);
+            }
+            currentCardIndex = 0;
+            updateFlashcardDisplay();
+        }
+
+        // ==========================================
+        // PUNNETT SQUARE CALCULATOR
+        // ==========================================
+        function calculatePunnett() {
+            const p1 = document.getElementById('parent1').value; // e.g. "Bb"
+            const p2 = document.getElementById('parent2').value;
+
+            const p1a1 = p1[0];
+            const p1a2 = p1[1];
+            const p2a1 = p2[0];
+            const p2a2 = p2[1];
+
+            document.getElementById('p1-a1').innerText = p1a1;
+            document.getElementById('p1-a2').innerText = p1a2;
+            document.getElementById('p2-a1').innerText = p2a1;
+            document.getElementById('p2-a2').innerText = p2a2;
+
+            function combine(a, b) {
+                // Ensure dominant allele (uppercase) is always placed first (e.g. Bb, never bB)
+                if (a === a.toUpperCase() && b !== b.toUpperCase()) return a + b;
+                if (b === b.toUpperCase() && a !== a.toUpperCase()) return b + a;
+                return a + b;
+            }
+
+            const c1 = combine(p1a1, p2a1);
+            const c2 = combine(p1a1, p2a2);
+            const c3 = combine(p1a2, p2a1);
+            const c4 = combine(p1a2, p2a2);
+
+            document.getElementById('cell-1').innerText = c1;
+            document.getElementById('cell-2').innerText = c2;
+            document.getElementById('cell-3').innerText = c3;
+            document.getElementById('cell-4').innerText = c4;
+
+            // Calculate Ratios accurately
+            const combinations = [c1, c2, c3, c4];
+            let countBB = 0, countBb = 0, countbb = 0;
+
+            combinations.forEach(combo => {
+                if (combo === 'BB') countBB++;
+                else if (combo === 'Bb') countBb++;
+                else if (combo === 'bb') countbb++;
+            });
+
+            document.getElementById('genotype-ratio-text').innerText = countBB + ' BB : ' + countBb + ' Bb : ' + countbb + ' bb';
+
+            const dominantPheno = countBB + countBb;
+            const recessivePheno = countbb;
+            const domPct = Math.round((dominantPheno / 4) * 100);
+            const recPct = Math.round((recessivePheno / 4) * 100);
+
+            document.getElementById('phenotype-ratio-text').innerText = dominantPheno + ' Dominant : ' + recessivePheno + ' Recessive (' + domPct + '% to ' + recPct + '%)';
+        }
+
+        // ==========================================
+        // DNA BUILDER SIMULATOR
+        // ==========================================
+        let currentDnaStrand = ['A', 'T', 'G', 'C', 'C', 'G', 'T', 'A', 'A'];
+
+        function renderDnaStrand() {
+            if (currentDnaStrand.length === 0) {
+                document.getElementById('dna-template-display').innerText = 'Strand empty...';
+                document.getElementById('dna-complement-display').innerText = 'Strand empty...';
+                document.getElementById('codon-summary-text').innerText = 'Add bases using the buttons above.';
+                return;
+            }
+
+            // Group into triplets
+            let templateStr = '';
+            let complementStr = '';
+
+            const compMap = { 'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C' };
+
+            for (let i = 0; i < currentDnaStrand.length; i++) {
+                if (i > 0 && i % 3 === 0) {
+                    templateStr += ' - ';
+                    complementStr += ' - ';
+                }
+                templateStr += currentDnaStrand[i];
+                complementStr += compMap[currentDnaStrand[i]];
+            }
+
+            document.getElementById('dna-template-display').innerText = templateStr;
+            document.getElementById('dna-complement-display').innerText = complementStr;
+
+            const codonCount = Math.floor(currentDnaStrand.length / 3);
+            document.getElementById('codon-summary-text').innerText = 'Sequence contains ' + currentDnaStrand.length + ' bases forming ' + codonCount + ' complete triplet codon(s) for protein translation.';
+        }
+
+        function addBase(base) {
+            if (currentDnaStrand.length >= 12) return;
+            currentDnaStrand.push(base);
+            renderDnaStrand();
+        }
+
+        function clearBaseStrand() {
+            currentDnaStrand = [];
+            renderDnaStrand();
+        }
+
+        // ==========================================
+        // MULTI-CHOICE QUIZ DATA & LOGIC
+        // ==========================================
+        const quizQuestions = [
+            {
+                q: "1. What is the fundamental source of all new alleles and genetic variation in a species?",
+                options: ["A) Crossing over during mitosis", "B) Permanent mutation in the DNA base sequence", "C) Fertilisation between different species", "D) Acquired muscle growth from physical exercise"],
+                answer: 1,
+                explanation: "A mutation is a permanent change in the DNA base sequence, creating entirely new alleles that provide variation."
+            },
+            {
+                q: "2. Which component forms the repeating backbone of a DNA strand together with deoxyribose sugar?",
+                options: ["A) Nitrogenous Base", "B) Amino Acid", "C) Phosphate Group", "D) Ribosome"],
+                answer: 2,
+                explanation: "The sugar-phosphate backbone is composed of alternating deoxyribose sugar molecules and phosphate groups."
+            },
+            {
+                q: "3. Human somatic (body) cells are diploid (46 chromosomes). What is the chromosome count in haploid gametes produced by meiosis?",
+                options: ["A) 46 chromosomes", "B) 92 chromosomes", "C) 23 chromosomes", "D) 12 chromosomes"],
+                answer: 2,
+                explanation: "Meiosis reduces chromosome number by half, producing haploid gametes with 23 chromosomes."
+            },
+            {
+                q: "4. If two heterozygous parents (Bb x Bb) are crossed, what is the expected phenotypic ratio in their offspring?",
+                options: ["A) 1 Dominant : 1 Recessive", "B) 3 Dominant : 1 Recessive", "C) All Dominant", "D) 1 BB : 2 Bb : 1 bb"],
+                answer: 1,
+                explanation: "A monohybrid heterozygous cross yields a 3:1 phenotypic ratio (75% expressing dominant trait, 25% recessive)."
+            },
+            {
+                q: "5. Why can an acquired trait (such as a sun tan or large muscle size) NOT be passed on to offspring?",
+                options: ["A) It is dominant over inherited traits", "B) It does not alter the DNA base sequence in gamete cells", "C) It only alters RNA, not DNA", "D) It is eliminated during fertilization"],
+                answer: 1,
+                explanation: "Only genetic changes in the DNA of gametes (sperm and egg) can be inherited by offspring."
+            },
+            {
+                q: "6. During meiosis, how does independent assortment contribute to genetic variation?",
+                options: ["A) By doubling the DNA content in body cells", "B) By randomly aligning maternal and paternal homologous chromosome pairs", "C) By converting recessive alleles into dominant ones", "D) By preventing gametes from fusing"],
+                answer: 1,
+                explanation: "Independent assortment aligns homologous chromosome pairs randomly at the cell equator, generating diverse gamete combinations."
+            },
+            {
+                q: "7. When a selective pressure (e.g. Kiwifruit PSA disease) enters an environment, which individuals are most likely to reproduce?",
+                options: ["A) Individuals with the largest physical size", "B) Individuals with phenotypes conferring disease resistance", "C) Individuals with the highest rate of somatic mutation", "D) All individuals equally"],
+                answer: 1,
+                explanation: "Natural selection favours individuals whose phenotypes provide a survival advantage against the selective pressure."
+            },
+            {
+                q: "8. In a pedigree chart, what symbol is traditionally used to represent a male individual?",
+                options: ["A) Circle", "B) Triangle", "C) Square", "D) Shaded Star"],
+                answer: 2,
+                explanation: "Pedigree charts use squares to denote males and circles to denote females."
+            },
+            {
+                q: "9. How does a change in the DNA base sequence lead to a modified phenotype?",
+                options: ["A) It changes the triplet codon sequence, altering the amino acids in the functional protein", "B) It alters the cell wall thickness directly", "C) It destroys all recessive alleles in the nucleus", "D) It changes diploid cells into haploid cells"],
+                answer: 0,
+                explanation: "The DNA base sequence determines triplet codons, which dictate amino acid order and protein structure/phenotype."
+            },
+            {
+                q: "10. What effect does a severe population bottleneck (small population size) have on a gene pool?",
+                options: ["A) Increases genetic diversity rapidly", "B) Reduces genetic variation and increases risk of inheriting harmful recessive traits", "C) Eliminates natural selection completely", "D) Has no impact on allele frequencies"],
+                answer: 1,
+                explanation: "Small populations experience reduced genetic diversity, increasing inbreeding and exposure of harmful recessive alleles."
+            }
+        ];
+
+        let userQuizAnswers = {};
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            quizQuestions.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4";
+
+                let optionsHtml = '';
+                item.options.forEach((opt, optIdx) => {
+                    optionsHtml += '<button onclick="selectQuizOption(' + index + ', ' + optIdx + ')" id="q-' + index + '-opt-' + optIdx + '" class="w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs sm:text-sm text-slate-800 transition flex items-center justify-between">' +
+                        '<span>' + opt + '</span>' +
+                        '<i class="fa-regular fa-circle text-slate-300" id="q-' + index + '-icon-' + optIdx + '"></i>' +
+                    '</button>';
+                });
+
+                card.innerHTML = '<div class="font-bold text-slate-900 text-sm sm:text-base">' + item.q + '</div>' +
+                    '<div class="space-y-2 mt-3">' + optionsHtml + '</div>' +
+                    '<div id="q-' + index + '-feedback" class="hidden text-xs p-3.5 rounded-xl border mt-3"></div>';
+
+                container.appendChild(card);
+            });
+
+            document.getElementById('quiz-total').innerText = quizQuestions.length;
+        }
+
+        function selectQuizOption(qIdx, optIdx) {
+            userQuizAnswers[qIdx] = optIdx;
+
+            const qData = quizQuestions[qIdx];
+            const isCorrect = optIdx === qData.answer;
+
+            // Reset options style for this question
+            qData.options.forEach((_, i) => {
+                const btn = document.getElementById('q-' + qIdx + '-opt-' + i);
+                const icon = document.getElementById('q-' + qIdx + '-icon-' + i);
+                btn.className = "w-full text-left p-3 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm text-slate-800 transition flex items-center justify-between";
+                icon.className = "fa-regular fa-circle text-slate-300";
+            });
+
+            const selectedBtn = document.getElementById('q-' + qIdx + '-opt-' + optIdx);
+            const selectedIcon = document.getElementById('q-' + qIdx + '-icon-' + optIdx);
+            const feedbackBox = document.getElementById('q-' + qIdx + '-feedback');
+
+            if (isCorrect) {
+                selectedBtn.className = "w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-xs sm:text-sm text-emerald-950 font-semibold transition flex items-center justify-between";
+                selectedIcon.className = "fa-solid fa-circle-check text-emerald-600 text-base";
+
+                feedbackBox.className = "text-xs p-3.5 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 mt-3 block";
+                feedbackBox.innerHTML = '<strong><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Correct!</strong> ' + qData.explanation;
+            } else {
+                selectedBtn.className = "w-full text-left p-3 rounded-xl border border-rose-300 bg-rose-50 text-xs sm:text-sm text-rose-950 font-semibold transition flex items-center justify-between";
+                selectedIcon.className = "fa-solid fa-circle-xmark text-rose-600 text-base";
+
+                // Highlight correct option
+                const correctBtn = document.getElementById('q-' + qIdx + '-opt-' + qData.answer);
+                correctBtn.className = "w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-xs sm:text-sm text-emerald-950 transition flex items-center justify-between";
+
+                feedbackBox.className = "text-xs p-3.5 rounded-xl border bg-rose-50 border-rose-200 text-rose-900 mt-3 block";
+                feedbackBox.innerHTML = '<strong><i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> Incorrect.</strong> ' + qData.explanation;
+            }
+
+            // Update Total Score
+            let score = 0;
+            Object.keys(userQuizAnswers).forEach(key => {
+                if (userQuizAnswers[key] === quizQuestions[key].answer) {
+                    score++;
+                }
+            });
+            document.getElementById('quiz-score').innerText = score;
+        }
+
+        function resetQuiz() {
+            userQuizAnswers = {};
+            document.getElementById('quiz-score').innerText = '0';
+            renderQuiz();
+        }
+
+        // ==========================================
+        // NCEA SELF-MARKING ENGINE
+        // ==========================================
+        const nceaPrompts = {
+            'q1': {
+                prompt: "Explain how a random mutation in a population can lead to a change in allele frequency over time when a new disease (such as Kiwifruit PSA) enters the environment. In your answer, link: mutation, base sequence, new allele, phenotype, survival advantage, reproduction, and gene pool frequency.",
+                exemplar: "A mutation is a permanent change in the DNA base sequence. This alters the codon sequence, producing a different amino acid chain that forms a functional protein resulting in a new allele and phenotype (e.g., PSA disease resistance). When PSA disease enters the environment, non-resistant vines die, while resistant individuals possess a survival advantage. The surviving vines reproduce sexually, passing the favourable allele via haploid gametes to their offspring. Over successive generations, the proportion of resistant individuals increases, resulting in an increased allele frequency for disease resistance in the population gene pool."
+            },
+            'q2': {
+                prompt: "Compare meiosis and mitosis in terms of genetic variation. Explain how meiosis and fertilisation produce unique offspring, whereas mitosis does not. Link gametes, haploid/diploid, independent assortment, crossing over, and zygote uniqueness.",
+                exemplar: "Mitosis involves one division producing two diploid somatic cells that are genetically identical to the parent cell for growth and repair. In contrast, meiosis involves two divisions producing four haploid gametes (sperm/egg) with half the chromosome number (23). Meiosis creates genetic variation through crossing over (exchanging segments between non-sister chromatids) and independent assortment (random alignment of homologous chromosome pairs). During random fertilisation, any unique sperm fuses with any unique egg to form a genetically unique diploid zygote."
+            },
+            'q3': {
+                prompt: "Using a pedigree chart tracking an autosomal recessive characteristic (e.g. Cystic Fibrosis), explain how two unaffected parents can produce an affected child. Link genotypes (homozygous dominant, heterozygous, homozygous recessive), Punnett ratios, and probability.",
+                exemplar: "Two unaffected parents can produce an affected child if both parents are heterozygous carriers (Genotype Ff) for the recessive allele. Each parent produces 50% gametes with the dominant allele (F) and 50% with the recessive allele (f). According to a monohybrid Punnett square cross (Ff x Ff), there is a 25% (1 in 4) probability of offspring inheriting two recessive alleles (ff) to express the affected phenotype. The 3:1 ratio represents probability per fertilisation event, which is why unaffected parents can have affected offspring."
+            }
+        };
+
+        function loadNceaQuestion() {
+            const qKey = document.getElementById('ncea-question-select').value;
+            const data = nceaPrompts[qKey];
+
+            document.getElementById('ncea-prompt-text').innerText = data.prompt;
+            document.getElementById('exemplar-text').innerText = data.exemplar;
+
+            // Reset marking UI
+            document.getElementById('grade-badge').className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200";
+            document.getElementById('grade-badge').innerText = "NOT EVALUATED";
+            document.getElementById('grade-summary').innerText = "Submit your answer to analyze logical linkages.";
+            document.getElementById('upgrade-feedback-text').innerText = "Write an answer above and click Evaluate to see specific advice on how to raise your grade.";
+        }
+
+        function toggleExemplar() {
+            const content = document.getElementById('exemplar-content');
+            const icon = document.getElementById('exemplar-chevron');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.className = "fa-solid fa-chevron-up";
+            } else {
+                content.classList.add('hidden');
+                icon.className = "fa-solid fa-chevron-down";
+            }
+        }
+
+        function evaluateAnswer() {
+            const text = document.getElementById('student-answer-input').value.toLowerCase();
+            const qKey = document.getElementById('ncea-question-select').value;
+
+            if (text.trim().length < 30) {
+                alert("Please write a more complete answer (at least 2-3 sentences) so the NCEA marker can analyze your chain of reasoning.");
+                return;
+            }
+
+            // Semantic Link Verification Rules for Q1 (Natural Selection focus)
+            let links = {
+                a1: false, // Mutation -> DNA Base Sequence
+                m1: false, // Base sequence -> Amino acid / protein -> new allele/phenotype
+                m2: false, // Phenotype -> Survival advantage / selective pressure
+                e1: false, // Survival -> Sexual reproduction / passing allele in gametes
+                e2: false  // Allele passed -> Increased allele frequency in gene pool over generations
+            };
+
+            // Check A1: Mutation linked to DNA / base sequence
+            if ((text.includes('mutation') || text.includes('mutate')) && (text.includes('base') || text.includes('dna') || text.includes('sequence'))) {
+                links.a1 = true;
+            }
+
+            // Check M1: Base sequence linked to protein/allele/phenotype
+            if ((text.includes('base') || text.includes('dna') || text.includes('codon')) && (text.includes('protein') || text.includes('allele') || text.includes('phenotype') || text.includes('trait'))) {
+                links.m1 = true;
+            }
+
+            // Check M2: Phenotype linked to survival advantage / selective pressure
+            if ((text.includes('phenotype') || text.includes('resistant') || text.includes('trait')) && (text.includes('surviv') || text.includes('advantage') || text.includes('pressure') || text.includes('die'))) {
+                links.m2 = true;
+            }
+
+            // Check E1: Survival linked to reproduction / gametes
+            if ((text.includes('surviv') || text.includes('advantage')) && (text.includes('reproduc') || text.includes('breed') || text.includes('pass') || text.includes('gamete') || text.includes('offspring'))) {
+                links.e1 = true;
+            }
+
+            // Check E2: Reproduction linked to allele frequency / gene pool over time
+            if ((text.includes('pass') || text.includes('reproduc') || text.includes('generation')) && (text.includes('frequency') || text.includes('gene pool') || text.includes('population') || text.includes('increase'))) {
+                links.e2 = true;
+            }
+
+            // Generalize for other question prompts
+            if (qKey === 'q2') {
+                if (text.includes('meiosis') && text.includes('mitosis')) links.a1 = true;
+                if ((text.includes('crossing over') || text.includes('independent assortment')) && text.includes('variation')) links.m1 = true;
+                if (text.includes('gamete') && (text.includes('haploid') || text.includes('23'))) links.m2 = true;
+                if (text.includes('fertilisation') || text.includes('fertilization')) links.e1 = true;
+                if (text.includes('zygote') && (text.includes('unique') || text.includes('diploid'))) links.e2 = true;
+            } else if (qKey === 'q3') {
+                if (text.includes('heterozygous') || text.includes('carrier')) links.a1 = true;
+                if (text.includes('recessive') && text.includes('allele')) links.m1 = true;
+                if (text.includes('punnett') || text.includes('ratio') || text.includes('25%') || text.includes('3:1')) links.m2 = true;
+                if (text.includes('gamete') || text.includes('inherit')) links.e1 = true;
+                if (text.includes('probability') || text.includes('fertilisation')) links.e2 = true;
+            }
+
+            // Render Checklist Results
+            const checklistContainer = document.getElementById('link-checklist');
+            const linkItems = [
+                { key: 'a1', text: "A1: Correctly linked mutation/concept to DNA base sequence." },
+                { key: 'm1', text: "M1: Explained connection between DNA sequence, proteins, and phenotype expression." },
+                { key: 'm2', text: "M2: Linked phenotype expression to survival advantage under selective pressure." },
+                { key: 'e1', text: "E1: Connected survival advantage to sexual reproduction and passing alleles via gametes." },
+                { key: 'e2', text: "E2: Justified change in population gene pool allele frequency over generations." }
+            ];
+
+            let checklistHtml = '';
+            linkItems.forEach(item => {
+                const passed = links[item.key];
+                if (passed) {
+                    checklistHtml += '<div class="flex items-center gap-2 text-emerald-700 font-medium"><i class="fa-solid fa-circle-check text-emerald-600"></i> <span>' + item.text + '</span></div>';
+                } else {
+                    checklistHtml += '<div class="flex items-center gap-2 text-slate-400"><i class="fa-regular fa-circle text-slate-300"></i> <span>' + item.text + '</span></div>';
+                }
+            });
+            checklistContainer.innerHTML = checklistHtml;
+
+            // Determine Grade
+            let grade = "NOT ACHIEVED";
+            let badgeClass = "bg-rose-100 text-rose-800 border-rose-200";
+            let upgradeText = "";
+
+            if (links.a1 && links.m1 && links.m2 && links.e1 && links.e2) {
+                grade = "EXCELLENCE (E8)";
+                badgeClass = "bg-amber-100 text-amber-900 border-amber-300 shadow-sm";
+                upgradeText = "Outstanding answer! You have fully linked all key concepts from molecular DNA changes up to population gene pool allele frequencies across generations.";
+            } else if (links.a1 && links.m1 && links.m2 && (links.e1 || links.e2)) {
+                grade = "MERIT (M6)";
+                badgeClass = "bg-indigo-100 text-indigo-900 border-indigo-300";
+                upgradeText = "To reach Excellence: Clearly state that surviving individuals reproduce sexually to pass the favourable allele to offspring via gametes, causing an increase in allele frequency in the gene pool over generations.";
+            } else if (links.a1 && (links.m1 || links.m2)) {
+                grade = "ACHIEVED (A4)";
+                badgeClass = "bg-teal-100 text-teal-900 border-teal-300";
+                upgradeText = "To reach Merit: Make sure to explain HOW the change in DNA base sequence creates a new protein/phenotype, and WHY that phenotype grants a survival advantage in the environment.";
+            } else {
+                grade = "NOT ACHIEVED (N2)";
+                badgeClass = "bg-rose-100 text-rose-900 border-rose-300";
+                upgradeText = "To reach Achieved: Ensure you define mutation as a permanent change in the DNA base sequence and state how it alters the organism's physical trait or phenotype.";
+            }
+
+            const badge = document.getElementById('grade-badge');
+            badge.className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl border my-2 " + badgeClass;
+            badge.innerText = grade;
+
+            document.getElementById('grade-summary').innerText = "Analysis based on NCEA Level 1 Standard 92022 linkage criteria.";
+            document.getElementById('upgrade-feedback-text').innerText = upgradeText;
+        }
+
+        function clearAnswer() {
+            document.getElementById('student-answer-input').value = '';
+            document.getElementById('grade-badge').className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200";
+            document.getElementById('grade-badge').innerText = "NOT EVALUATED";
+            document.getElementById('grade-summary').innerText = "Submit your answer to analyze logical linkages.";
+            document.getElementById('upgrade-feedback-text').innerText = "Write an answer above and click Evaluate to see specific advice on how to raise your grade.";
+        }
+
+        // Page Initialization
+        window.onload = function() {
+            updateFlashcardDisplay();
+            calculatePunnett();
+            renderDnaStrand();
+            renderQuiz();
+            loadNceaQuestion();
+        };
+    </script>
+</body>
+</html>
