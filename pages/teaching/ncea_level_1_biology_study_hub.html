@@ -20,7 +20,7 @@
             color: #0f172a;
         }
         
-        /* Perspective for 3D Flashcard flip */
+        /* 3D Flashcard flip perspective */
         .perspective-1000 {
             perspective: 1000px;
         }
@@ -145,166 +145,131 @@
                 </div>
             </div>
 
-            <!-- 3 Core Topic Modules -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
+            <!-- 4 Core Topic Modules -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Module 1 -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
                     <div>
-                        <div class="w-12 h-12 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">
-                            01
-                        </div>
+                        <div class="w-12 h-12 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">01</div>
                         <h3 class="text-lg font-bold text-slate-900 mb-2">DNA, Genes & Chromosomes</h3>
                         <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Source & Nature of Variation</p>
                         <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
-                            <li><strong class="text-slate-800">Nucleotide Structure:</strong> Deoxyribose sugar, phosphate group, and nitrogenous base (A, T, C, G).</li>
-                            <li><strong class="text-slate-800">Complementary Base Pairing:</strong> Adenine pairs with Thymine (A-T), Cytosine pairs with Guanine (C-G).</li>
-                            <li><strong class="text-slate-800">Genetic Code:</strong> Triplet codons code for specific amino acids, forming functional proteins.</li>
-                            <li><strong class="text-slate-800">Mutations:</strong> Permanent changes in DNA base sequences that produce new alleles.</li>
+                            <li><strong class="text-slate-800">Nucleotides:</strong> Sugar, phosphate, nitrogen base (A, T, C, G).</li>
+                            <li><strong class="text-slate-800">Base Pairing:</strong> A-T and C-G complementary rules.</li>
+                            <li><strong class="text-slate-800">Triplet Codons:</strong> Code for specific amino acids forming functional proteins.</li>
+                            <li><strong class="text-slate-800">Mutations:</strong> Permanent DNA base sequence changes creating new alleles.</li>
                         </ul>
                     </div>
                     <button onclick="scrollToNote('topic-1')" class="mt-6 w-full text-center text-xs font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 py-2.5 rounded-lg transition">
-                        Read Detailed Notes &rarr;
+                        Read Notes &rarr;
                     </button>
                 </div>
 
                 <!-- Module 2 -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
                     <div>
-                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">
-                            02
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Reproduction & Selection</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">How & Why Variation Occurs</p>
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">02</div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Cell Division & Reproduction</h3>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Generating Diversity</p>
                         <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
-                            <li><strong class="text-slate-800">Meiosis vs Mitosis:</strong> Mitosis produces 2 identical diploid somatic cells; Meiosis produces 4 unique haploid gametes.</li>
-                            <li><strong class="text-slate-800">Sources of Variation:</strong> Independent assortment, crossing over, and random fertilisation.</li>
-                            <li><strong class="text-slate-800">Genotype to Phenotype:</strong> Homozygous dominant, heterozygous, and recessive monohybrid ratios (3:1, 1:2:1).</li>
-                            <li><strong class="text-slate-800">Natural Selection:</strong> Favourable traits improve survivability and reproductive success.</li>
+                            <li><strong class="text-slate-800">Meiosis vs Mitosis:</strong> 4 unique haploid gametes vs 2 identical diploid body cells.</li>
+                            <li><strong class="text-slate-800">Independent Assortment:</strong> Random alignment of homologous chromosome pairs.</li>
+                            <li><strong class="text-slate-800">Crossing Over:</strong> Allele segment swap between non-sister chromatids.</li>
+                            <li><strong class="text-slate-800">Random Fertilisation:</strong> Any unique sperm + any unique egg.</li>
                         </ul>
                     </div>
                     <button onclick="scrollToNote('topic-2')" class="mt-6 w-full text-center text-xs font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-2.5 rounded-lg transition">
-                        Read Detailed Notes &rarr;
+                        Read Notes &rarr;
                     </button>
                 </div>
 
                 <!-- Module 3 -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
                     <div>
-                        <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">
-                            03
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">Gene Tracking & Pedigrees</h3>
-                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Inheritance Methodologies</p>
+                        <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">03</div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Natural Selection & Gene Pools</h3>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Evolution & Survival</p>
                         <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
-                            <li><strong class="text-slate-800">Pedigree Charts:</strong> Tracking inherited traits and genetic disorders across human or animal generations.</li>
-                            <li><strong class="text-slate-800">Genetic Markers:</strong> Using specific DNA sequences to determine carrier status or relatedness.</li>
-                            <li><strong class="text-slate-800">Changing Environments:</strong> Population bottleneck, small population size, migration, non-random mating.</li>
-                            <li><strong class="text-slate-800">Conservation Applications:</strong> Preserving genetic diversity in native species like kiwi and kakapo.</li>
+                            <li><strong class="text-slate-800">Selective Pressures:</strong> Disease (PSA), predators, environmental shifts.</li>
+                            <li><strong class="text-slate-800">Survival Advantage:</strong> Beneficial phenotypes survive & reproduce.</li>
+                            <li><strong class="text-slate-800">Allele Frequency:</strong> Favourable alleles increase in population gene pool.</li>
+                            <li><strong class="text-slate-800">Bottleneck Effect:</strong> Reduced genetic diversity in small populations.</li>
                         </ul>
                     </div>
-                    <button onclick="scrollToNote('topic-3')" class="mt-6 w-full text-center text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 py-2.5 rounded-lg transition">
-                        Read Detailed Notes &rarr;
+                    <button onclick="scrollToNote('topic-3')" class="mt-6 w-full text-center text-xs font-semibold text-amber-700 bg-amber-50 hover:bg-amber-100 py-2.5 rounded-lg transition">
+                        Read Notes &rarr;
                     </button>
                 </div>
 
+                <!-- Module 4 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-xl flex items-center justify-center font-bold text-xl mb-4">04</div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Pedigrees & Monohybrid Crosses</h3>
+                        <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold mb-3">Inheritance Patterns</p>
+                        <ul class="text-xs sm:text-sm text-slate-600 space-y-2 list-disc list-inside leading-relaxed">
+                            <li><strong class="text-slate-800">Monohybrid Crosses:</strong> 3:1 phenotypic & 1:2:1 genotypic ratios.</li>
+                            <li><strong class="text-slate-800">Pedigree Tracking:</strong> Identifying carrier parents of recessive traits.</li>
+                            <li><strong class="text-slate-800">Test Crosses:</strong> Crossing with homozygous recessive to find genotype.</li>
+                            <li><strong class="text-slate-800">Probability vs Reality:</strong> Why small offspring counts vary from expected ratios.</li>
+                        </ul>
+                    </div>
+                    <button onclick="scrollToNote('topic-4')" class="mt-6 w-full text-center text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 py-2.5 rounded-lg transition">
+                        Read Notes &rarr;
+                    </button>
+                </div>
             </div>
 
-            <!-- Deep Dive Content -->
+            <!-- Detailed Notes Sections -->
             <div class="space-y-8 mt-10">
-                <!-- Topic 1 Detailed Notes -->
                 <div id="topic-1" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
-                        <span class="bg-teal-100 text-teal-800 text-sm px-3 py-1 rounded-full">Topic 1</span>
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-teal-100 text-teal-800 text-xs sm:text-sm px-3 py-1 rounded-full font-bold">Topic 1</span>
                         DNA Structure, Alleles & Heritability
                     </h3>
                     <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
                         <p>
-                            An individual organism carries a genetic code stored inside the nucleus of its cells. The physical structure of DNA (Deoxyribonucleic Acid) is a double-helix formed by repeating units called <strong>nucleotides</strong>. Each nucleotide consists of three main components: a sugar molecule (deoxyribose), a phosphate group forming the sugar-phosphate backbone, and a nitrogenous base.
+                            An organism's genetic code is stored inside the nucleus in the form of DNA (Deoxyribonucleic Acid). DNA consists of a double-helix formed by repeating units called <strong>nucleotides</strong>. Each nucleotide contains a sugar, a phosphate group, and a nitrogenous base (A, T, C, or G).
                         </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider mb-2">DNA Hierarchy Analogy</h4>
-                                <ul class="text-xs sm:text-sm space-y-1">
-                                    <li>• <strong>Base Sequence / Codon:</strong> Individual letters & words</li>
-                                    <li>• <strong>Gene:</strong> A single recipe coding for a specific functional protein</li>
-                                    <li>• <strong>Chromosome:</strong> A complete recipe book (humans have 46 chromosomes in 23 pairs)</li>
-                                    <li>• <strong>Genome:</strong> The entire library in the cell nucleus</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-slate-900 text-sm uppercase tracking-wider mb-2">Heritable vs Acquired Traits</h4>
-                                <ul class="text-xs sm:text-sm space-y-1">
-                                    <li>• <strong>Heritable Traits:</strong> Determined by DNA base sequences passed from parents via gametes (e.g., eye colour, blood type).</li>
-                                    <li>• <strong>Acquired Traits:</strong> Result from environmental influences and life experiences (e.g., dyed hair, large muscles from weightlifting, sunburn). Acquired traits cannot be passed on to offspring because they do not alter gamete DNA.</li>
-                                </ul>
-                            </div>
-                        </div>
                         <p>
-                            <strong>Mutations:</strong> A mutation is a permanent change in the DNA base sequence. Mutations are the ultimate source of all new genetic variation because they create entirely new <strong>alleles</strong> (alternative forms of a gene). If a mutation occurs in somatic cells (body cells), it affects only that individual. However, if a mutation occurs in <strong>gametes</strong> (sperm or egg cells), it can be inherited by the next generation.
+                            <strong>Mutations:</strong> A permanent change in the base sequence of DNA. Mutations are the ultimate source of all new alleles. Somatic mutations affect only the individual, whereas <strong>gametic mutations</strong> can be inherited by offspring.
                         </p>
                     </div>
                 </div>
 
-                <!-- Topic 2 Detailed Notes -->
                 <div id="topic-2" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
-                        <span class="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full">Topic 2</span>
-                        Cell Division, Inheritance & Natural Selection
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs sm:text-sm px-3 py-1 rounded-full font-bold">Topic 2</span>
+                        Cell Division, Reproduction & Sources of Variation
                     </h3>
                     <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
                         <p>
-                            Sexual reproduction increases genetic variation within a population through cell division and fertilisation processes.
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100">
-                            <div>
-                                <h4 class="font-bold text-indigo-950 text-sm uppercase tracking-wider mb-2">Mitosis vs Meiosis</h4>
-                                <p class="text-xs sm:text-sm text-slate-600 mb-2">
-                                    <strong>Mitosis:</strong> Produces 2 identical diploid body cells (46 chromosomes in humans) for growth and repair. No variation generated.
-                                </p>
-                                <p class="text-xs sm:text-sm text-slate-600">
-                                    <strong>Meiosis:</strong> Produces 4 genetically unique haploid gametes (23 chromosomes in humans) for sexual reproduction.
-                                </p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-indigo-950 text-sm uppercase tracking-wider mb-2">Key Meiosis Variation Factors</h4>
-                                <ul class="text-xs sm:text-sm space-y-1 text-slate-600">
-                                    <li>• <strong>Independent Assortment:</strong> Homologous chromosome pairs align randomly at the cell equator, yielding unique combinations of maternal and paternal chromosomes in gametes.</li>
-                                    <li>• <strong>Crossing Over:</strong> Homologous non-sister chromatids exchange segments of alleles during prophase I, creating new allele combinations.</li>
-                                    <li>• <strong>Random Fertilisation:</strong> Any sperm can fertilise any egg, producing millions of potential unique diploid zygotes.</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p>
-                            <strong>Natural Selection & Gene Pool:</strong> In any population, environmental selection pressures (e.g., disease like kiwifruit PSA, predators attacking kiwi chicks, or climate shifts) act upon the individual phenotypes. Individuals possessing advantageous phenotypes (coded for by favourable alleles) have higher survivability and reproductive success. They pass these favourable alleles on to their offspring via gametes, causing an increase in the frequency of that allele in the population gene pool over successive generations.
+                            <strong>Meiosis</strong> produces 4 genetically unique haploid gametes through independent assortment and crossing over. During <strong>random fertilisation</strong>, any unique sperm fertilises any unique egg, ensuring offspring are genetically distinct from parents and siblings.
                         </p>
                     </div>
                 </div>
 
-                <!-- Topic 3 Detailed Notes -->
                 <div id="topic-3" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
-                        <span class="bg-sky-100 text-sky-800 text-sm px-3 py-1 rounded-full">Topic 3</span>
-                        Gene Tracking, Pedigrees & Changing Populations
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-amber-100 text-amber-800 text-xs sm:text-sm px-3 py-1 rounded-full font-bold">Topic 3</span>
+                        Natural Selection & Gene Pool Dynamics
                     </h3>
                     <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
                         <p>
-                            Pedigree charts and DNA markers are tools used by geneticists and conservation biologists to track the inheritance of characteristics across generations.
+                            Selective environmental pressures act on phenotypes. Individuals with favourable phenotypes are more likely to survive and reproduce, passing beneficial alleles to their offspring and increasing the allele frequency in the population gene pool over time.
                         </p>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">Pedigree Symbols</h4>
-                                <p class="text-xs text-slate-600">Squares represent males, circles represent females. Shaded shapes indicate affected individuals possessing the studied phenotype.</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">Monohybrid Ratios</h4>
-                                <p class="text-xs text-slate-600">Heterozygous cross (Aa x Aa) yields 3:1 dominant to recessive phenotype ratio, and 1:2:1 genotype ratio (1 AA : 2 Aa : 1 aa).</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                <h4 class="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">Population Dynamics</h4>
-                                <p class="text-xs text-slate-600">Small population sizes (bottlenecks), migration, and non-random mating significantly alter genetic diversity and allele frequencies.</p>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+
+                <div id="topic-4" class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                    <h3 class="text-xl sm:text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                        <span class="bg-sky-100 text-sky-800 text-xs sm:text-sm px-3 py-1 rounded-full font-bold">Topic 4</span>
+                        Pedigree Analysis & Monohybrid Inheritance
+                    </h3>
+                    <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
+                        <p>
+                            Pedigree charts track phenotypes across generations. Heterozygous parents (carriers) can pass recessive alleles to offspring unnoticed until two carriers produce a homozygous recessive child (25% probability).
+                        </p>
                     </div>
                 </div>
             </div>
@@ -314,35 +279,35 @@
         <section id="tab-flashcards" class="tab-content hidden space-y-6">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900">Key Vocabulary & Definitions</h2>
+                    <h2 class="text-xl font-bold text-slate-900">Key Vocabulary & Flashcards</h2>
                     <p class="text-xs sm:text-sm text-slate-500">Master essential NCEA Level 1 Genetics terminology using interactive flip cards.</p>
                 </div>
                 
                 <!-- Category Filter -->
                 <div class="flex items-center gap-2 w-full sm:w-auto">
-                    <label for="flashcard-category" class="text-xs font-semibold text-slate-600">Category:</label>
-                    <select id="flashcard-category" onchange="filterFlashcards()" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none w-full sm:w-48">
-                        <option value="all">All Terms (30+)</option>
-                        <option value="dna">DNA & Cell Structure</option>
-                        <option value="inheritance">Inheritance & Genotype</option>
+                    <label for="flashcard-category" class="text-xs font-semibold text-slate-600">Topic:</label>
+                    <select id="flashcard-category" onchange="filterFlashcards()" class="bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none w-full sm:w-56">
+                        <option value="all">All Topics (27 Terms)</option>
+                        <option value="dna">DNA & Mutations</option>
                         <option value="reproduction">Cell Division & Reproduction</option>
                         <option value="selection">Natural Selection & Gene Pool</option>
+                        <option value="inheritance">Pedigrees & Inheritance</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Flashcard Visual Deck -->
+            <!-- Flashcard Deck Visual -->
             <div class="max-w-xl mx-auto py-6">
                 <div id="flashcard-card" onclick="flipCard()" class="perspective-1000 w-full h-72 cursor-pointer">
                     <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d rounded-2xl shadow-lg border border-slate-200 bg-white">
                         <!-- Front side -->
                         <div class="absolute w-full h-full backface-hidden rounded-2xl p-8 flex flex-col justify-between items-center text-center bg-gradient-to-b from-white to-slate-50">
-                            <span id="card-tag" class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">DNA & Cell Structure</span>
+                            <span id="card-tag" class="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">DNA & Mutations</span>
                             <div class="my-auto">
                                 <h3 id="card-term" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Nucleotide</h3>
                                 <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i> Click card to flip definition</p>
                             </div>
-                            <span class="text-xs text-slate-400 font-mono" id="card-counter">Card 1 of 32</span>
+                            <span class="text-xs text-slate-400 font-mono" id="card-counter">Card 1 of 27</span>
                         </div>
                         <!-- Back side -->
                         <div class="absolute w-full h-full backface-hidden rotate-y-180 rounded-2xl p-8 flex flex-col justify-between items-center text-center bg-slate-900 text-white">
@@ -415,19 +380,14 @@
                     <!-- Punnett Grid Visual -->
                     <div class="flex justify-center my-4">
                         <div class="grid grid-cols-3 gap-2 text-center font-mono font-bold text-sm sm:text-base w-64 h-64 p-2 bg-slate-100 rounded-xl border border-slate-300">
-                            <!-- Empty Top-Left -->
                             <div class="flex items-center justify-center bg-slate-200/50 rounded-lg text-xs text-slate-400 font-sans">♀ \ ♂</div>
-                            <!-- Parent 2 Alleles -->
                             <div id="p2-a1" class="flex items-center justify-center bg-teal-100 text-teal-800 rounded-lg text-lg">B</div>
                             <div id="p2-a2" class="flex items-center justify-center bg-teal-100 text-teal-800 rounded-lg text-lg">b</div>
 
-                            <!-- Parent 1 Allele 1 -->
                             <div id="p1-a1" class="flex items-center justify-center bg-indigo-100 text-indigo-800 rounded-lg text-lg">B</div>
-                            <!-- Offspring Cells -->
                             <div id="cell-1" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">BB</div>
                             <div id="cell-2" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">Bb</div>
 
-                            <!-- Parent 1 Allele 2 -->
                             <div id="p1-a2" class="flex items-center justify-center bg-indigo-100 text-indigo-800 rounded-lg text-lg">b</div>
                             <div id="cell-3" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">Bb</div>
                             <div id="cell-4" class="flex items-center justify-center bg-white shadow-sm rounded-lg text-slate-900 border border-slate-200">bb</div>
@@ -460,7 +420,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-2">Click bases to construct DNA Strand (9 bases):</label>
+                        <label class="block text-xs font-semibold text-slate-700 mb-2">Click bases to construct DNA Strand (9-12 bases):</label>
                         <div class="flex gap-2 mb-4">
                             <button onclick="addBase('A')" class="flex-1 py-2 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-lg text-sm shadow-sm transition">A</button>
                             <button onclick="addBase('T')" class="flex-1 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg text-sm shadow-sm transition">T</button>
@@ -490,15 +450,48 @@
             </div>
         </section>
 
-        <!-- TAB 4: MULTI-CHOICE QUIZ -->
+        <!-- TAB 4: MULTI-CHOICE QUIZ (UPGRADED) -->
         <section id="tab-quiz" class="tab-content hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-xl font-bold text-slate-900">Multiple-Choice Practice Quiz</h2>
-                    <p class="text-xs sm:text-sm text-slate-500">Test your knowledge across key NCEA Level 1 Genetics concepts with immediate feedback.</p>
+            <!-- Quiz Controls Panel -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900">Customizable Multi-Choice Practice</h2>
+                        <p class="text-xs sm:text-sm text-slate-500">Filter questions by topic, pick your desired test length, and randomize for fresh revision every time!</p>
+                    </div>
+                    <div id="quiz-score-badge" class="bg-teal-50 text-teal-800 border border-teal-200 px-4 py-2 rounded-xl font-bold text-sm shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-teal-600"></i> Score: <span id="quiz-score" class="font-mono text-base">0</span> / <span id="quiz-total" class="font-mono text-base">10</span>
+                    </div>
                 </div>
-                <div id="quiz-score-badge" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl font-bold text-sm border border-slate-200">
-                    Score: <span id="quiz-score">0</span> / <span id="quiz-total">10</span>
+
+                <!-- Customization Controls -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-slate-100">
+                    <div>
+                        <label for="quiz-topic-filter" class="block text-xs font-semibold text-slate-700 mb-1">Select Study Topic:</label>
+                        <select id="quiz-topic-filter" onchange="generateCustomQuiz()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                            <option value="all">All Topics (32 Question Pool)</option>
+                            <option value="dna">Topic 1: DNA, Genes & Mutations</option>
+                            <option value="reproduction">Topic 2: Cell Division & Reproduction</option>
+                            <option value="selection">Topic 3: Natural Selection & Gene Pools</option>
+                            <option value="inheritance">Topic 4: Pedigrees & Monohybrid Inheritance</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="quiz-length-filter" class="block text-xs font-semibold text-slate-700 mb-1">Questions per Quiz:</label>
+                        <select id="quiz-length-filter" onchange="generateCustomQuiz()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-2.5 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                            <option value="5">5 Questions (Quick Test)</option>
+                            <option value="10" selected>10 Questions (Standard)</option>
+                            <option value="15">15 Questions (Deep Drill)</option>
+                            <option value="all">All Topic Questions</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-end">
+                        <button onclick="generateCustomQuiz()" class="w-full py-2.5 bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-shuffle"></i> Generate New Random Quiz
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -508,20 +501,20 @@
             </div>
 
             <div class="flex justify-center pt-4">
-                <button onclick="resetQuiz()" class="px-6 py-3 bg-slate-900 text-white font-bold text-sm rounded-xl hover:bg-slate-800 shadow-md transition flex items-center gap-2">
-                    <i class="fa-solid fa-rotate-right"></i> Reset & Retake Quiz
+                <button onclick="generateCustomQuiz()" class="px-6 py-3 bg-slate-900 text-white font-bold text-sm rounded-xl hover:bg-slate-800 shadow-md transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Generate New Fresh Quiz
                 </button>
             </div>
         </section>
 
-        <!-- TAB 5: NCEA SELF-MARKING EVALUATOR -->
+        <!-- TAB 5: NCEA SELF-MARKING EVALUATOR (UPGRADED) -->
         <section id="tab-ncea-marker" class="tab-content hidden space-y-8">
             <div class="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 p-6 sm:p-8 rounded-2xl text-white shadow-xl">
                 <div class="max-w-3xl">
                     <span class="inline-block bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Logical Link Evaluator</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">NCEA Standard Self-Marking System</h2>
                     <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
-                        This marker evaluates your answer against official NZQA NCEA Level 1 Biology criteria. It does <strong>not</strong> just count simple keywords. It checks whether your scientific arguments are <strong>logically linked</strong> from mutation/DNA level through to phenotype, survivability, reproduction, and population gene pool allele frequency.
+                        Choose a study topic section below. Practice with <strong>16 NCEA exam-style written questions (4 per section)</strong>. This evaluator checks if your response connects molecular DNA changes through to protein, phenotype, survival, reproduction, and gene pool allele frequencies.
                     </p>
                 </div>
             </div>
@@ -529,20 +522,34 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <!-- Input Panel -->
                 <div class="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
-                    <div>
-                        <label for="ncea-question-select" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Select NCEA Exam Question Prompt:</label>
-                        <select id="ncea-question-select" onchange="loadNceaQuestion()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                            <option value="q1">Q1: Natural Selection & Kiwifruit PSA Disease / Peppered Moths (Excellence level linking)</option>
-                            <option value="q2">Q2: Meiosis vs Mitosis & Gamete Genetic Variation (Achieved to Excellence)</option>
-                            <option value="q3">Q3: Pedigree Tracking & Inherited Traits across Generations</option>
-                        </select>
+                    <!-- Section Filter & Question Selector -->
+                    <div class="space-y-4">
+                        <div>
+                            <label for="ncea-section-select" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">1. Select Study Section:</label>
+                            <select id="ncea-section-select" onchange="filterNceaQuestionsBySection()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <option value="sec1">Section 1: DNA, Base Sequences & Mutations (4 Questions)</option>
+                                <option value="sec2">Section 2: Cell Division & Sources of Reproduction Variation (4 Questions)</option>
+                                <option value="sec3" selected>Section 3: Natural Selection & Gene Pool Dynamics (4 Questions)</option>
+                                <option value="sec4">Section 4: Pedigree Charts & Monohybrid Inheritance (4 Questions)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="ncea-question-select" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">2. Select NCEA Question Prompt (4 per section):</label>
+                            <select id="ncea-question-select" onchange="loadNceaQuestion()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium">
+                                <!-- Populated dynamically by JS -->
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Question Prompt Details -->
                     <div id="ncea-prompt-box" class="bg-indigo-50/70 p-5 rounded-xl border border-indigo-100 space-y-2">
-                        <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider block">Question Context:</span>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-indigo-900 uppercase tracking-wider">Question Context & Instructions:</span>
+                            <span id="ncea-topic-tag" class="text-[10px] font-extrabold uppercase tracking-wider bg-indigo-200/60 text-indigo-900 px-2.5 py-0.5 rounded-full">Section 3: Natural Selection</span>
+                        </div>
                         <p id="ncea-prompt-text" class="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
-                            Explain how a random mutation in a population can lead to a change in allele frequency over time when a new disease (such as Kiwifruit PSA) enters the environment. In your answer, link: mutation, base sequence, new allele, phenotype, survival advantage, reproduction, and gene pool frequency.
+                            <!-- Question prompt filled by JS -->
                         </p>
                     </div>
 
@@ -580,23 +587,23 @@
                         <div id="link-checklist" class="space-y-2.5 text-xs">
                             <div class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>A1: Mutation described as change in DNA base sequence</span>
+                                <span>A1: Define key term / basic biological process</span>
                             </div>
                             <div class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>M1: Linked base change to altered protein and new allele/phenotype</span>
+                                <span>M1: Link molecular level (DNA/base) to protein & phenotype</span>
                             </div>
                             <div class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>M2: Linked phenotype to survival advantage in changing environment</span>
+                                <span>M2: Link phenotype to environmental function or survival</span>
                             </div>
                             <div class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>E1: Linked survival to reproduction and passing alleles via gametes</span>
+                                <span>E1: Link survival/meiosis to reproduction and gamete transmission</span>
                             </div>
                             <div class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>E2: Linked allele transmission to increased allele frequency in gene pool over generations</span>
+                                <span>E2: Link transmission to population gene pool allele frequencies over generations</span>
                             </div>
                         </div>
                     </div>
@@ -619,18 +626,16 @@
                         </button>
                         <div id="exemplar-content" class="hidden text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-3 leading-relaxed">
                             <p id="exemplar-text">
-                                A mutation is a permanent change in the DNA base sequence. This change alters the triplet codon order, producing a different amino acid sequence that creates a functional protein producing a new allele and phenotype (e.g. disease resistance). When a selective pressure such as PSA disease enters the environment, non-resistant plants die while resistant individuals survive. Because surviving individuals reproduce sexually, they pass on the favourable allele via their haploid gametes to the next generation. Over successive generations, the proportion of resistant individuals increases, resulting in an increased allele frequency for disease resistance in the population gene pool.
+                                Select a question prompt to load its model Excellence answer.
                             </p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
 
         <!-- TAB 6: STUDY RESOURCES & EXTERNAL LINKS -->
         <section id="tab-resources" class="tab-content hidden space-y-8">
-            <!-- Header Banner -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-xl font-bold text-slate-900">Recommended Study Resources & External Links</h2>
@@ -655,7 +660,7 @@
                         </div>
                         <h3 class="font-bold text-slate-900 text-base group-hover:text-teal-600 transition">NZQA Official Standard & Exemplars</h3>
                         <p class="text-xs text-slate-600 leading-relaxed">
-                            Access official assessment specifications, past examination papers, schedules, and top-tier student exemplar answers directly from the New Zealand Qualifications Authority.
+                            Access official assessment specifications, past examination papers, schedules, and top-tier student exemplar answers directly from NZQA.
                         </p>
                     </div>
                     <div class="mt-6 pt-4 border-t border-slate-100 space-y-2">
@@ -736,7 +741,7 @@
                     </div>
                 </div>
 
-                <!-- Resource 5: Education Perfect (EP) -->
+                <!-- Resource 5: Education Perfect -->
                 <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 flex flex-col justify-between hover:shadow-md transition group">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
@@ -819,22 +824,13 @@
                     <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
                         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">4. Link / Discuss (Excellence)</span>
                         <p class="text-xs text-slate-300 leading-relaxed">
-                            Connect multiple concepts into a logical chain across generations (e.g. <em>"Survival advantage → sexual reproduction → passing allele via gametes → increased gene pool frequency."</em>)
+                            Connect multiple concepts into a logical chain across generations (e.g. <em>"Survival advantage &rarr; sexual reproduction &rarr; passing allele via gametes &rarr; increased gene pool frequency."</em>)
                         </p>
                     </div>
                 </div>
-
-                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700 text-xs text-slate-300 space-y-2">
-                    <span class="font-bold text-amber-300 block"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Common Exam Pitfalls to Avoid:</span>
-                    <ul class="list-disc list-inside space-y-1 text-slate-300">
-                        <li><strong>Don't confuse gene vs. allele:</strong> A gene is the section of DNA coding for a characteristic; an allele is the specific variation/version of that gene.</li>
-                        <li><strong>Don't forget gametes vs. somatic cells:</strong> Somatic cell mutations affect only the individual; only gamete mutations can be passed on to offspring.</li>
-                        <li><strong>Never say an organism "adapts to survive" in its lifetime:</strong> Individuals don't choose to mutate. Random mutations exist first; environmental pressures select for pre-existing beneficial phenotypes!</li>
-                    </ul>
-                </div>
             </div>
 
-            <!-- Downloadable/Printable Checklist Card -->
+            <!-- Printable Checklist Button -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                     <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl shrink-0">
@@ -864,16 +860,12 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Tab Switcher
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.getElementById('tab-' + tabId).classList.remove('hidden');
 
-            // Close mobile menu if open
             document.getElementById('mobile-menu').classList.add('hidden');
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -885,40 +877,37 @@
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ==========================================
-        // FLASHCARDS DATA & LOGIC
-        // ==========================================
         const flashcardsData = [
             { term: "Nucleotide", category: "dna", def: "The structural unit of DNA consisting of a deoxyribose sugar, a phosphate group, and one of four nitrogenous bases (A, T, C, or G)." },
-            { term: "Gene", category: "dna", def: "A specific length of DNA base sequence that codes for a functional protein, which determines a particular characteristic." },
+            { term: "Gene", category: "dna", def: "A specific length of DNA base sequence that codes for a functional protein, determining a particular characteristic." },
             { term: "Allele", category: "dna", def: "An alternative or different form of a gene that codes for a specific variation of a trait." },
             { term: "Chromosome", category: "dna", def: "A condensed thread-like structure of organized DNA and proteins found inside the cell nucleus." },
             { term: "Mutation", category: "dna", def: "A permanent change in the base sequence of DNA. This is the ultimate source of all new alleles and genetic variation." },
             { term: "Complementary Base Pairing", category: "dna", def: "The rule stating Adenine always pairs with Thymine (A-T) and Cytosine always pairs with Guanine (C-G)." },
             { term: "Codon / Triplet", category: "dna", def: "A sequence of three consecutive DNA bases that codes for one specific amino acid during protein synthesis." },
-            
-            { term: "Genotype", category: "inheritance", def: "The specific combination of alleles possessed by an organism for a particular gene (e.g. BB, Bb, or bb)." },
-            { term: "Phenotype", category: "inheritance", def: "The physical expression or observable characteristic of an organism, determined by genotype and environment." },
+            { term: "Somatic Mutation", category: "dna", def: "A mutation occurring in body cells. It affects only the individual and cannot be passed on to offspring." },
+            { term: "Gametic Mutation", category: "dna", def: "A mutation occurring in reproductive cells (sperm/egg) that can be passed on to future generations." },
+
+            { term: "Meiosis", category: "reproduction", def: "Cell division producing 4 genetically unique haploid gametes with half the chromosome number." },
+            { term: "Mitosis", category: "reproduction", def: "Cell division producing 2 genetically identical diploid somatic cells for growth and tissue repair." },
+            { term: "Gamete", category: "reproduction", def: "A specialized haploid sex cell (sperm or egg) containing one set of chromosomes (23 in humans)." },
+            { term: "Independent Assortment", category: "reproduction", def: "Random alignment and separation of maternal and paternal homologous chromosome pairs during meiosis I." },
+            { term: "Crossing Over", category: "reproduction", def: "Exchange of genetic material between non-sister chromatids of homologous chromosomes during prophase I." },
+            { term: "Random Fertilisation", category: "reproduction", def: "The random fusion of any single unique sperm with any single unique egg cell." },
+
+            { term: "Natural Selection", category: "selection", def: "Process where individuals with advantageous phenotypes survive environmental pressures and reproduce more successfully." },
+            { term: "Gene Pool", category: "selection", def: "The total collection of all unique alleles present within an interbreeding population." },
+            { term: "Allele Frequency", category: "selection", def: "The percentage or proportion of a specific allele relative to all alleles for that gene in a gene pool." },
+            { term: "Selective Pressure", category: "selection", def: "An environmental factor (e.g. disease, drought, predators) affecting survival and reproduction." },
+            { term: "Population Bottleneck", category: "selection", def: "A severe reduction in population size leading to significant loss of genetic diversity in the gene pool." },
+
+            { term: "Genotype", category: "inheritance", def: "The specific combination of alleles possessed by an organism for a gene (e.g. BB, Bb, or bb)." },
+            { term: "Phenotype", category: "inheritance", def: "The physical expression or observable characteristic determined by genotype and environmental interaction." },
             { term: "Homozygous", category: "inheritance", def: "Having two identical alleles for a specific gene (e.g. BB or bb)." },
             { term: "Heterozygous", category: "inheritance", def: "Having two different alleles for a specific gene (e.g. Bb)." },
-            { term: "Dominant Allele", category: "inheritance", def: "An allele that is always expressed in the phenotype if at least one copy is present (represented by capital letter)." },
-            { term: "Recessive Allele", category: "inheritance", def: "An allele that is only expressed in the phenotype when two copies are present in homozygous condition (e.g. bb)." },
-            { term: "Heritable Trait", category: "inheritance", def: "A characteristic encoded in DNA that can be passed from parents to offspring via gametes." },
-            { term: "Acquired Trait", category: "inheritance", def: "A non-heritable feature influenced by environment or life experience that does not alter gamete DNA." },
-            
-            { term: "Meiosis", category: "reproduction", def: "A type of cell division that produces 4 genetically unique haploid gametes with half the chromosome number." },
-            { term: "Mitosis", category: "reproduction", def: "Cell division producing 2 genetically identical diploid somatic cells for growth and tissue repair." },
-            { term: "Gamete", category: "reproduction", def: "A specialized haploid sex cell (sperm or egg) containing one set of chromosomes." },
-            { term: "Diploid", category: "reproduction", def: "A cell containing two complete sets of homologous chromosomes (2n = 46 in humans)." },
-            { term: "Haploid", category: "reproduction", def: "A cell containing a single set of unpaired chromosomes (n = 23 in human gametes)." },
-            { term: "Independent Assortment", category: "reproduction", def: "The random alignment and separation of maternal and paternal homologous chromosome pairs during meiosis I." },
-            { term: "Crossing Over", category: "reproduction", def: "The exchange of genetic material between non-sister chromatids of homologous chromosomes during prophase I of meiosis." },
-            
-            { term: "Natural Selection", category: "selection", def: "The process where individuals with advantageous phenotypes survive selective environmental pressures and reproduce more successfully." },
-            { term: "Gene Pool", category: "selection", def: "The total collection of all unique alleles present within an interbreeding population at a given time." },
-            { term: "Allele Frequency", category: "selection", def: "The percentage or proportion of a specific allele relative to all alleles for that gene in a gene pool." },
-            { term: "Selective Pressure", category: "selection", def: "An environmental factor (e.g. disease, drought, predators) that affects the survival and reproduction of individuals." },
-            { term: "Pedigree Chart", category: "selection", def: "A diagram showing family lineage and the occurrence of heritable phenotype characteristics across generations." }
+            { term: "Dominant Allele", category: "inheritance", def: "An allele expressed in the phenotype if at least one copy is present (capital letter)." },
+            { term: "Recessive Allele", category: "inheritance", def: "An allele only expressed in phenotype when two copies are present in homozygous condition (bb)." },
+            { term: "Test Cross", category: "inheritance", def: "Breeding an individual of unknown genotype exhibiting a dominant phenotype with a homozygous recessive individual." }
         ];
 
         let currentCardIndex = 0;
@@ -934,14 +923,13 @@
             document.getElementById('card-counter').innerText = 'Card ' + (currentCardIndex + 1) + ' of ' + activeDeck.length;
 
             const categoryMap = {
-                'dna': 'DNA & Cell Structure',
-                'inheritance': 'Inheritance & Genotype',
+                'dna': 'DNA & Mutations',
                 'reproduction': 'Cell Division & Reproduction',
-                'selection': 'Natural Selection & Gene Pool'
+                'selection': 'Natural Selection & Gene Pool',
+                'inheritance': 'Pedigrees & Inheritance'
             };
             document.getElementById('card-tag').innerText = categoryMap[card.category] || 'Genetics';
 
-            // Reset flip
             if (isFlipped) {
                 document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
                 isFlipped = false;
@@ -950,11 +938,7 @@
 
         function flipCard() {
             isFlipped = !isFlipped;
-            if (isFlipped) {
-                document.getElementById('flashcard-inner').classList.add('rotate-y-180');
-            } else {
-                document.getElementById('flashcard-inner').classList.remove('rotate-y-180');
-            }
+            document.getElementById('flashcard-inner').classList.toggle('rotate-y-180', isFlipped);
         }
 
         function nextCard() {
@@ -986,17 +970,12 @@
             updateFlashcardDisplay();
         }
 
-        // ==========================================
-        // PUNNETT SQUARE CALCULATOR
-        // ==========================================
         function calculatePunnett() {
-            const p1 = document.getElementById('parent1').value; // e.g. "Bb"
+            const p1 = document.getElementById('parent1').value;
             const p2 = document.getElementById('parent2').value;
 
-            const p1a1 = p1[0];
-            const p1a2 = p1[1];
-            const p2a1 = p2[0];
-            const p2a2 = p2[1];
+            const p1a1 = p1[0], p1a2 = p1[1];
+            const p2a1 = p2[0], p2a2 = p2[1];
 
             document.getElementById('p1-a1').innerText = p1a1;
             document.getElementById('p1-a2').innerText = p1a2;
@@ -1004,7 +983,6 @@
             document.getElementById('p2-a2').innerText = p2a2;
 
             function combine(a, b) {
-                // Ensure dominant allele (uppercase) is always placed first (e.g. Bb, never bB)
                 if (a === a.toUpperCase() && b !== b.toUpperCase()) return a + b;
                 if (b === b.toUpperCase() && a !== a.toUpperCase()) return b + a;
                 return a + b;
@@ -1020,7 +998,6 @@
             document.getElementById('cell-3').innerText = c3;
             document.getElementById('cell-4').innerText = c4;
 
-            // Calculate Ratios accurately
             const combinations = [c1, c2, c3, c4];
             let countBB = 0, countBb = 0, countbb = 0;
 
@@ -1040,9 +1017,6 @@
             document.getElementById('phenotype-ratio-text').innerText = dominantPheno + ' Dominant : ' + recessivePheno + ' Recessive (' + domPct + '% to ' + recPct + '%)';
         }
 
-        // ==========================================
-        // DNA BUILDER SIMULATOR
-        // ==========================================
         let currentDnaStrand = ['A', 'T', 'G', 'C', 'C', 'G', 'T', 'A', 'A'];
 
         function renderDnaStrand() {
@@ -1053,10 +1027,8 @@
                 return;
             }
 
-            // Group into triplets
             let templateStr = '';
             let complementStr = '';
-
             const compMap = { 'A': 'T', 'T': 'A', 'C': 'G', 'G': 'C' };
 
             for (let i = 0; i < currentDnaStrand.length; i++) {
@@ -1086,79 +1058,283 @@
             renderDnaStrand();
         }
 
-        // ==========================================
-        // MULTI-CHOICE QUIZ DATA & LOGIC
-        // ==========================================
-        const quizQuestions = [
+        const fullQuizPool = [
+            // TOPIC 1: DNA & MUTATIONS
             {
-                q: "1. What is the fundamental source of all new alleles and genetic variation in a species?",
-                options: ["A) Crossing over during mitosis", "B) Permanent mutation in the DNA base sequence", "C) Fertilisation between different species", "D) Acquired muscle growth from physical exercise"],
+                category: "dna",
+                q: "What is the fundamental source of all new alleles and genetic variation in a species?",
+                options: ["A) Crossing over during mitosis", "B) Permanent mutation in the DNA base sequence", "C) Fertilisation between different species", "D) Acquired muscle growth from exercise"],
                 answer: 1,
-                explanation: "A mutation is a permanent change in the DNA base sequence, creating entirely new alleles that provide variation."
+                explanation: "A mutation is a permanent change in the DNA base sequence, creating entirely new alleles."
             },
             {
-                q: "2. Which component forms the repeating backbone of a DNA strand together with deoxyribose sugar?",
+                category: "dna",
+                q: "Which component forms the repeating backbone of a DNA strand together with deoxyribose sugar?",
                 options: ["A) Nitrogenous Base", "B) Amino Acid", "C) Phosphate Group", "D) Ribosome"],
                 answer: 2,
-                explanation: "The sugar-phosphate backbone is composed of alternating deoxyribose sugar molecules and phosphate groups."
+                explanation: "The sugar-phosphate backbone consists of alternating deoxyribose sugar and phosphate groups."
             },
             {
-                q: "3. Human somatic (body) cells are diploid (46 chromosomes). What is the chromosome count in haploid gametes produced by meiosis?",
+                category: "dna",
+                q: "Why can a mutation in a human liver cell NOT be inherited by offspring?",
+                options: ["A) Liver cells are haploid", "B) It is a somatic mutation and not present in gametes", "C) Liver DNA is protected from mutations", "D) Dominant genes override liver mutations"],
+                answer: 1,
+                explanation: "Somatic mutations occur in non-reproductive body cells, so they are not passed on via sperm or egg cells."
+            },
+            {
+                category: "dna",
+                q: "How does a DNA base insertion mutation usually affect protein structure?",
+                options: ["A) It changes only one base without shifting triplets", "B) It causes a frameshift, altering all subsequent triplet codons and amino acids", "C) It turns DNA directly into RNA", "D) It makes the protein indestructible"],
+                answer: 1,
+                explanation: "Inserting a base shifts the reading frame (frameshift), altering all downstream triplet codons and changing the resulting amino acid sequence."
+            },
+            {
+                category: "dna",
+                q: "According to complementary base pairing rules, if a DNA strand is 30% Adenine, what percentage is Thymine?",
+                options: ["A) 20%", "B) 30%", "C) 40%", "D) 70%"],
+                answer: 1,
+                explanation: "Adenine always pairs with Thymine in equal ratios (30% A pairs with 30% T)."
+            },
+            {
+                category: "dna",
+                q: "What role do triplet codons play in gene expression?",
+                options: ["A) They bind sugar to phosphate", "B) Each 3-base sequence codes for a specific amino acid in a protein chain", "C) They separate chromosomes during cell division", "D) They synthesize extra chromosomes"],
+                answer: 1,
+                explanation: "Triplets in DNA code for specific amino acids, which assemble in sequence to form a functional protein."
+            },
+            {
+                category: "dna",
+                q: "Which of the following describes an acquired trait?",
+                options: ["A) Having blue eyes inherited from parents", "B) Developing dark suntanned skin after spending summer at the beach", "C) Possessing blood type O", "D) Having attached earlobes"],
+                answer: 1,
+                explanation: "Acquired traits result from environmental exposure or life choices and do not alter gametic DNA."
+            },
+            {
+                category: "dna",
+                q: "What is the primary physical difference between two alleles of the same gene?",
+                options: ["A) One allele lacks a phosphate backbone", "B) They have slight differences in their DNA base sequences", "C) One is found in RNA and the other in DNA", "D) They are located on different organs"],
+                answer: 1,
+                explanation: "Alleles are variations of a gene differing by one or more nucleotide bases."
+            },
+
+            // TOPIC 2: REPRODUCTION & CELL DIVISION
+            {
+                category: "reproduction",
+                q: "Human somatic (body) cells have 46 chromosomes. What is the chromosome count in haploid gametes produced by meiosis?",
                 options: ["A) 46 chromosomes", "B) 92 chromosomes", "C) 23 chromosomes", "D) 12 chromosomes"],
                 answer: 2,
-                explanation: "Meiosis reduces chromosome number by half, producing haploid gametes with 23 chromosomes."
+                explanation: "Meiosis halves chromosome numbers to produce haploid gametes containing 23 chromosomes."
             },
             {
-                q: "4. If two heterozygous parents (Bb x Bb) are crossed, what is the expected phenotypic ratio in their offspring?",
+                category: "reproduction",
+                q: "During meiosis, how does independent assortment create genetic variation?",
+                options: ["A) By doubling DNA in somatic cells", "B) By randomly aligning maternal and paternal homologous chromosome pairs", "C) By converting recessive alleles into dominant ones", "D) By destroying excess gametes"],
+                answer: 1,
+                explanation: "Homologous chromosome pairs align randomly at the equator, creating unique combinations of chromosomes in gametes."
+            },
+            {
+                category: "reproduction",
+                q: "What occurs during crossing over in meiosis I?",
+                options: ["A) Homologous non-sister chromatids exchange allele segments", "B) Sperm fuses with egg", "C) DNA replicates twice without dividing", "D) Chromosomes disintegrate"],
+                answer: 0,
+                explanation: "Crossing over swaps allele segments between non-sister chromatids, breaking linked combinations."
+            },
+            {
+                category: "reproduction",
+                q: "Why does mitosis NOT contribute to genetic variation in offspring?",
+                options: ["A) Mitosis occurs only in gametes", "B) It produces two genetically identical diploid daughter cells", "C) It causes frequent frameshift mutations", "D) It halves the chromosome number"],
+                answer: 1,
+                explanation: "Mitosis replicates identical somatic cells for growth and repair without generating new allele combinations."
+            },
+            {
+                category: "reproduction",
+                q: "How does random fertilisation increase variation among offspring of the same parents?",
+                options: ["A) It changes the mother's DNA during pregnancy", "B) Any one of millions of genetically unique sperm can fertilise any unique egg", "C) It forces all offspring to have different blood types", "D) It eliminates recessive alleles"],
+                answer: 1,
+                explanation: "Combining two independently unique gametes yields millions of possible genetic combinations per zygote."
+            },
+            {
+                category: "reproduction",
+                q: "What is a zygote?",
+                options: ["A) An unfertilised egg cell", "B) A diploid cell formed by the fusion of two haploid gametes", "C) An enzyme that splits DNA", "D) A type of chromosome mutation"],
+                answer: 1,
+                explanation: "A zygote is the single diploid cell resulting from fertilization between a sperm and egg."
+            },
+            {
+                category: "reproduction",
+                q: "Which process is essential for maintaining constant chromosome numbers across human generations?",
+                options: ["A) Mitosis doubling chromosomes", "B) Meiosis reducing gamete chromosome numbers to haploid (n=23)", "C) Asexual budding", "D) DNA denaturation"],
+                answer: 1,
+                explanation: "Meiosis halves chromosomes to haploid so fertilization restores the original diploid number (2n=46)."
+            },
+            {
+                category: "reproduction",
+                q: "A species of lizard reproduces both sexually and asexually. Which method provides an advantage in a changing environment?",
+                options: ["A) Asexual reproduction because all clones are identical", "B) Sexual reproduction because it creates genetic variation to withstand selection pressures", "C) Both methods are equal", "D) Neither method allows survival"],
+                answer: 1,
+                explanation: "Sexual variation ensures some individuals possess phenotypes suited to survive new environmental threats."
+            },
+
+            // TOPIC 3: NATURAL SELECTION & GENE POOLS
+            {
+                category: "selection",
+                q: "When a selective pressure (e.g. Kiwifruit PSA disease) enters an environment, which individuals are most likely to reproduce?",
+                options: ["A) Individuals with the largest physical size", "B) Individuals with phenotypes conferring disease resistance", "C) Individuals with highest somatic mutations", "D) All individuals equally"],
+                answer: 1,
+                explanation: "Natural selection favors individuals whose pre-existing phenotypes provide a survival advantage."
+            },
+            {
+                category: "selection",
+                q: "What effect does a severe population bottleneck (small population size) have on a gene pool?",
+                options: ["A) Rapidly increases genetic diversity", "B) Reduces genetic variation and allele diversity", "C) Eliminates natural selection", "D) Prevents all future mutations"],
+                answer: 1,
+                explanation: "Small populations experience lost alleles and low genetic diversity, increasing vulnerability."
+            },
+            {
+                category: "selection",
+                q: "In a peppered moth population near an industrial city, why did dark-coloured moths become more common?",
+                options: ["A) Moths intentionally painted themselves black", "B) Soot covered trees, giving dark moths better camouflage from predators to survive and pass on the dark allele", "C) Dark moths ate more coal", "D) Light moths mutated instantly"],
+                answer: 1,
+                explanation: "Predation pressure selected for camouflaged dark moths, increasing dark allele frequency over generations."
+            },
+            {
+                category: "selection",
+                q: "What is defined as 'all the unique alleles present within an interbreeding population'?",
+                options: ["A) Genome", "B) Gene Pool", "C) Genotype Ratio", "D) Karyotype"],
+                answer: 1,
+                explanation: "The gene pool encompasses the total sum of all alleles in a given population."
+            },
+            {
+                category: "selection",
+                q: "Why is high genetic diversity advantageous for native New Zealand birds like the Kakapo?",
+                options: ["A) It guarantees they will never get sick", "B) It increases the probability that some individuals carry alleles to survive new diseases or predators", "C) It allows them to fly faster", "D) It eliminates all recessive mutations"],
+                answer: 1,
+                explanation: "High diversity equips populations with varied phenotypes, increasing survival odds against environmental changes."
+            },
+            {
+                category: "selection",
+                q: "Over time, what happens to the frequency of a harmful recessive allele in a population if it causes early death?",
+                options: ["A) It increases to 100%", "B) It decreases over time because affected individuals die before passing it on", "C) It stays completely unchanged", "D) It converts into a dominant allele"],
+                answer: 1,
+                explanation: "Negative selection reduces the frequency of alleles that decrease survival and reproductive success."
+            },
+            {
+                category: "selection",
+                q: "Why do individuals NOT choose to adapt or mutate in response to a new disease?",
+                options: ["A) Mutations are random events occurring before selection happens", "B) Organisms prefer asexual reproduction", "C) Disease destroys DNA immediately", "D) Selection only occurs in plants"],
+                answer: 0,
+                explanation: "Mutations occur randomly. Environmental pressures merely select pre-existing favourable phenotypes."
+            },
+            {
+                category: "selection",
+                q: "If migration brings new individuals into an isolated population, how does this affect the gene pool?",
+                options: ["A) Reduces allele count", "B) Introduces new alleles and increases genetic variation", "C) Freezes evolution", "D) Destroys gametes"],
+                answer: 1,
+                explanation: "Gene flow via migration introduces new alleles, broadening the gene pool's diversity."
+            },
+
+            // TOPIC 4: PEDIGREES & MONOHYBRID INHERITANCE
+            {
+                category: "inheritance",
+                q: "If two heterozygous parents (Bb x Bb) are crossed, what is the expected phenotypic ratio in their offspring?",
                 options: ["A) 1 Dominant : 1 Recessive", "B) 3 Dominant : 1 Recessive", "C) All Dominant", "D) 1 BB : 2 Bb : 1 bb"],
                 answer: 1,
-                explanation: "A monohybrid heterozygous cross yields a 3:1 phenotypic ratio (75% expressing dominant trait, 25% recessive)."
+                explanation: "Heterozygous monohybrid cross yields a 3:1 phenotypic ratio (75% dominant, 25% recessive)."
             },
             {
-                q: "5. Why can an acquired trait (such as a sun tan or large muscle size) NOT be passed on to offspring?",
-                options: ["A) It is dominant over inherited traits", "B) It does not alter the DNA base sequence in gamete cells", "C) It only alters RNA, not DNA", "D) It is eliminated during fertilization"],
+                category: "inheritance",
+                q: "In a pedigree chart, what symbol is traditionally used to represent a female individual?",
+                options: ["A) Square", "B) Circle", "C) Diamond", "D) Shaded Triangle"],
                 answer: 1,
-                explanation: "Only genetic changes in the DNA of gametes (sperm and egg) can be inherited by offspring."
+                explanation: "Pedigree charts use circles for females and squares for males."
             },
             {
-                q: "6. During meiosis, how does independent assortment contribute to genetic variation?",
-                options: ["A) By doubling the DNA content in body cells", "B) By randomly aligning maternal and paternal homologous chromosome pairs", "C) By converting recessive alleles into dominant ones", "D) By preventing gametes from fusing"],
+                category: "inheritance",
+                q: "How can two unaffected parents produce a child with an autosomal recessive condition like Cystic Fibrosis?",
+                options: ["A) Both parents are homozygous dominant", "B) Both parents are heterozygous carriers (Ff) for the recessive allele", "C) The condition is acquired from food", "D) The child underwent mitosis"],
                 answer: 1,
-                explanation: "Independent assortment aligns homologous chromosome pairs randomly at the cell equator, generating diverse gamete combinations."
+                explanation: "Carriers hold one hidden recessive allele (Ff). If both pass 'f' (25% chance), the child is affected (ff)."
             },
             {
-                q: "7. When a selective pressure (e.g. Kiwifruit PSA disease) enters an environment, which individuals are most likely to reproduce?",
-                options: ["A) Individuals with the largest physical size", "B) Individuals with phenotypes conferring disease resistance", "C) Individuals with the highest rate of somatic mutation", "D) All individuals equally"],
+                category: "inheritance",
+                q: "What is the primary purpose of performing a genetic test cross?",
+                options: ["A) To create new mutations", "B) To determine if an individual showing a dominant phenotype is homozygous (BB) or heterozygous (Bb)", "C) To count chromosomes", "D) To change eye colour"],
                 answer: 1,
-                explanation: "Natural selection favours individuals whose phenotypes provide a survival advantage against the selective pressure."
+                explanation: "Crossing with a homozygous recessive (bb) reveals if hidden recessive alleles are present in the parent."
             },
             {
-                q: "8. In a pedigree chart, what symbol is traditionally used to represent a male individual?",
-                options: ["A) Circle", "B) Triangle", "C) Square", "D) Shaded Star"],
-                answer: 2,
-                explanation: "Pedigree charts use squares to denote males and circles to denote females."
+                category: "inheritance",
+                q: "If a farmer crosses a homozygous dominant black cow (BB) with a homozygous recessive white cow (bb), what phenotype will all F1 offspring express?",
+                options: ["A) 100% White", "B) 100% Black", "C) 50% Black and 50% White", "D) 25% Black"],
+                answer: 1,
+                explanation: "All offspring receive one 'B' and one 'b' (genotype Bb). The dominant 'B' allele masks 'b', making 100% black."
             },
             {
-                q: "9. How does a change in the DNA base sequence lead to a modified phenotype?",
-                options: ["A) It changes the triplet codon sequence, altering the amino acids in the functional protein", "B) It alters the cell wall thickness directly", "C) It destroys all recessive alleles in the nucleus", "D) It changes diploid cells into haploid cells"],
+                category: "inheritance",
+                q: "Why might a family with 4 children have 4 boys, even though Punnett squares predict a 50% chance for girls?",
+                options: ["A) Punnett squares are incorrect", "B) Each fertilisation event is an independent probability event (50/50 each time)", "C) Male sperm contains only Y chromosomes", "D) Mitosis favoured male cells"],
+                answer: 1,
+                explanation: "Probability applies to each fertilisation independently; small sample sizes often deviate from expected ratios."
+            },
+            {
+                category: "inheritance",
+                q: "An individual has genotype 'ff'. How would you describe this genotype?",
+                options: ["A) Heterozygous Dominant", "B) Homozygous Recessive", "C) Homozygous Dominant", "D) Gametic Mutation"],
+                answer: 1,
+                explanation: "Two identical lowercase alleles constitute a homozygous recessive genotype."
+            },
+            {
+                category: "inheritance",
+                q: "In a pedigree chart tracking a dominant condition, why does an affected child ALWAYS have at least one affected parent?",
+                options: ["A) Dominant alleles cannot skip generations without being expressed in phenotype", "B) Recessive alleles disappear", "C) Dominant traits are caused by weather", "D) Parents acquire the trait from children"],
                 answer: 0,
-                explanation: "The DNA base sequence determines triplet codons, which dictate amino acid order and protein structure/phenotype."
-            },
-            {
-                q: "10. What effect does a severe population bottleneck (small population size) have on a gene pool?",
-                options: ["A) Increases genetic diversity rapidly", "B) Reduces genetic variation and increases risk of inheriting harmful recessive traits", "C) Eliminates natural selection completely", "D) Has no impact on allele frequencies"],
-                answer: 1,
-                explanation: "Small populations experience reduced genetic diversity, increasing inbreeding and exposure of harmful recessive alleles."
+                explanation: "Dominant alleles are expressed whenever present, so the trait appears in every generation carrying the allele."
             }
         ];
 
+        let activeQuizQuestions = [];
         let userQuizAnswers = {};
+
+        function generateCustomQuiz() {
+            const topicFilter = document.getElementById('quiz-topic-filter').value;
+            const lengthFilter = document.getElementById('quiz-length-filter').value;
+
+            // Filter pool by topic
+            let filteredPool = [];
+            if (topicFilter === 'all') {
+                filteredPool = [...fullQuizPool];
+            } else {
+                filteredPool = fullQuizPool.filter(q => q.category === topicFilter);
+            }
+
+            // Shuffle pool
+            filteredPool.sort(() => Math.random() - 0.5);
+
+            // Determine length
+            let count = filteredPool.length;
+            if (lengthFilter !== 'all') {
+                count = Math.min(parseInt(lengthFilter), filteredPool.length);
+            }
+
+            activeQuizQuestions = filteredPool.slice(0, count);
+            userQuizAnswers = {};
+
+            document.getElementById('quiz-score').innerText = '0';
+            document.getElementById('quiz-total').innerText = activeQuizQuestions.length;
+
+            renderQuiz();
+        }
 
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
             container.innerHTML = '';
 
-            quizQuestions.forEach((item, index) => {
+            if (activeQuizQuestions.length === 0) {
+                container.innerHTML = '<div class="bg-white p-8 rounded-2xl text-center text-slate-500">No questions available for selected topic filter.</div>';
+                return;
+            }
+
+            activeQuizQuestions.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = "bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4";
 
@@ -1170,23 +1346,30 @@
                     '</button>';
                 });
 
-                card.innerHTML = '<div class="font-bold text-slate-900 text-sm sm:text-base">' + item.q + '</div>' +
+                const topicBadgeMap = {
+                    'dna': 'DNA & Mutations',
+                    'reproduction': 'Reproduction & Meiosis',
+                    'selection': 'Natural Selection',
+                    'inheritance': 'Pedigrees & Inheritance'
+                };
+
+                card.innerHTML = '<div class="flex items-center justify-between gap-2 mb-1">' +
+                    '<span class="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full">' + (topicBadgeMap[item.category] || 'Genetics') + '</span>' +
+                    '<span class="text-xs font-mono text-slate-400">Q' + (index + 1) + ' of ' + activeQuizQuestions.length + '</span>' +
+                    '</div>' +
+                    '<div class="font-bold text-slate-900 text-sm sm:text-base">' + (index + 1) + '. ' + item.q + '</div>' +
                     '<div class="space-y-2 mt-3">' + optionsHtml + '</div>' +
                     '<div id="q-' + index + '-feedback" class="hidden text-xs p-3.5 rounded-xl border mt-3"></div>';
 
                 container.appendChild(card);
             });
-
-            document.getElementById('quiz-total').innerText = quizQuestions.length;
         }
 
         function selectQuizOption(qIdx, optIdx) {
             userQuizAnswers[qIdx] = optIdx;
-
-            const qData = quizQuestions[qIdx];
+            const qData = activeQuizQuestions[qIdx];
             const isCorrect = optIdx === qData.answer;
 
-            // Reset options style for this question
             qData.options.forEach((_, i) => {
                 const btn = document.getElementById('q-' + qIdx + '-opt-' + i);
                 const icon = document.getElementById('q-' + qIdx + '-icon-' + i);
@@ -1201,65 +1384,183 @@
             if (isCorrect) {
                 selectedBtn.className = "w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-xs sm:text-sm text-emerald-950 font-semibold transition flex items-center justify-between";
                 selectedIcon.className = "fa-solid fa-circle-check text-emerald-600 text-base";
-
                 feedbackBox.className = "text-xs p-3.5 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 mt-3 block";
                 feedbackBox.innerHTML = '<strong><i class="fa-solid fa-circle-check text-emerald-600 mr-1"></i> Correct!</strong> ' + qData.explanation;
             } else {
                 selectedBtn.className = "w-full text-left p-3 rounded-xl border border-rose-300 bg-rose-50 text-xs sm:text-sm text-rose-950 font-semibold transition flex items-center justify-between";
                 selectedIcon.className = "fa-solid fa-circle-xmark text-rose-600 text-base";
 
-                // Highlight correct option
                 const correctBtn = document.getElementById('q-' + qIdx + '-opt-' + qData.answer);
-                correctBtn.className = "w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-xs sm:text-sm text-emerald-950 transition flex items-center justify-between";
+                if (correctBtn) {
+                    correctBtn.className = "w-full text-left p-3 rounded-xl border border-emerald-300 bg-emerald-50 text-xs sm:text-sm text-emerald-950 transition flex items-center justify-between";
+                }
 
                 feedbackBox.className = "text-xs p-3.5 rounded-xl border bg-rose-50 border-rose-200 text-rose-900 mt-3 block";
                 feedbackBox.innerHTML = '<strong><i class="fa-solid fa-circle-xmark text-rose-600 mr-1"></i> Incorrect.</strong> ' + qData.explanation;
             }
 
-            // Update Total Score
             let score = 0;
             Object.keys(userQuizAnswers).forEach(key => {
-                if (userQuizAnswers[key] === quizQuestions[key].answer) {
+                if (userQuizAnswers[key] === activeQuizQuestions[key].answer) {
                     score++;
                 }
             });
             document.getElementById('quiz-score').innerText = score;
         }
 
-        function resetQuiz() {
-            userQuizAnswers = {};
-            document.getElementById('quiz-score').innerText = '0';
-            renderQuiz();
-        }
+        const nceaPromptsDatabase = {
+            // SECTION 1: DNA & MUTATIONS
+            'sec1-q1': {
+                sec: "sec1",
+                secTitle: "Section 1: DNA & Mutations",
+                title: "Q1.1: DNA Base Sequence & Protein Synthesis",
+                prompt: "Explain how a gene's DNA base sequence leads to the expression of a physical trait (phenotype). In your answer, link: DNA base sequence, triplet codons, amino acid order, functional protein structure, and phenotype.",
+                exemplar: "A gene consists of a specific sequence of DNA bases. Every three consecutive bases form a triplet codon that codes for one specific amino acid. During protein synthesis, these amino acids are assembled in the precise order determined by the codons to fold into a functional protein (such as an enzyme or pigment). This specific protein determines the organism's physical trait or phenotype (e.g. eye colour). If the DNA base sequence is altered, the triplet codons change, producing a different amino acid sequence that creates a altered protein, yielding a different phenotype."
+            },
+            'sec1-q2': {
+                sec: "sec1",
+                secTitle: "Section 1: DNA & Mutations",
+                title: "Q1.2: Somatic vs Gametic Mutations Heritability",
+                prompt: "Compare somatic mutations and gametic mutations. Explain why only gametic mutations can introduce new alleles into a population's gene pool. Link: cell type, inheritance, reproduction, gametes, and gene pool.",
+                exemplar: "Somatic mutations occur in non-reproductive body cells (e.g. skin or liver cells). They affect only the individual organism during its lifetime and cannot be passed to offspring because body cells are not involved in fertilisation. In contrast, gametic mutations occur in reproductive cells (sperm or egg cells). When a mutated gamete is fertilised, the new mutated DNA base sequence is incorporated into the zygote and every cell of the offspring. This allows the new allele to be inherited by future generations, introducing new variation into the population gene pool."
+            },
+            'sec1-q3': {
+                sec: "sec1",
+                secTitle: "Section 1: DNA & Mutations",
+                title: "Q1.3: Base Substitution vs Frameshift Mutations",
+                prompt: "Discuss the effect of a base substitution mutation versus a base insertion (frameshift) mutation on protein function. Link: base sequence, triplets, reading frame, amino acid sequence, and protein function.",
+                exemplar: "A base substitution mutation replaces one base with another, which alters at most a single triplet codon and may change only one amino acid in the resulting protein chain (or produce a silent mutation). In contrast, a base insertion mutation adds an extra base, causing a frameshift that shifts the reading frame for all subsequent triplet codons downstream. This completely alters every amino acid coded after the mutation point, usually resulting in a non-functional protein and a significantly altered phenotype."
+            },
+            'sec1-q4': {
+                sec: "sec1",
+                secTitle: "Section 1: DNA & Mutations",
+                title: "Q1.4: Acquired vs Heritable Traits",
+                prompt: "An athlete builds large muscles through weightlifting. Explain why their children will not automatically inherit large muscles. Link: environment, phenotype, genotype, DNA base sequence, and gametes.",
+                exemplar: "Developing large muscles through weightlifting is an acquired trait driven by environmental stimulus and physical exertion. While it alters the athlete's physical phenotype, it does not alter the underlying DNA base sequence in their somatic cells or gametes. Inherited traits are determined by alleles stored in gamete DNA passed on during fertilisation. Because acquired physical changes leave gamete DNA unaffected, the athlete's offspring inherit standard muscle potential rather than acquired muscle size."
+            },
 
-        // ==========================================
-        // NCEA SELF-MARKING ENGINE
-        // ==========================================
-        const nceaPrompts = {
-            'q1': {
-                prompt: "Explain how a random mutation in a population can lead to a change in allele frequency over time when a new disease (such as Kiwifruit PSA) enters the environment. In your answer, link: mutation, base sequence, new allele, phenotype, survival advantage, reproduction, and gene pool frequency.",
-                exemplar: "A mutation is a permanent change in the DNA base sequence. This alters the codon sequence, producing a different amino acid chain that forms a functional protein resulting in a new allele and phenotype (e.g., PSA disease resistance). When PSA disease enters the environment, non-resistant vines die, while resistant individuals possess a survival advantage. The surviving vines reproduce sexually, passing the favourable allele via haploid gametes to their offspring. Over successive generations, the proportion of resistant individuals increases, resulting in an increased allele frequency for disease resistance in the population gene pool."
+            // SECTION 2: REPRODUCTION & VARIATION
+            'sec2-q1': {
+                sec: "sec2",
+                secTitle: "Section 2: Reproduction & Variation",
+                title: "Q2.1: Meiosis vs Mitosis Variation Comparison",
+                prompt: "Compare meiosis and mitosis in terms of genetic variation in daughter cells. Link: cell division count, daughter cells, diploid/haploid, homologous pairs, and variation.",
+                exemplar: "Mitosis consists of one cell division producing two genetically identical diploid somatic cells (46 chromosomes in humans) for growth and repair, generating no genetic variation. In contrast, meiosis involves two divisions producing four genetically unique haploid gametes (23 chromosomes) for sexual reproduction. Meiosis creates genetic variation through processes like crossing over and independent assortment, ensuring every gamete carries a unique combination of alleles."
             },
-            'q2': {
-                prompt: "Compare meiosis and mitosis in terms of genetic variation. Explain how meiosis and fertilisation produce unique offspring, whereas mitosis does not. Link gametes, haploid/diploid, independent assortment, crossing over, and zygote uniqueness.",
-                exemplar: "Mitosis involves one division producing two diploid somatic cells that are genetically identical to the parent cell for growth and repair. In contrast, meiosis involves two divisions producing four haploid gametes (sperm/egg) with half the chromosome number (23). Meiosis creates genetic variation through crossing over (exchanging segments between non-sister chromatids) and independent assortment (random alignment of homologous chromosome pairs). During random fertilisation, any unique sperm fuses with any unique egg to form a genetically unique diploid zygote."
+            'sec2-q2': {
+                sec: "sec2",
+                secTitle: "Section 2: Reproduction & Variation",
+                title: "Q2.2: Independent Assortment & Crossing Over Mechanisms",
+                prompt: "Explain how independent assortment and crossing over during meiosis produce unique gametes. Link: homologous pairs, random alignment, non-sister chromatids, allele exchange, and gamete uniqueness.",
+                exemplar: "During prophase I of meiosis, crossing over occurs when non-sister chromatids of homologous chromosome pairs swap segments of DNA, breaking existing linkage groups and creating new allele combinations. Next, during metaphase I, independent assortment occurs as homologous chromosome pairs align randomly at the cell equator. When separated, maternal and paternal chromosomes distribute randomly into daughter cells. Together, these two processes ensure that all four haploid gametes produced have unique allele combinations."
             },
-            'q3': {
-                prompt: "Using a pedigree chart tracking an autosomal recessive characteristic (e.g. Cystic Fibrosis), explain how two unaffected parents can produce an affected child. Link genotypes (homozygous dominant, heterozygous, homozygous recessive), Punnett ratios, and probability.",
-                exemplar: "Two unaffected parents can produce an affected child if both parents are heterozygous carriers (Genotype Ff) for the recessive allele. Each parent produces 50% gametes with the dominant allele (F) and 50% with the recessive allele (f). According to a monohybrid Punnett square cross (Ff x Ff), there is a 25% (1 in 4) probability of offspring inheriting two recessive alleles (ff) to express the affected phenotype. The 3:1 ratio represents probability per fertilisation event, which is why unaffected parents can have affected offspring."
+            'sec2-q3': {
+                sec: "sec2",
+                secTitle: "Section 2: Reproduction & Variation",
+                title: "Q2.3: Random Fertilisation & Zygote Diversity",
+                prompt: "Explain how random fertilisation acts alongside meiosis to maximize variation in sexual reproduction. Link: unique gametes, sperm, egg, random fusion, zygote, and offspring variation.",
+                exemplar: "Meiosis first produces millions of genetically unique sperm and egg cells containing different allele combinations. During sexual reproduction, random fertilisation dictates that any single unique sperm can fuse with any single unique egg. Because both gametes contribute 23 unique chromosomes to form the diploid zygote (46 chromosomes), the probability of producing two identical zygotes is practically zero, ensuring siblings inherit distinct combinations of parental traits."
+            },
+            'sec2-q4': {
+                sec: "sec2",
+                secTitle: "Section 2: Reproduction & Variation",
+                title: "Q2.4: Sexual vs Asexual Reproduction in Changing Environments",
+                prompt: "Discuss the survival advantages of sexual reproduction over asexual reproduction when an environmental change occurs. Link: genetic variation, clones, selective pressure, survival, and adaptation.",
+                exemplar: "Asexual reproduction produces genetically identical clones. If an environmental change or new disease occurs, all identical individuals share the same vulnerabilities, putting the entire population at risk of extinction. In contrast, sexual reproduction generates high genetic variation through meiosis and random fertilisation. When a new selective pressure arises, some individuals possessing advantageous pre-existing phenotypes will survive and reproduce, ensuring population survival."
+            },
+
+            // SECTION 3: NATURAL SELECTION & GENE POOLS
+            'sec3-q1': {
+                sec: "sec3",
+                secTitle: "Section 3: Natural Selection",
+                title: "Q3.1: Disease Resistance & Kiwifruit PSA",
+                prompt: "Explain how a random mutation can lead to an increased frequency of disease resistance in kiwifruit vines affected by PSA bacterial disease. Link: mutation, new allele, phenotype, selective pressure, survival advantage, reproduction, and gene pool frequency.",
+                exemplar: "A random mutation produces a change in the DNA base sequence, creating a new allele that codes for a resistant phenotype. When PSA bacterial disease enters the environment as a selective pressure, non-resistant vines die while resistant vines possess a survival advantage. Surviving vines reproduce sexually, passing the favourable resistance allele to offspring via gametes. Over successive generations, the proportion of resistant vines increases, raising the resistance allele frequency in the gene pool."
+            },
+            'sec3-q2': {
+                sec: "sec3",
+                secTitle: "Section 3: Natural Selection",
+                title: "Q3.2: Peppered Moths Camouflage & Predation",
+                prompt: "Explain how industrial soot on trees altered allele frequencies in peppered moth populations. Link: environmental change, camouflage phenotype, predation, survival advantage, reproduction, and gene pool.",
+                exemplar: "Industrial soot covered tree trunks, turning them dark. Light-coloured moths lost their camouflage and were easily spotted and eaten by bird predators (selective pressure). Dark-coloured moths carrying a dominant dark allele gained a camouflage survival advantage. Dark moths survived and reproduced, passing the dark allele via gametes to offspring. Over generations, dark moth numbers increased, causing the dark allele frequency in the gene pool to rise significantly."
+            },
+            'sec3-q3': {
+                sec: "sec3",
+                secTitle: "Section 3: Natural Selection",
+                title: "Q3.3: Kakapo Population Bottleneck & Genetic Drift",
+                prompt: "Discuss the biological consequences of a severe population bottleneck on the Kakapo gene pool. Link: population reduction, loss of alleles, genetic diversity, inbreeding, and vulnerability.",
+                exemplar: "A severe population bottleneck dramatically reduces Kakapo numbers, causing many unique alleles to be permanently lost from the gene pool. The surviving small population possesses low genetic diversity. As surviving birds inbreed, the probability of inheriting two harmful recessive alleles increases. Low genetic diversity leaves the Kakapo population highly vulnerable to new diseases or climate shifts, as few individuals carry pre-existing resistant phenotypes."
+            },
+            'sec3-q4': {
+                sec: "sec3",
+                secTitle: "Section 3: Natural Selection",
+                title: "Q3.4: Environmental Migration & Gene Flow",
+                prompt: "Explain how migration of individuals between two isolated island bird populations affects their respective gene pools. Link: migration, gene flow, allele introduction, variation, and gene pool comparison.",
+                exemplar: "When birds migrate from a mainland population to an isolated island population, they bring unique alleles with them (gene flow). When these migratory birds interbreed with local birds, they introduce new alleles into the island gene pool, increasing its genetic diversity. This broader gene pool equips the island population with greater phenotypic variation, enhancing their collective capacity to survive future environmental selection pressures."
+            },
+
+            // SECTION 4: PEDIGREES & MONOHYBRID INHERITANCE
+            'sec4-q1': {
+                sec: "sec4",
+                secTitle: "Section 4: Pedigrees & Monohybrid",
+                title: "Q4.1: Autosomal Recessive Inheritance in Pedigrees",
+                prompt: "Explain how two unaffected parents in a pedigree chart can produce a child affected by an autosomal recessive trait (e.g. Cystic Fibrosis). Link: carrier genotypes, alleles, Punnett square, probability, and phenotype expression.",
+                exemplar: "Two unaffected parents can produce an affected child if both parents are heterozygous carriers (genotype Ff). Each parent carries one dominant normal allele (F) and one hidden recessive allele (f). During meiosis, each parent produces 50% gametes with 'F' and 50% with 'f'. According to a monohybrid cross (Ff x Ff), there is a 25% (1 in 4) probability per fertilisation event that the child inherits two recessive alleles (ff) to express the affected phenotype."
+            },
+            'sec4-q2': {
+                sec: "sec4",
+                secTitle: "Section 4: Pedigrees & Monohybrid",
+                title: "Q4.2: Genetic Test Cross Analysis",
+                prompt: "Explain why a farmer would perform a test cross on a black ram (dominant phenotype) to determine its genotype. Link: dominant phenotype, unknown genotype, homozygous recessive cross, offspring phenotypes, and genotype conclusion.",
+                exemplar: "A black ram could be homozygous dominant (BB) or heterozygous (Bb). To determine its genotype, the farmer performs a test cross with a white sheep, which must be homozygous recessive (bb). If any white offspring (bb) are born, the black ram must carry a hidden recessive allele and be heterozygous (Bb). If a large number of offspring are produced and all are black, the ram is likely homozygous dominant (BB)."
+            },
+            'sec4-q3': {
+                sec: "sec4",
+                secTitle: "Section 4: Pedigrees & Monohybrid",
+                title: "Q4.3: Expected 3:1 Ratios vs Actual Offspring Ratios",
+                prompt: "Why might a cross between two heterozygous mice (Bb x Bb) produce 6 black mice and 0 white mice, despite a predicted 3:1 ratio? Link: Punnett ratio, probability, independent events, sample size, and random fertilisation.",
+                exemplar: "The predicted 3:1 phenotypic ratio represents mathematical probability for each individual fertilisation event (75% chance dominant, 25% chance recessive). Every fertilisation is an independent random event, similar to flipping a coin. In small sample sizes (such as 6 offspring), chance play a large role, causing actual offspring numbers to deviate from expected Punnett predictions. Larger sample sizes are required for actual ratios to match theoretical ratios."
+            },
+            'sec4-q4': {
+                sec: "sec4",
+                secTitle: "Section 4: Pedigrees & Monohybrid",
+                title: "Q4.4: Autosomal Dominant Inheritance Patterns",
+                prompt: "Explain how to identify an autosomal dominant trait in a family pedigree chart across three generations. Link: dominant allele, phenotype expression, affected parents, skipped generations, and genotypes.",
+                exemplar: "An autosomal dominant trait is identified in a pedigree because an affected individual always has at least one affected parent. Dominant alleles (e.g. 'A') are always expressed in the phenotype, so the condition cannot skip generations quietly through hidden carrier states. Every unaffected individual must be homozygous recessive (aa). If two affected parents (Aa x Aa) have an unaffected child (aa), both parents must be heterozygous carriers of the normal recessive allele."
             }
         };
 
+        function filterNceaQuestionsBySection() {
+            const secKey = document.getElementById('ncea-section-select').value;
+            const qSelect = document.getElementById('ncea-question-select');
+            qSelect.innerHTML = '';
+
+            Object.keys(nceaPromptsDatabase).forEach(key => {
+                const item = nceaPromptsDatabase[key];
+                if (item.sec === secKey) {
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.innerText = item.title;
+                    qSelect.appendChild(opt);
+                }
+            });
+
+            loadNceaQuestion();
+        }
+
         function loadNceaQuestion() {
             const qKey = document.getElementById('ncea-question-select').value;
-            const data = nceaPrompts[qKey];
+            const data = nceaPromptsDatabase[qKey];
+            if (!data) return;
 
             document.getElementById('ncea-prompt-text').innerText = data.prompt;
+            document.getElementById('ncea-topic-tag').innerText = data.secTitle;
             document.getElementById('exemplar-text').innerText = data.exemplar;
 
-            // Reset marking UI
-            document.getElementById('grade-badge').className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200";
-            document.getElementById('grade-badge').innerText = "NOT EVALUATED";
+            // Reset evaluation UI
+            const badge = document.getElementById('grade-badge');
+            badge.className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200";
+            badge.innerText = "NOT EVALUATED";
             document.getElementById('grade-summary').innerText = "Submit your answer to analyze logical linkages.";
             document.getElementById('upgrade-feedback-text').innerText = "Write an answer above and click Evaluate to see specific advice on how to raise your grade.";
         }
@@ -1267,87 +1568,59 @@
         function toggleExemplar() {
             const content = document.getElementById('exemplar-content');
             const icon = document.getElementById('exemplar-chevron');
-            if (content.classList.contains('hidden')) {
-                content.classList.remove('hidden');
-                icon.className = "fa-solid fa-chevron-up";
-            } else {
-                content.classList.add('hidden');
-                icon.className = "fa-solid fa-chevron-down";
-            }
+            content.classList.toggle('hidden');
+            icon.className = content.classList.contains('hidden') ? "fa-solid fa-chevron-down" : "fa-solid fa-chevron-up";
         }
 
         function evaluateAnswer() {
             const text = document.getElementById('student-answer-input').value.toLowerCase();
             const qKey = document.getElementById('ncea-question-select').value;
 
-            if (text.trim().length < 30) {
-                alert("Please write a more complete answer (at least 2-3 sentences) so the NCEA marker can analyze your chain of reasoning.");
+            if (text.trim().length < 35) {
+                alert("Please write a more complete answer (at least 2-3 full sentences) so the NCEA marker can analyze your chain of reasoning.");
                 return;
             }
 
-            // Semantic Link Verification Rules for Q1 (Natural Selection focus)
-            let links = {
-                a1: false, // Mutation -> DNA Base Sequence
-                m1: false, // Base sequence -> Amino acid / protein -> new allele/phenotype
-                m2: false, // Phenotype -> Survival advantage / selective pressure
-                e1: false, // Survival -> Sexual reproduction / passing allele in gametes
-                e2: false  // Allele passed -> Increased allele frequency in gene pool over generations
-            };
+            let links = { a1: false, m1: false, m2: false, e1: false, e2: false };
 
-            // Check A1: Mutation linked to DNA / base sequence
-            if ((text.includes('mutation') || text.includes('mutate')) && (text.includes('base') || text.includes('dna') || text.includes('sequence'))) {
+            // General Semantic Link Detection
+            if (text.includes('dna') || text.includes('gene') || text.includes('base') || text.includes('mutation') || text.includes('allele') || text.includes('meiosis') || text.includes('carrier') || text.includes('trait')) {
                 links.a1 = true;
             }
 
-            // Check M1: Base sequence linked to protein/allele/phenotype
-            if ((text.includes('base') || text.includes('dna') || text.includes('codon')) && (text.includes('protein') || text.includes('allele') || text.includes('phenotype') || text.includes('trait'))) {
+            if ((text.includes('base') || text.includes('codon') || text.includes('triplet') || text.includes('chromatid') || text.includes('homologous') || text.includes('heterozygous') || text.includes('recessive')) &&
+                (text.includes('protein') || text.includes('amino') || text.includes('phenotype') || text.includes('gamete') || text.includes('ratio') || text.includes('allele'))) {
                 links.m1 = true;
             }
 
-            // Check M2: Phenotype linked to survival advantage / selective pressure
-            if ((text.includes('phenotype') || text.includes('resistant') || text.includes('trait')) && (text.includes('surviv') || text.includes('advantage') || text.includes('pressure') || text.includes('die'))) {
+            if ((text.includes('phenotype') || text.includes('survival') || text.includes('advantage') || text.includes('pressure') || text.includes('camouflage') || text.includes('resistant') || text.includes('punnett') || text.includes('cross') || text.includes('carrier')) &&
+                (text.includes('surviv') || text.includes('die') || text.includes('environ') || text.includes('function') || text.includes('probab') || text.includes('percent') || text.includes('25') || text.includes('3:1'))) {
                 links.m2 = true;
             }
 
-            // Check E1: Survival linked to reproduction / gametes
-            if ((text.includes('surviv') || text.includes('advantage')) && (text.includes('reproduc') || text.includes('breed') || text.includes('pass') || text.includes('gamete') || text.includes('offspring'))) {
+            if ((text.includes('surviv') || text.includes('advantage') || text.includes('meiosis') || text.includes('carrier') || text.includes('parent') || text.includes('cross')) &&
+                (text.includes('reproduc') || text.includes('pass') || text.includes('gamete') || text.includes('fertil') || text.includes('offspring') || text.includes('child'))) {
                 links.e1 = true;
             }
 
-            // Check E2: Reproduction linked to allele frequency / gene pool over time
-            if ((text.includes('pass') || text.includes('reproduc') || text.includes('generation')) && (text.includes('frequency') || text.includes('gene pool') || text.includes('population') || text.includes('increase'))) {
+            if ((text.includes('reproduc') || text.includes('pass') || text.includes('generation') || text.includes('offspring') || text.includes('child')) &&
+                (text.includes('frequency') || text.includes('gene pool') || text.includes('population') || text.includes('increase') || text.includes('ratio') || text.includes('diversity') || text.includes('inherit'))) {
                 links.e2 = true;
             }
 
-            // Generalize for other question prompts
-            if (qKey === 'q2') {
-                if (text.includes('meiosis') && text.includes('mitosis')) links.a1 = true;
-                if ((text.includes('crossing over') || text.includes('independent assortment')) && text.includes('variation')) links.m1 = true;
-                if (text.includes('gamete') && (text.includes('haploid') || text.includes('23'))) links.m2 = true;
-                if (text.includes('fertilisation') || text.includes('fertilization')) links.e1 = true;
-                if (text.includes('zygote') && (text.includes('unique') || text.includes('diploid'))) links.e2 = true;
-            } else if (qKey === 'q3') {
-                if (text.includes('heterozygous') || text.includes('carrier')) links.a1 = true;
-                if (text.includes('recessive') && text.includes('allele')) links.m1 = true;
-                if (text.includes('punnett') || text.includes('ratio') || text.includes('25%') || text.includes('3:1')) links.m2 = true;
-                if (text.includes('gamete') || text.includes('inherit')) links.e1 = true;
-                if (text.includes('probability') || text.includes('fertilisation')) links.e2 = true;
-            }
-
-            // Render Checklist Results
+            // Render Checklist
             const checklistContainer = document.getElementById('link-checklist');
             const linkItems = [
-                { key: 'a1', text: "A1: Correctly linked mutation/concept to DNA base sequence." },
-                { key: 'm1', text: "M1: Explained connection between DNA sequence, proteins, and phenotype expression." },
-                { key: 'm2', text: "M2: Linked phenotype expression to survival advantage under selective pressure." },
-                { key: 'e1', text: "E1: Connected survival advantage to sexual reproduction and passing alleles via gametes." },
-                { key: 'e2', text: "E2: Justified change in population gene pool allele frequency over generations." }
+                { key: 'a1', text: "A1: Correctly identified fundamental scientific concept / term." },
+                { key: 'm1', text: "M1: Explained connection between DNA/base sequence, proteins & phenotype." },
+                { key: 'm2', text: "M2: Linked phenotype expression to environmental survival advantage / function." },
+                { key: 'e1', text: "E1: Connected survival advantage to sexual reproduction & gamete transmission." },
+                { key: 'e2', text: "E2: Justified change in population gene pool allele frequency across generations." }
             ];
 
             let checklistHtml = '';
             linkItems.forEach(item => {
-                const passed = links[item.key];
-                if (passed) {
+                if (links[item.key]) {
                     checklistHtml += '<div class="flex items-center gap-2 text-emerald-700 font-medium"><i class="fa-solid fa-circle-check text-emerald-600"></i> <span>' + item.text + '</span></div>';
                 } else {
                     checklistHtml += '<div class="flex items-center gap-2 text-slate-400"><i class="fa-regular fa-circle text-slate-300"></i> <span>' + item.text + '</span></div>';
@@ -1355,7 +1628,7 @@
             });
             checklistContainer.innerHTML = checklistHtml;
 
-            // Determine Grade
+            // Determine Grade & Upgrade Advice
             let grade = "NOT ACHIEVED";
             let badgeClass = "bg-rose-100 text-rose-800 border-rose-200";
             let upgradeText = "";
@@ -1363,19 +1636,19 @@
             if (links.a1 && links.m1 && links.m2 && links.e1 && links.e2) {
                 grade = "EXCELLENCE (E8)";
                 badgeClass = "bg-amber-100 text-amber-900 border-amber-300 shadow-sm";
-                upgradeText = "Outstanding answer! You have fully linked all key concepts from molecular DNA changes up to population gene pool allele frequencies across generations.";
+                upgradeText = "Outstanding response! You have linked all key biological concepts from molecular DNA level through to population gene pool allele frequencies across generations.";
             } else if (links.a1 && links.m1 && links.m2 && (links.e1 || links.e2)) {
                 grade = "MERIT (M6)";
                 badgeClass = "bg-indigo-100 text-indigo-900 border-indigo-300";
-                upgradeText = "To reach Excellence: Clearly state that surviving individuals reproduce sexually to pass the favourable allele to offspring via gametes, causing an increase in allele frequency in the gene pool over generations.";
+                upgradeText = "To reach Excellence: Clearly state that surviving individuals reproduce sexually to pass the favourable allele to offspring via haploid gametes, causing an increase in allele frequency in the gene pool over generations.";
             } else if (links.a1 && (links.m1 || links.m2)) {
                 grade = "ACHIEVED (A4)";
                 badgeClass = "bg-teal-100 text-teal-900 border-teal-300";
-                upgradeText = "To reach Merit: Make sure to explain HOW the change in DNA base sequence creates a new protein/phenotype, and WHY that phenotype grants a survival advantage in the environment.";
+                upgradeText = "To reach Merit: Explain HOW the change in DNA base sequence alters the amino acid sequence to form a functional protein/phenotype, and WHY that phenotype provides a functional survival advantage.";
             } else {
                 grade = "NOT ACHIEVED (N2)";
                 badgeClass = "bg-rose-100 text-rose-900 border-rose-300";
-                upgradeText = "To reach Achieved: Ensure you define mutation as a permanent change in the DNA base sequence and state how it alters the organism's physical trait or phenotype.";
+                upgradeText = "To reach Achieved: Ensure you define key terms (like mutation or gene) and state how changes in DNA affect physical traits or individual survival.";
             }
 
             const badge = document.getElementById('grade-badge');
@@ -1388,19 +1661,19 @@
 
         function clearAnswer() {
             document.getElementById('student-answer-input').value = '';
-            document.getElementById('grade-badge').className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200";
-            document.getElementById('grade-badge').innerText = "NOT EVALUATED";
+            const badge = document.getElementById('grade-badge');
+            badge.className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-slate-100 text-slate-400 my-2 border border-slate-200";
+            badge.innerText = "NOT EVALUATED";
             document.getElementById('grade-summary').innerText = "Submit your answer to analyze logical linkages.";
             document.getElementById('upgrade-feedback-text').innerText = "Write an answer above and click Evaluate to see specific advice on how to raise your grade.";
         }
 
-        // Page Initialization
         window.onload = function() {
             updateFlashcardDisplay();
             calculatePunnett();
             renderDnaStrand();
-            renderQuiz();
-            loadNceaQuestion();
+            generateCustomQuiz();
+            filterNceaQuestionsBySection();
         };
     </script>
 </body>
