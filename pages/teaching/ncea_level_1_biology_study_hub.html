@@ -450,7 +450,7 @@
             </div>
         </section>
 
-        <!-- TAB 4: MULTI-CHOICE QUIZ (UPGRADED) -->
+        <!-- TAB 4: MULTI-CHOICE QUIZ -->
         <section id="tab-quiz" class="tab-content hidden space-y-6">
             <!-- Quiz Controls Panel -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
@@ -507,14 +507,14 @@
             </div>
         </section>
 
-        <!-- TAB 5: NCEA SELF-MARKING EVALUATOR (UPGRADED) -->
+        <!-- TAB 5: NCEA SELF-MARKING EVALUATOR (ENHANCED) -->
         <section id="tab-ncea-marker" class="tab-content hidden space-y-8">
             <div class="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 p-6 sm:p-8 rounded-2xl text-white shadow-xl">
                 <div class="max-w-3xl">
-                    <span class="inline-block bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Logical Link Evaluator</span>
+                    <span class="inline-block bg-amber-400/20 text-amber-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-2">Rigorous Context & Linking Evaluator</span>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">NCEA Standard Self-Marking System</h2>
                     <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
-                        Choose a study topic section below. Practice with <strong>16 NCEA exam-style written questions (4 per section)</strong>. This evaluator checks if your response connects molecular DNA changes through to protein, phenotype, survival, reproduction, and gene pool allele frequencies.
+                        Practice with <strong>16 NCEA exam-style written questions</strong>. This evaluator rigorously verifies your cause-and-effect structure, linking phrases (e.g., <em>"because"</em>, <em>"this leads to"</em>, <em>"which causes"</em>), and demands <strong>explicit context-specific linking</strong> to earn an Excellence grade.
                     </p>
                 </div>
             </div>
@@ -535,7 +535,7 @@
                         </div>
 
                         <div>
-                            <label for="ncea-question-select" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">2. Select NCEA Question Prompt (4 per section):</label>
+                            <label for="ncea-question-select" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">2. Select NCEA Question Prompt:</label>
                             <select id="ncea-question-select" onchange="loadNceaQuestion()" class="w-full bg-slate-50 border border-slate-300 text-slate-800 text-xs sm:text-sm rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none font-medium">
                                 <!-- Populated dynamically by JS -->
                             </select>
@@ -555,7 +555,7 @@
 
                     <div>
                         <label for="student-answer-input" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Your Answer (In NZ English):</label>
-                        <textarea id="student-answer-input" rows="10" placeholder="Write your full response here. Be sure to link concepts together (e.g. explain HOW the change in DNA leads to a new protein/phenotype and WHY that alters allele frequencies in the gene pool)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none font-sans leading-relaxed"></textarea>
+                        <textarea id="student-answer-input" rows="10" placeholder="Write your full response here. Use cause-and-effect linking words (e.g., 'because', 'this leads to', 'which causes', 'as a result') to link concepts together. For Excellence, you MUST explicitly mention the specific context given in the question..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none font-sans leading-relaxed"></textarea>
                     </div>
 
                     <div class="flex gap-3">
@@ -585,25 +585,25 @@
                             <i class="fa-solid fa-link text-indigo-600"></i> Chain of Reasoning Verification
                         </h4>
                         <div id="link-checklist" class="space-y-2.5 text-xs">
-                            <div class="flex items-center gap-2 text-slate-400">
+                            <div id="check-item-a1" class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>A1: Define key term / basic biological process</span>
+                                <span>A1: Identify key terms & biological processes</span>
                             </div>
-                            <div class="flex items-center gap-2 text-slate-400">
+                            <div id="check-item-m1" class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>M1: Link molecular level (DNA/base) to protein & phenotype</span>
+                                <span>M1: Use cause-and-effect linking words (because, this leads to, etc.)</span>
                             </div>
-                            <div class="flex items-center gap-2 text-slate-400">
+                            <div id="check-item-m2" class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>M2: Link phenotype to environmental function or survival</span>
+                                <span>M2: Detailed mechanism explanation & structured sentences</span>
                             </div>
-                            <div class="flex items-center gap-2 text-slate-400">
+                            <div id="check-item-e1" class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>E1: Link survival/meiosis to reproduction and gamete transmission</span>
+                                <span>E1: Full population/multigenerational reasoning chain</span>
                             </div>
-                            <div class="flex items-center gap-2 text-slate-400">
+                            <div id="check-item-e2" class="flex items-center gap-2 text-slate-400">
                                 <i class="fa-regular fa-circle text-slate-300"></i>
-                                <span>E2: Link transmission to population gene pool allele frequencies over generations</span>
+                                <span>E2: Explicitly linked to the specific question context</span>
                             </div>
                         </div>
                     </div>
@@ -613,9 +613,9 @@
                         <h4 class="font-bold text-slate-900 text-sm flex items-center gap-2">
                             <i class="fa-solid fa-lightbulb text-amber-500"></i> How to Upgrade Your Answer
                         </h4>
-                        <p id="upgrade-feedback-text" class="text-xs text-slate-600 leading-relaxed">
+                        <div id="upgrade-feedback-text" class="text-xs text-slate-600 leading-relaxed space-y-2">
                             Write an answer above and click Evaluate to see specific advice on how to raise your grade to Merit or Excellence.
-                        </p>
+                        </div>
                     </div>
 
                     <!-- Model Exemplar Answer -->
@@ -817,14 +817,14 @@
                     <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
                         <span class="text-xs font-bold uppercase tracking-wider text-amber-400 block mb-1">3. Explain (Merit)</span>
                         <p class="text-xs text-slate-300 leading-relaxed">
-                            Explain <strong>HOW</strong> and <strong>WHY</strong> it happens (e.g. <em>"Changing the base order alters triplet codons, creating a new amino acid order and functional protein."</em>)
+                            Explain <strong>HOW</strong> and <strong>WHY</strong> it happens using linking words (e.g. <em>"Changing the base order alters triplet codons, <strong>which causes</strong> a new amino acid order."</em>)
                         </p>
                     </div>
 
                     <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700/60">
                         <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 block mb-1">4. Link / Discuss (Excellence)</span>
                         <p class="text-xs text-slate-300 leading-relaxed">
-                            Connect multiple concepts into a logical chain across generations (e.g. <em>"Survival advantage &rarr; sexual reproduction &rarr; passing allele via gametes &rarr; increased gene pool frequency."</em>)
+                            Connect multiple concepts across generations and tie directly to the question scenario (e.g. <em>"In kiwifruit, survival advantage <strong>leads to</strong> reproduction, passing the PSA allele..."</em>)
                         </p>
                     </div>
                 </div>
@@ -1299,7 +1299,6 @@
             const topicFilter = document.getElementById('quiz-topic-filter').value;
             const lengthFilter = document.getElementById('quiz-length-filter').value;
 
-            // Filter pool by topic
             let filteredPool = [];
             if (topicFilter === 'all') {
                 filteredPool = [...fullQuizPool];
@@ -1307,10 +1306,8 @@
                 filteredPool = fullQuizPool.filter(q => q.category === topicFilter);
             }
 
-            // Shuffle pool
             filteredPool.sort(() => Math.random() - 0.5);
 
-            // Determine length
             let count = filteredPool.length;
             if (lengthFilter !== 'all') {
                 count = Math.min(parseInt(lengthFilter), filteredPool.length);
@@ -1408,6 +1405,9 @@
             document.getElementById('quiz-score').innerText = score;
         }
 
+        // ==========================================
+        // NCEA SELF-MARKING SYSTEM (STRICT EVALUATOR)
+        // ==========================================
         const nceaPromptsDatabase = {
             // SECTION 1: DNA & MUTATIONS
             'sec1-q1': {
@@ -1415,28 +1415,68 @@
                 secTitle: "Section 1: DNA & Mutations",
                 title: "Q1.1: DNA Base Sequence & Protein Synthesis",
                 prompt: "Explain how a gene's DNA base sequence leads to the expression of a physical trait (phenotype). In your answer, link: DNA base sequence, triplet codons, amino acid order, functional protein structure, and phenotype.",
-                exemplar: "A gene consists of a specific sequence of DNA bases. Every three consecutive bases form a triplet codon that codes for one specific amino acid. During protein synthesis, these amino acids are assembled in the precise order determined by the codons to fold into a functional protein (such as an enzyme or pigment). This specific protein determines the organism's physical trait or phenotype (e.g. eye colour). If the DNA base sequence is altered, the triplet codons change, producing a different amino acid sequence that creates a altered protein, yielding a different phenotype."
+                exemplar: "A gene consists of a specific sequence of DNA bases. Every three consecutive bases form a triplet codon that codes for one specific amino acid. During protein synthesis, these amino acids are assembled in the precise order determined by the codons to fold into a functional protein (such as an enzyme or pigment). This specific protein determines the organism's physical trait or phenotype (e.g. eye colour). If the DNA base sequence is altered, the triplet codons change, producing a different amino acid sequence that creates an altered protein, yielding a different phenotype.",
+                markingScheme: {
+                    contextKeywords: ["trait", "protein", "phenotype", "eye", "pigment", "enzyme", "organism", "fold"],
+                    achievedKeywords: ["dna", "base", "triplet", "codon", "amino acid", "protein", "phenotype"],
+                    meritKeywords: ["code", "sequence", "order", "fold", "structure", "determine", "assemble"],
+                    excellenceKeywords: ["alter", "change", "different", "function", "yield", "expression"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec1-q2': {
                 sec: "sec1",
                 secTitle: "Section 1: DNA & Mutations",
                 title: "Q1.2: Somatic vs Gametic Mutations Heritability",
                 prompt: "Compare somatic mutations and gametic mutations. Explain why only gametic mutations can introduce new alleles into a population's gene pool. Link: cell type, inheritance, reproduction, gametes, and gene pool.",
-                exemplar: "Somatic mutations occur in non-reproductive body cells (e.g. skin or liver cells). They affect only the individual organism during its lifetime and cannot be passed to offspring because body cells are not involved in fertilisation. In contrast, gametic mutations occur in reproductive cells (sperm or egg cells). When a mutated gamete is fertilised, the new mutated DNA base sequence is incorporated into the zygote and every cell of the offspring. This allows the new allele to be inherited by future generations, introducing new variation into the population gene pool."
+                exemplar: "Somatic mutations occur in non-reproductive body cells (e.g. skin or liver cells). They affect only the individual organism during its lifetime and cannot be passed to offspring because body cells are not involved in fertilisation. In contrast, gametic mutations occur in reproductive cells (sperm or egg cells). When a mutated gamete is fertilised, the new mutated DNA base sequence is incorporated into the zygote and every cell of the offspring. This allows the new allele to be inherited by future generations, introducing new variation into the population gene pool.",
+                markingScheme: {
+                    contextKeywords: ["body", "skin", "liver", "individual", "sperm", "egg", "gamete", "zygote", "cell"],
+                    achievedKeywords: ["somatic", "gametic", "mutation", "inherit", "pass", "cell"],
+                    meritKeywords: ["fertilisation", "fertilization", "non-reproductive", "reproductive", "offspring", "lifetime"],
+                    excellenceKeywords: ["gene pool", "population", "generation", "variation", "new allele", "future"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec1-q3': {
                 sec: "sec1",
                 secTitle: "Section 1: DNA & Mutations",
                 title: "Q1.3: Base Substitution vs Frameshift Mutations",
                 prompt: "Discuss the effect of a base substitution mutation versus a base insertion (frameshift) mutation on protein function. Link: base sequence, triplets, reading frame, amino acid sequence, and protein function.",
-                exemplar: "A base substitution mutation replaces one base with another, which alters at most a single triplet codon and may change only one amino acid in the resulting protein chain (or produce a silent mutation). In contrast, a base insertion mutation adds an extra base, causing a frameshift that shifts the reading frame for all subsequent triplet codons downstream. This completely alters every amino acid coded after the mutation point, usually resulting in a non-functional protein and a significantly altered phenotype."
+                exemplar: "A base substitution mutation replaces one base with another, which alters at most a single triplet codon and may change only one amino acid in the resulting protein chain (or produce a silent mutation). In contrast, a base insertion mutation adds an extra base, causing a frameshift that shifts the reading frame for all subsequent triplet codons downstream. This completely alters every amino acid coded after the mutation point, usually resulting in a non-functional protein and a significantly altered phenotype.",
+                markingScheme: {
+                    contextKeywords: ["substitution", "insertion", "deletion", "frameshift", "reading frame", "downstream"],
+                    achievedKeywords: ["mutation", "base", "triplet", "codon", "amino acid", "protein"],
+                    meritKeywords: ["replace", "shift", "downstream", "single", "alter", "sequence"],
+                    excellenceKeywords: ["non-functional", "silent", "entire", "structure", "function", "severe"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec1-q4': {
                 sec: "sec1",
                 secTitle: "Section 1: DNA & Mutations",
                 title: "Q1.4: Acquired vs Heritable Traits",
                 prompt: "An athlete builds large muscles through weightlifting. Explain why their children will not automatically inherit large muscles. Link: environment, phenotype, genotype, DNA base sequence, and gametes.",
-                exemplar: "Developing large muscles through weightlifting is an acquired trait driven by environmental stimulus and physical exertion. While it alters the athlete's physical phenotype, it does not alter the underlying DNA base sequence in their somatic cells or gametes. Inherited traits are determined by alleles stored in gamete DNA passed on during fertilisation. Because acquired physical changes leave gamete DNA unaffected, the athlete's offspring inherit standard muscle potential rather than acquired muscle size."
+                exemplar: "Developing large muscles through weightlifting is an acquired trait driven by environmental stimulus and physical exertion. While it alters the athlete's physical phenotype, it does not alter the underlying DNA base sequence in their somatic cells or gametes. Inherited traits are determined by alleles stored in gamete DNA passed on during fertilisation. Because acquired physical changes leave gamete DNA unaffected, the athlete's offspring inherit standard muscle potential rather than acquired muscle size.",
+                markingScheme: {
+                    contextKeywords: ["athlete", "muscle", "weightlifting", "exercise", "children", "offspring", "exertion"],
+                    achievedKeywords: ["acquired", "inherited", "dna", "gene", "phenotype", "gamete"],
+                    meritKeywords: ["environment", "somatic", "exertion", "unaffected", "alter", "base sequence"],
+                    excellenceKeywords: ["fertilisation", "fertilization", "zygote", "passed", "generation", "standard"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
 
             // SECTION 2: REPRODUCTION & VARIATION
@@ -1445,28 +1485,68 @@
                 secTitle: "Section 2: Reproduction & Variation",
                 title: "Q2.1: Meiosis vs Mitosis Variation Comparison",
                 prompt: "Compare meiosis and mitosis in terms of genetic variation in daughter cells. Link: cell division count, daughter cells, diploid/haploid, homologous pairs, and variation.",
-                exemplar: "Mitosis consists of one cell division producing two genetically identical diploid somatic cells (46 chromosomes in humans) for growth and repair, generating no genetic variation. In contrast, meiosis involves two divisions producing four genetically unique haploid gametes (23 chromosomes) for sexual reproduction. Meiosis creates genetic variation through processes like crossing over and independent assortment, ensuring every gamete carries a unique combination of alleles."
+                exemplar: "Mitosis consists of one cell division producing two genetically identical diploid somatic cells (46 chromosomes in humans) for growth and repair, generating no genetic variation. In contrast, meiosis involves two divisions producing four genetically unique haploid gametes (23 chromosomes) for sexual reproduction. Meiosis creates genetic variation through processes like crossing over and independent assortment, ensuring every gamete carries a unique combination of alleles.",
+                markingScheme: {
+                    contextKeywords: ["growth", "repair", "somatic", "sexual reproduction", "daughter cells", "46", "23"],
+                    achievedKeywords: ["mitosis", "meiosis", "diploid", "haploid", "identical", "unique"],
+                    meritKeywords: ["division", "46", "23", "chromosome", "gamete", "copies"],
+                    excellenceKeywords: ["crossing over", "independent assortment", "variation", "recombination", "stability"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec2-q2': {
                 sec: "sec2",
                 secTitle: "Section 2: Reproduction & Variation",
                 title: "Q2.2: Independent Assortment & Crossing Over Mechanisms",
                 prompt: "Explain how independent assortment and crossing over during meiosis produce unique gametes. Link: homologous pairs, random alignment, non-sister chromatids, allele exchange, and gamete uniqueness.",
-                exemplar: "During prophase I of meiosis, crossing over occurs when non-sister chromatids of homologous chromosome pairs swap segments of DNA, breaking existing linkage groups and creating new allele combinations. Next, during metaphase I, independent assortment occurs as homologous chromosome pairs align randomly at the cell equator. When separated, maternal and paternal chromosomes distribute randomly into daughter cells. Together, these two processes ensure that all four haploid gametes produced have unique allele combinations."
+                exemplar: "During prophase I of meiosis, crossing over occurs when non-sister chromatids of homologous chromosome pairs swap segments of DNA, breaking existing linkage groups and creating new allele combinations. Next, during metaphase I, independent assortment occurs as homologous chromosome pairs align randomly at the cell equator. When separated, maternal and paternal chromosomes distribute randomly into daughter cells. Together, these two processes ensure that all four haploid gametes produced have unique allele combinations.",
+                markingScheme: {
+                    contextKeywords: ["homologous", "chromatid", "non-sister", "equator", "prophase", "metaphase", "swap"],
+                    achievedKeywords: ["crossing over", "independent assortment", "meiosis", "gamete", "variation", "allele"],
+                    meritKeywords: ["swap", "exchange", "align", "random", "pair", "segment"],
+                    excellenceKeywords: ["linkage", "combination", "unique", "haploid", "recombination", "four"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec2-q3': {
                 sec: "sec2",
                 secTitle: "Section 2: Reproduction & Variation",
                 title: "Q2.3: Random Fertilisation & Zygote Diversity",
                 prompt: "Explain how random fertilisation acts alongside meiosis to maximize variation in sexual reproduction. Link: unique gametes, sperm, egg, random fusion, zygote, and offspring variation.",
-                exemplar: "Meiosis first produces millions of genetically unique sperm and egg cells containing different allele combinations. During sexual reproduction, random fertilisation dictates that any single unique sperm can fuse with any single unique egg. Because both gametes contribute 23 unique chromosomes to form the diploid zygote (46 chromosomes), the probability of producing two identical zygotes is practically zero, ensuring siblings inherit distinct combinations of parental traits."
+                exemplar: "Meiosis first produces millions of genetically unique sperm and egg cells containing different allele combinations. During sexual reproduction, random fertilisation dictates that any single unique sperm can fuse with any single unique egg. Because both gametes contribute 23 unique chromosomes to form the diploid zygote (46 chromosomes), the probability of producing two identical zygotes is practically zero, ensuring siblings inherit distinct combinations of parental traits.",
+                markingScheme: {
+                    contextKeywords: ["sperm", "egg", "fertilisation", "fertilization", "zygote", "sibling", "parents"],
+                    achievedKeywords: ["random", "gamete", "unique", "variation", "diploid", "haploid"],
+                    meritKeywords: ["combine", "fuse", "fusion", "restore", "23", "46"],
+                    excellenceKeywords: ["probability", "distinct", "combination", "zero", "identical", "reproduction"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec2-q4': {
                 sec: "sec2",
                 secTitle: "Section 2: Reproduction & Variation",
                 title: "Q2.4: Sexual vs Asexual Reproduction in Changing Environments",
                 prompt: "Discuss the survival advantages of sexual reproduction over asexual reproduction when an environmental change occurs. Link: genetic variation, clones, selective pressure, survival, and adaptation.",
-                exemplar: "Asexual reproduction produces genetically identical clones. If an environmental change or new disease occurs, all identical individuals share the same vulnerabilities, putting the entire population at risk of extinction. In contrast, sexual reproduction generates high genetic variation through meiosis and random fertilisation. When a new selective pressure arises, some individuals possessing advantageous pre-existing phenotypes will survive and reproduce, ensuring population survival."
+                exemplar: "Asexual reproduction produces genetically identical clones. If an environmental change or new disease occurs, all identical individuals share the same vulnerabilities, putting the entire population at risk of extinction. In contrast, sexual reproduction generates high genetic variation through meiosis and random fertilisation. When a new selective pressure arises, some individuals possessing advantageous pre-existing phenotypes will survive and reproduce, ensuring population survival.",
+                markingScheme: {
+                    contextKeywords: ["environment", "change", "disease", "threat", "clone", "identical", "extinction"],
+                    achievedKeywords: ["sexual", "asexual", "variation", "survival", "reproduce", "extinction"],
+                    meritKeywords: ["vulnerable", "pre-existing", "favourable", "favorable", "mitosis", "meiosis"],
+                    excellenceKeywords: ["selective pressure", "advantage", "adapt", "population", "generation", "odds"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
 
             // SECTION 3: NATURAL SELECTION & GENE POOLS
@@ -1475,28 +1555,68 @@
                 secTitle: "Section 3: Natural Selection",
                 title: "Q3.1: Disease Resistance & Kiwifruit PSA",
                 prompt: "Explain how a random mutation can lead to an increased frequency of disease resistance in kiwifruit vines affected by PSA bacterial disease. Link: mutation, new allele, phenotype, selective pressure, survival advantage, reproduction, and gene pool frequency.",
-                exemplar: "A random mutation produces a change in the DNA base sequence, creating a new allele that codes for a resistant phenotype. When PSA bacterial disease enters the environment as a selective pressure, non-resistant vines die while resistant vines possess a survival advantage. Surviving vines reproduce sexually, passing the favourable resistance allele to offspring via gametes. Over successive generations, the proportion of resistant vines increases, raising the resistance allele frequency in the gene pool."
+                exemplar: "A random mutation produces a change in the DNA base sequence, creating a new allele that codes for a resistant phenotype. When PSA bacterial disease enters the environment as a selective pressure, non-resistant vines die while resistant vines possess a survival advantage. Surviving vines reproduce sexually, passing the favourable resistance allele to offspring via gametes. Over successive generations, the proportion of resistant vines increases, raising the resistance allele frequency in the gene pool.",
+                markingScheme: {
+                    contextKeywords: ["kiwifruit", "psa", "bacteri*", "vine", "plant"],
+                    achievedKeywords: ["mutation", "allele", "resistant", "resistance", "survival", "reproduce"],
+                    meritKeywords: ["selective pressure", "non-resistant", "die", "advantage", "favourable", "favorable"],
+                    excellenceKeywords: ["gene pool", "frequency", "generation", "gamete", "proportion", "increase"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec3-q2': {
                 sec: "sec3",
                 secTitle: "Section 3: Natural Selection",
                 title: "Q3.2: Peppered Moths Camouflage & Predation",
                 prompt: "Explain how industrial soot on trees altered allele frequencies in peppered moth populations. Link: environmental change, camouflage phenotype, predation, survival advantage, reproduction, and gene pool.",
-                exemplar: "Industrial soot covered tree trunks, turning them dark. Light-coloured moths lost their camouflage and were easily spotted and eaten by bird predators (selective pressure). Dark-coloured moths carrying a dominant dark allele gained a camouflage survival advantage. Dark moths survived and reproduced, passing the dark allele via gametes to offspring. Over generations, dark moth numbers increased, causing the dark allele frequency in the gene pool to rise significantly."
+                exemplar: "Industrial soot covered tree trunks, turning them dark. Light-coloured moths lost their camouflage and were easily spotted and eaten by bird predators (selective pressure). Dark-coloured moths carrying a dominant dark allele gained a camouflage survival advantage. Dark moths survived and reproduced, passing the dark allele via gametes to offspring. Over generations, dark moth numbers increased, causing the dark allele frequency in the gene pool to rise significantly.",
+                markingScheme: {
+                    contextKeywords: ["moth", "soot", "bark", "tree", "bird", "predator", "dark", "light"],
+                    achievedKeywords: ["camouflage", "allele", "survival", "reproduce", "frequency", "moth"],
+                    meritKeywords: ["selective pressure", "predation", "spotted", "advantage", "eaten", "dark"],
+                    excellenceKeywords: ["gene pool", "increase", "generation", "gamete", "proportion", "dominant"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec3-q3': {
                 sec: "sec3",
                 secTitle: "Section 3: Natural Selection",
                 title: "Q3.3: Kakapo Population Bottleneck & Genetic Drift",
                 prompt: "Discuss the biological consequences of a severe population bottleneck on the Kakapo gene pool. Link: population reduction, loss of alleles, genetic diversity, inbreeding, and vulnerability.",
-                exemplar: "A severe population bottleneck dramatically reduces Kakapo numbers, causing many unique alleles to be permanently lost from the gene pool. The surviving small population possesses low genetic diversity. As surviving birds inbreed, the probability of inheriting two harmful recessive alleles increases. Low genetic diversity leaves the Kakapo population highly vulnerable to new diseases or climate shifts, as few individuals carry pre-existing resistant phenotypes."
+                exemplar: "A severe population bottleneck dramatically reduces Kakapo numbers, causing many unique alleles to be permanently lost from the gene pool. The surviving small population possesses low genetic diversity. As surviving birds inbreed, the probability of inheriting two harmful recessive alleles increases. Low genetic diversity leaves the Kakapo population highly vulnerable to new diseases or climate shifts, as few individuals carry pre-existing resistant phenotypes.",
+                markingScheme: {
+                    contextKeywords: ["kakapo", "bottleneck", "inbreed*", "bird", "nz", "small population"],
+                    achievedKeywords: ["population", "gene pool", "diversity", "reduction", "allele", "small"],
+                    meritKeywords: ["loss", "lost", "homozygous", "recessive", "vulnerable", "harmful"],
+                    excellenceKeywords: ["phenotype", "disease", "extinction", "lack", "variation", "probability"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec3-q4': {
                 sec: "sec3",
                 secTitle: "Section 3: Natural Selection",
                 title: "Q3.4: Environmental Migration & Gene Flow",
                 prompt: "Explain how migration of individuals between two isolated island bird populations affects their respective gene pools. Link: migration, gene flow, allele introduction, variation, and gene pool comparison.",
-                exemplar: "When birds migrate from a mainland population to an isolated island population, they bring unique alleles with them (gene flow). When these migratory birds interbreed with local birds, they introduce new alleles into the island gene pool, increasing its genetic diversity. This broader gene pool equips the island population with greater phenotypic variation, enhancing their collective capacity to survive future environmental selection pressures."
+                exemplar: "When birds migrate from a mainland population to an isolated island population, they bring unique alleles with them (gene flow). When these migratory birds interbreed with local birds, they introduce new alleles into the island gene pool, increasing its genetic diversity. This broader gene pool equips the island population with greater phenotypic variation, enhancing their collective capacity to survive future environmental selection pressures.",
+                markingScheme: {
+                    contextKeywords: ["island", "mainland", "bird", "migrat*", "flow"],
+                    achievedKeywords: ["migration", "gene pool", "allele", "diversity", "variation", "population"],
+                    meritKeywords: ["gene flow", "introduce", "interbreed", "new allele", "isolate", "bring"],
+                    excellenceKeywords: ["phenotypic", "selective pressure", "adapt", "survival", "capacity", "enhance"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
 
             // SECTION 4: PEDIGREES & MONOHYBRID INHERITANCE
@@ -1505,28 +1625,68 @@
                 secTitle: "Section 4: Pedigrees & Monohybrid",
                 title: "Q4.1: Autosomal Recessive Inheritance in Pedigrees",
                 prompt: "Explain how two unaffected parents in a pedigree chart can produce a child affected by an autosomal recessive trait (e.g. Cystic Fibrosis). Link: carrier genotypes, alleles, Punnett square, probability, and phenotype expression.",
-                exemplar: "Two unaffected parents can produce an affected child if both parents are heterozygous carriers (genotype Ff). Each parent carries one dominant normal allele (F) and one hidden recessive allele (f). During meiosis, each parent produces 50% gametes with 'F' and 50% with 'f'. According to a monohybrid cross (Ff x Ff), there is a 25% (1 in 4) probability per fertilisation event that the child inherits two recessive alleles (ff) to express the affected phenotype."
+                exemplar: "Two unaffected parents can produce an affected child if both parents are heterozygous carriers (genotype Ff). Each parent carries one dominant normal allele (F) and one hidden recessive allele (f). During meiosis, each parent produces 50% gametes with 'F' and 50% with 'f'. According to a monohybrid cross (Ff x Ff), there is a 25% (1 in 4) probability per fertilisation event that the child inherits two recessive alleles (ff) to express the affected phenotype.",
+                markingScheme: {
+                    contextKeywords: ["cystic fibrosis", "disease", "condition", "pedigree", "child", "parent", "carrier"],
+                    achievedKeywords: ["carrier", "heterozygous", "recessive", "homozygous", "phenotype", "genotype"],
+                    meritKeywords: ["unaffected", "ff", "25%", "ratio", "chance", "probability"],
+                    excellenceKeywords: ["meiosis", "gamete", "mask", "hidden", "fertilisation", "fertilization", "inherit"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec4-q2': {
                 sec: "sec4",
                 secTitle: "Section 4: Pedigrees & Monohybrid",
                 title: "Q4.2: Genetic Test Cross Analysis",
                 prompt: "Explain why a farmer would perform a test cross on a black ram (dominant phenotype) to determine its genotype. Link: dominant phenotype, unknown genotype, homozygous recessive cross, offspring phenotypes, and genotype conclusion.",
-                exemplar: "A black ram could be homozygous dominant (BB) or heterozygous (Bb). To determine its genotype, the farmer performs a test cross with a white sheep, which must be homozygous recessive (bb). If any white offspring (bb) are born, the black ram must carry a hidden recessive allele and be heterozygous (Bb). If a large number of offspring are produced and all are black, the ram is likely homozygous dominant (BB)."
+                exemplar: "A black ram could be homozygous dominant (BB) or heterozygous (Bb). To determine its genotype, the farmer performs a test cross with a white sheep, which must be homozygous recessive (bb). If any white offspring (bb) are born, the black ram must carry a hidden recessive allele and be heterozygous (Bb). If a large number of offspring are produced and all are black, the ram is likely homozygous dominant (BB).",
+                markingScheme: {
+                    contextKeywords: ["ram", "sheep", "black", "white", "wool", "farmer", "flock"],
+                    achievedKeywords: ["test cross", "homozygous recessive", "genotype", "phenotype", "dominant", "allele"],
+                    meritKeywords: ["bb", "unknown", "determine", "offspring", "cross"],
+                    excellenceKeywords: ["heterozygous", "carrier", "recessive allele", "hidden", "sample size", "reveal"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec4-q3': {
                 sec: "sec4",
                 secTitle: "Section 4: Pedigrees & Monohybrid",
                 title: "Q4.3: Expected 3:1 Ratios vs Actual Offspring Ratios",
                 prompt: "Why might a cross between two heterozygous mice (Bb x Bb) produce 6 black mice and 0 white mice, despite a predicted 3:1 ratio? Link: Punnett ratio, probability, independent events, sample size, and random fertilisation.",
-                exemplar: "The predicted 3:1 phenotypic ratio represents mathematical probability for each individual fertilisation event (75% chance dominant, 25% chance recessive). Every fertilisation is an independent random event, similar to flipping a coin. In small sample sizes (such as 6 offspring), chance play a large role, causing actual offspring numbers to deviate from expected Punnett predictions. Larger sample sizes are required for actual ratios to match theoretical ratios."
+                exemplar: "The predicted 3:1 phenotypic ratio represents mathematical probability for each individual fertilisation event (75% chance dominant, 25% chance recessive). Every fertilisation is an independent random event, similar to flipping a coin. In small sample sizes (such as 6 offspring), chance plays a large role, causing actual offspring numbers to deviate from expected Punnett predictions. Larger sample sizes are required for actual ratios to match theoretical ratios.",
+                markingScheme: {
+                    contextKeywords: ["mice", "mouse", "black", "white", "litter", "6"],
+                    achievedKeywords: ["ratio", "3:1", "punnett", "probability", "chance", "sample size"],
+                    meritKeywords: ["independent", "random", "event", "fertilisation", "fertilization", "deviate"],
+                    excellenceKeywords: ["coin", "small sample", "theoretical", "expected", "actual", "outcome"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             },
             'sec4-q4': {
                 sec: "sec4",
                 secTitle: "Section 4: Pedigrees & Monohybrid",
                 title: "Q4.4: Autosomal Dominant Inheritance Patterns",
                 prompt: "Explain how to identify an autosomal dominant trait in a family pedigree chart across three generations. Link: dominant allele, phenotype expression, affected parents, skipped generations, and genotypes.",
-                exemplar: "An autosomal dominant trait is identified in a pedigree because an affected individual always has at least one affected parent. Dominant alleles (e.g. 'A') are always expressed in the phenotype, so the condition cannot skip generations quietly through hidden carrier states. Every unaffected individual must be homozygous recessive (aa). If two affected parents (Aa x Aa) have an unaffected child (aa), both parents must be heterozygous carriers of the normal recessive allele."
+                exemplar: "An autosomal dominant trait is identified in a pedigree because an affected individual always has at least one affected parent. Dominant alleles (e.g. 'A') are always expressed in the phenotype, so the condition cannot skip generations quietly through hidden carrier states. Every unaffected individual must be homozygous recessive (aa). If two affected parents (Aa x Aa) have an unaffected child (aa), both parents must be heterozygous carriers of the normal recessive allele.",
+                markingScheme: {
+                    contextKeywords: ["pedigree", "generation", "family", "trait", "condition"],
+                    achievedKeywords: ["dominant", "recessive", "allele", "phenotype", "genotype", "affected"],
+                    meritKeywords: ["unaffected", "aa", "carrier", "express", "parent", "child"],
+                    excellenceKeywords: ["skip", "heterozygous", "homozygous recessive", "25%", "probability", "mask"],
+                    minContextRequired: 2,
+                    minAchieved: 3,
+                    minMerit: 2,
+                    minExcellence: 2
+                }
             }
         };
 
@@ -1563,100 +1723,15 @@
             badge.innerText = "NOT EVALUATED";
             document.getElementById('grade-summary').innerText = "Submit your answer to analyze logical linkages.";
             document.getElementById('upgrade-feedback-text').innerText = "Write an answer above and click Evaluate to see specific advice on how to raise your grade.";
+            updateChecklist(false, false, false, false, false);
         }
 
         function toggleExemplar() {
             const content = document.getElementById('exemplar-content');
-            const icon = document.getElementById('exemplar-chevron');
+            const chevron = document.getElementById('exemplar-chevron');
             content.classList.toggle('hidden');
-            icon.className = content.classList.contains('hidden') ? "fa-solid fa-chevron-down" : "fa-solid fa-chevron-up";
-        }
-
-        function evaluateAnswer() {
-            const text = document.getElementById('student-answer-input').value.toLowerCase();
-            const qKey = document.getElementById('ncea-question-select').value;
-
-            if (text.trim().length < 35) {
-                alert("Please write a more complete answer (at least 2-3 full sentences) so the NCEA marker can analyze your chain of reasoning.");
-                return;
-            }
-
-            let links = { a1: false, m1: false, m2: false, e1: false, e2: false };
-
-            // General Semantic Link Detection
-            if (text.includes('dna') || text.includes('gene') || text.includes('base') || text.includes('mutation') || text.includes('allele') || text.includes('meiosis') || text.includes('carrier') || text.includes('trait')) {
-                links.a1 = true;
-            }
-
-            if ((text.includes('base') || text.includes('codon') || text.includes('triplet') || text.includes('chromatid') || text.includes('homologous') || text.includes('heterozygous') || text.includes('recessive')) &&
-                (text.includes('protein') || text.includes('amino') || text.includes('phenotype') || text.includes('gamete') || text.includes('ratio') || text.includes('allele'))) {
-                links.m1 = true;
-            }
-
-            if ((text.includes('phenotype') || text.includes('survival') || text.includes('advantage') || text.includes('pressure') || text.includes('camouflage') || text.includes('resistant') || text.includes('punnett') || text.includes('cross') || text.includes('carrier')) &&
-                (text.includes('surviv') || text.includes('die') || text.includes('environ') || text.includes('function') || text.includes('probab') || text.includes('percent') || text.includes('25') || text.includes('3:1'))) {
-                links.m2 = true;
-            }
-
-            if ((text.includes('surviv') || text.includes('advantage') || text.includes('meiosis') || text.includes('carrier') || text.includes('parent') || text.includes('cross')) &&
-                (text.includes('reproduc') || text.includes('pass') || text.includes('gamete') || text.includes('fertil') || text.includes('offspring') || text.includes('child'))) {
-                links.e1 = true;
-            }
-
-            if ((text.includes('reproduc') || text.includes('pass') || text.includes('generation') || text.includes('offspring') || text.includes('child')) &&
-                (text.includes('frequency') || text.includes('gene pool') || text.includes('population') || text.includes('increase') || text.includes('ratio') || text.includes('diversity') || text.includes('inherit'))) {
-                links.e2 = true;
-            }
-
-            // Render Checklist
-            const checklistContainer = document.getElementById('link-checklist');
-            const linkItems = [
-                { key: 'a1', text: "A1: Correctly identified fundamental scientific concept / term." },
-                { key: 'm1', text: "M1: Explained connection between DNA/base sequence, proteins & phenotype." },
-                { key: 'm2', text: "M2: Linked phenotype expression to environmental survival advantage / function." },
-                { key: 'e1', text: "E1: Connected survival advantage to sexual reproduction & gamete transmission." },
-                { key: 'e2', text: "E2: Justified change in population gene pool allele frequency across generations." }
-            ];
-
-            let checklistHtml = '';
-            linkItems.forEach(item => {
-                if (links[item.key]) {
-                    checklistHtml += '<div class="flex items-center gap-2 text-emerald-700 font-medium"><i class="fa-solid fa-circle-check text-emerald-600"></i> <span>' + item.text + '</span></div>';
-                } else {
-                    checklistHtml += '<div class="flex items-center gap-2 text-slate-400"><i class="fa-regular fa-circle text-slate-300"></i> <span>' + item.text + '</span></div>';
-                }
-            });
-            checklistContainer.innerHTML = checklistHtml;
-
-            // Determine Grade & Upgrade Advice
-            let grade = "NOT ACHIEVED";
-            let badgeClass = "bg-rose-100 text-rose-800 border-rose-200";
-            let upgradeText = "";
-
-            if (links.a1 && links.m1 && links.m2 && links.e1 && links.e2) {
-                grade = "EXCELLENCE (E8)";
-                badgeClass = "bg-amber-100 text-amber-900 border-amber-300 shadow-sm";
-                upgradeText = "Outstanding response! You have linked all key biological concepts from molecular DNA level through to population gene pool allele frequencies across generations.";
-            } else if (links.a1 && links.m1 && links.m2 && (links.e1 || links.e2)) {
-                grade = "MERIT (M6)";
-                badgeClass = "bg-indigo-100 text-indigo-900 border-indigo-300";
-                upgradeText = "To reach Excellence: Clearly state that surviving individuals reproduce sexually to pass the favourable allele to offspring via haploid gametes, causing an increase in allele frequency in the gene pool over generations.";
-            } else if (links.a1 && (links.m1 || links.m2)) {
-                grade = "ACHIEVED (A4)";
-                badgeClass = "bg-teal-100 text-teal-900 border-teal-300";
-                upgradeText = "To reach Merit: Explain HOW the change in DNA base sequence alters the amino acid sequence to form a functional protein/phenotype, and WHY that phenotype provides a functional survival advantage.";
-            } else {
-                grade = "NOT ACHIEVED (N2)";
-                badgeClass = "bg-rose-100 text-rose-900 border-rose-300";
-                upgradeText = "To reach Achieved: Ensure you define key terms (like mutation or gene) and state how changes in DNA affect physical traits or individual survival.";
-            }
-
-            const badge = document.getElementById('grade-badge');
-            badge.className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl border my-2 " + badgeClass;
-            badge.innerText = grade;
-
-            document.getElementById('grade-summary').innerText = "Analysis based on NCEA Level 1 Standard 92022 linkage criteria.";
-            document.getElementById('upgrade-feedback-text').innerText = upgradeText;
+            chevron.classList.toggle('fa-chevron-down');
+            chevron.classList.toggle('fa-chevron-up');
         }
 
         function clearAnswer() {
@@ -1666,15 +1741,205 @@
             badge.innerText = "NOT EVALUATED";
             document.getElementById('grade-summary').innerText = "Submit your answer to analyze logical linkages.";
             document.getElementById('upgrade-feedback-text').innerText = "Write an answer above and click Evaluate to see specific advice on how to raise your grade.";
+            updateChecklist(false, false, false, false, false);
         }
 
-        window.onload = function() {
-            updateFlashcardDisplay();
+        function checkKeywordMatch(text, kw) {
+            if (kw.includes('*')) {
+                const cleanKw = kw.replace('*', '');
+                return text.includes(cleanKw);
+            }
+            const regex = new RegExp("\\b" + kw + "s?\\b", "i");
+            return regex.test(text) || text.includes(kw);
+        }
+
+        function updateChecklist(a1, m1, m2, e1, e2) {
+            const items = [
+                { id: 'check-item-a1', active: a1, text: 'A1: Identify key terms & biological processes' },
+                { id: 'check-item-m1', active: m1, text: 'M1: Use cause-and-effect linking words (because, this leads to, etc.)' },
+                { id: 'check-item-m2', active: m2, text: 'M2: Detailed mechanism explanation & structured sentences' },
+                { id: 'check-item-e1', active: e1, text: 'E1: Full population/multigenerational reasoning chain' },
+                { id: 'check-item-e2', active: e2, text: 'E2: Explicitly linked to the specific question context' }
+            ];
+
+            items.forEach(item => {
+                const el = document.getElementById(item.id);
+                if (item.active) {
+                    el.className = "flex items-center gap-2 text-emerald-700 font-semibold";
+                    el.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i><span>' + item.text + '</span>';
+                } else {
+                    el.className = "flex items-center gap-2 text-slate-400";
+                    el.innerHTML = '<i class="fa-regular fa-circle text-slate-300 text-sm"></i><span>' + item.text + '</span>';
+                }
+            });
+        }
+
+        function evaluateAnswer() {
+            const qKey = document.getElementById('ncea-question-select').value;
+            const data = nceaPromptsDatabase[qKey];
+            const text = document.getElementById('student-answer-input').value.trim();
+
+            if (!text || text.length < 15) {
+                const badge = document.getElementById('grade-badge');
+                badge.className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl bg-rose-100 text-rose-800 border border-rose-300 my-2";
+                badge.innerText = "TOO SHORT";
+                document.getElementById('grade-summary').innerText = "Please write a full response before evaluating.";
+                document.getElementById('upgrade-feedback-text').innerHTML = "Your answer is too short to evaluate. Write a complete NCEA paragraph with full sentences.";
+                updateChecklist(false, false, false, false, false);
+                return;
+            }
+
+            const lowerText = text.toLowerCase();
+
+            // 1. Linking Words & Cause-and-Effect Phrases Check
+            const linkingPhrases = [
+                "because", "therefore", "this leads to", "this causes", "as a result",
+                "which means that", "this means that", "consequently", "resulting in",
+                "due to", "so that", "in order to", "this allows", "which results in",
+                "which leads to", "meaning that", "this causes", "leads to", "thus",
+                "hence", "subsequently", "thereby", "which alters", "which codes"
+            ];
+
+            let linkCount = 0;
+            let foundLinkingWords = [];
+            linkingPhrases.forEach(phrase => {
+                if (lowerText.includes(phrase)) {
+                    linkCount++;
+                    foundLinkingWords.push(phrase);
+                }
+            });
+
+            // 2. Structural & Coherence Check
+            const words = text.split(/\s+/).filter(w => w.length > 0);
+            const wordCount = words.length;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            const sentenceCount = sentences.length;
+            const avgWordsPerSentence = wordCount / Math.max(sentenceCount, 1);
+            
+            // Random word salad / definition dump check: must have multiple coherent sentences
+            const isCoherentStructure = sentenceCount >= 2 && avgWordsPerSentence >= 4 && avgWordsPerSentence <= 45;
+
+            // 3. Question-Specific Context Check (Mandatory for Excellence)
+            const scheme = data.markingScheme;
+            let contextMatches = 0;
+            let foundContextWords = [];
+            scheme.contextKeywords.forEach(kw => {
+                if (checkKeywordMatch(lowerText, kw)) {
+                    contextMatches++;
+                    foundContextWords.push(kw.replace('*', ''));
+                }
+            });
+            const hasContext = contextMatches >= (scheme.minContextRequired || 2);
+
+            // 4. Marking Scheme Concept Checks (Achieved, Merit, Excellence)
+            let achievedCount = 0;
+            scheme.achievedKeywords.forEach(kw => {
+                if (checkKeywordMatch(lowerText, kw)) achievedCount++;
+            });
+
+            let meritCount = 0;
+            scheme.meritKeywords.forEach(kw => {
+                if (checkKeywordMatch(lowerText, kw)) meritCount++;
+            });
+
+            let excellenceCount = 0;
+            scheme.excellenceKeywords.forEach(kw => {
+                if (checkKeywordMatch(lowerText, kw)) excellenceCount++;
+            });
+
+            // 5. NCEA Grading Logic
+            let grade = "NOT ACHIEVED";
+            let gradeClass = "bg-rose-100 text-rose-800 border-rose-300";
+            let summaryText = "";
+            let feedbackTips = [];
+
+            let checkA1 = false;
+            let checkM1 = false;
+            let checkM2 = false;
+            let checkE1 = false;
+            let checkE2 = false;
+
+            // Achieved threshold
+            if (wordCount >= 20 && achievedCount >= (scheme.minAchieved || 2)) {
+                checkA1 = true;
+                grade = "ACHIEVED (A)";
+                gradeClass = "bg-sky-100 text-sky-800 border-sky-300";
+                summaryText = "Basic biological definitions and concepts identified correctly.";
+            }
+
+            // Merit threshold (Requires linking phrases + structured explanation)
+            if (checkA1 && wordCount >= 40 && linkCount >= 2 && meritCount >= (scheme.minMerit || 2) && isCoherentStructure) {
+                checkM1 = true;
+                checkM2 = true;
+                grade = "MERIT (M)";
+                gradeClass = "bg-indigo-100 text-indigo-900 border-indigo-300";
+                summaryText = "Clear explanation of biological processes formatted with cause-and-effect linking phrases.";
+            }
+
+            // Excellence threshold (Requires Merit + full chain + MANDATORY CONTEXT LINKING)
+            if (checkM1 && checkM2 && wordCount >= 60 && linkCount >= 3 && excellenceCount >= (scheme.minExcellence || 2) && hasContext) {
+                checkE1 = true;
+                checkE2 = true;
+                grade = "EXCELLENCE (E)";
+                gradeClass = "bg-amber-100 text-amber-900 border-amber-300";
+                summaryText = "Outstanding NCEA response! Complete cause-and-effect chain directly linked to the question's specific context.";
+            }
+
+            // Generate targeted feedback tips
+            if (grade === "NOT ACHIEVED") {
+                if (wordCount < 20) {
+                    feedbackTips.push("• <strong>Write More Detail:</strong> Expand your answer to at least 3-4 complete sentences.");
+                }
+                if (achievedCount < (scheme.minAchieved || 2)) {
+                    feedbackTips.push("• <strong>Include Core Terms:</strong> You are missing key scientific vocabulary for this topic (e.g., <em>" + scheme.achievedKeywords.slice(0, 3).join(", ") + "</em>).");
+                }
+                feedbackTips.push("• Define the basic biological terms clearly before explaining how the process works.");
+            } else if (grade === "ACHIEVED (A)") {
+                if (linkCount < 2) {
+                    feedbackTips.push("• <strong>Add Cause-and-Effect Linking Words:</strong> Use NCEA linking words such as <em>'because'</em>, <em>'this leads to'</em>, <em>'which causes'</em>, or <em>'as a result'</em> to connect your ideas.");
+                }
+                if (meritCount < (scheme.minMerit || 2)) {
+                    feedbackTips.push("• <strong>Explain 'HOW' & 'WHY':</strong> Explain the underlying mechanism by incorporating terms like <em>" + scheme.meritKeywords.slice(0, 3).join(", ") + "</em>.");
+                }
+                if (!hasContext) {
+                    feedbackTips.push("• <strong>Link to Context:</strong> You must explicitly mention the specific scenario in the prompt (e.g. <em>" + scheme.contextKeywords.slice(0, 2).join(", ") + "</em>).");
+                }
+            } else if (grade === "MERIT (M)") {
+                if (!hasContext) {
+                    feedbackTips.push("• <strong>CRITICAL FOR EXCELLENCE (Context Link):</strong> Your explanation is scientifically sound, but you MUST tie it directly to the specific organism/scenario given in the question (e.g., mention <em>" + scheme.contextKeywords.join(", ") + "</em>). Generic textbook answers without context cannot earn Excellence.");
+                }
+                if (linkCount < 3) {
+                    feedbackTips.push("• <strong>Strengthen Explanation Chain:</strong> Add additional linking phrases (e.g. <em>'consequently'</em>, <em>'this results in...'</em>) to seamlessly connect molecular changes to population/trait outcomes.");
+                }
+                if (excellenceCount < (scheme.minExcellence || 2)) {
+                    feedbackTips.push("• <strong>Complete the Chain:</strong> Make sure to link all the way through to <em>" + scheme.excellenceKeywords.slice(0, 3).join(", ") + "</em>.");
+                }
+            } else if (grade === "EXCELLENCE (E)") {
+                feedbackTips.push("🎉 <strong>Excellence Achieved!</strong> You have provided a fully structured NCEA answer using proper cause-and-effect connectors and tied every concept directly to the provided context.");
+            }
+
+            // Display Grade Badge
+            const badge = document.getElementById('grade-badge');
+            badge.className = "inline-block px-6 py-2 rounded-2xl font-black text-2xl sm:text-3xl shadow-sm border my-2 " + gradeClass;
+            badge.innerText = grade;
+
+            document.getElementById('grade-summary').innerText = summaryText;
+
+            // Update Checklist UI
+            updateChecklist(checkA1, checkM1, checkM2, checkE1, checkE2);
+
+            // Update Upgrade Advice Box
+            document.getElementById('upgrade-feedback-text').innerHTML = feedbackTips.join("<br><br>");
+        }
+
+        // Initialize page state
+        window.addEventListener('DOMContentLoaded', () => {
+            filterFlashcards();
             calculatePunnett();
             renderDnaStrand();
             generateCustomQuiz();
             filterNceaQuestionsBySection();
-        };
+        });
     </script>
 </body>
 </html>
