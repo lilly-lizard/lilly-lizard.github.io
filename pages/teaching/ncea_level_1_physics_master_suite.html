@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCEA Level 1 Physics Master Suite: Energy Concepts (AS92047)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        phys: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            950: '#082f49',
+                        },
+                        darkbg: '#0b0f17',
+                        cardbg: '#131b2e',
+                        borderbg: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b0f17;
+            color: #f1f5f9;
+            font-family: 'Inter', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: #1e293b;
+            height: 6px;
+            border-radius: 3px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            transition: transform 0.1s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #38bdf8;
+            color: #38bdf8;
+            background-color: rgba(14, 165, 233, 0.08);
+        }
+
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+            50% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.5); }
+        }
+        .glow-active {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-phys-700 to-phys-400 flex items-center justify-center shadow-lg shadow-phys-900/50">
+                    <i class="fa-solid fa-bolt text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white flex items-center gap-2">
+                        NCEA L1 Physics <span class="text-xs px-2 py-0.5 rounded bg-phys-950 text-phys-400 border border-phys-800">AS92047 (1.4)</span>
+                    </h1>
+                    <p class="text-xs text-gray-400">Physical Systems & Energy Concepts (5 Credits • NZ Curriculum Level 6)</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs (Desktop) -->
+            <nav class="hidden lg:flex items-center space-x-1 text-xs font-medium">
+                <button onclick="switchTab('systems')" id="tab-systems" class="tab-btn active px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-diagram-project mr-1"></i> Energy & Systems
+                </button>
+                <button onclick="switchTab('mechanics')" id="tab-mechanics" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-person-running mr-1 text-amber-400"></i> Mechanics (KE & GPE)
+                </button>
+                <button onclick="switchTab('circuits')" id="tab-circuits" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-car-battery mr-1 text-cyan-400"></i> Electrical Circuits
+                </button>
+                <button onclick="switchTab('heat')" id="tab-heat" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-fire-flame-curved mr-1 text-red-400"></i> Heat & Thermal
+                </button>
+                <button onclick="switchTab('practice')" id="tab-practice" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-pen-to-square mr-1 text-emerald-400"></i> Exam Practice
+                </button>
+                <button onclick="switchTab('solver')" id="tab-solver" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-calculator mr-1 text-purple-400"></i> Formula Solver
+                </button>
+                <button onclick="switchTab('glossary')" id="tab-glossary" class="tab-btn px-2.5 py-2 rounded-t-lg border-b-2 border-transparent hover:text-phys-400 transition">
+                    <i class="fa-solid fa-book-bookmark mr-1 text-amber-300"></i> Glossary
+                </button>
+            </nav>
+
+            <div class="hidden sm:flex items-center space-x-3">
+                <span class="text-xs bg-phys-900/60 border border-phys-700 text-phys-300 px-3 py-1 rounded-full font-mono">
+                    <i class="fa-solid fa-award text-amber-400 mr-1"></i> Target: Excellence
+                </span>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Bar -->
+        <div class="lg:hidden flex overflow-x-auto border-t border-gray-800 bg-cardbg px-2 py-1 text-xs space-x-1">
+            <button onclick="switchTab('systems')" class="px-3 py-1.5 rounded whitespace-nowrap bg-phys-900/40 text-phys-300">Energy & Systems</button>
+            <button onclick="switchTab('mechanics')" class="px-3 py-1.5 rounded whitespace-nowrap text-amber-400 font-bold">Mechanics (KE/GPE)</button>
+            <button onclick="switchTab('circuits')" class="px-3 py-1.5 rounded whitespace-nowrap text-cyan-400 font-bold">Electrical Circuits</button>
+            <button onclick="switchTab('heat')" class="px-3 py-1.5 rounded whitespace-nowrap text-red-400 font-bold">Heat & Thermal</button>
+            <button onclick="switchTab('practice')" class="px-3 py-1.5 rounded whitespace-nowrap text-emerald-400 font-bold">Exam Practice</button>
+            <button onclick="switchTab('solver')" class="px-3 py-1.5 rounded whitespace-nowrap text-purple-400">Formula Solver</button>
+            <button onclick="switchTab('glossary')" class="px-3 py-1.5 rounded whitespace-nowrap text-amber-300">Glossary</button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- ==================== SECTION 1: ENERGY & SYSTEMS ==================== -->
+        <section id="section-systems" class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-phys-400">Section A: Energy & Physical Systems</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Conservation of Energy & Sankey Flow Diagrams
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Explore energy transformations, Law of Conservation of Energy, active vs potential forms, and live efficiency calculations (P = ΔE / t).
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="resetSystemsSim()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-xs font-medium rounded-lg text-gray-300 border border-gray-700 transition">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Reset Simulation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive Canvas & Controls -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Visual Canvas: Sankey & Energy Bar Charts -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-gray-200">Interactive Sankey Energy Flow Visualizer</span>
+                            <span id="systems-status-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-phys-950 text-phys-400 border border-phys-800">
+                                Total Energy Conserved (E<sub>in</sub> = E<sub>useful</sub> + E<sub>waste</sub>)
+                            </span>
+                        </div>
+
+                        <div class="w-full h-[280px] bg-darkbg rounded-xl border border-gray-800 p-2 relative">
+                            <canvas id="sankeyCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Total Input Energy</div>
+                            <div id="metric-e-in" class="text-lg font-bold text-phys-400 font-mono">1000 J</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Useful Output Energy</div>
+                            <div id="metric-e-useful" class="text-lg font-bold text-emerald-400 font-mono">750 J</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Efficiency (%)</div>
+                            <div id="metric-efficiency" class="text-lg font-bold text-amber-400 font-mono">75.0 %</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sliders & Controls -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-phys-400"></i> Energy System Parameters
+                    </h3>
+
+                    <!-- System Scenario Selection -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Physical System Scenario</label>
+                        <select id="sys-scenario-select" onchange="updateSystemsSim()" class="w-full bg-darkbg border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-phys-500 font-sans">
+                            <option value="car">1. Toy Car on Ramp (GPE → KE Useful + Thermal Heat)</option>
+                            <option value="lamp">2. Incandescent Lamp (Electrical → Light Useful + Thermal Heat)</option>
+                            <option value="runner">3. Human Sprint (Chemical → KE Useful + Thermal Heat)</option>
+                            <option value="bounce">4. Bouncing Basketball (GPE → KE → Elastic → Thermal/Sound)</option>
+                        </select>
+                    </div>
+
+                    <!-- Input Energy Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Initial Input Energy (E<sub>in</sub>):</span>
+                            <span id="val-sys-ein" class="font-mono text-phys-400 font-bold">1000 J</span>
+                        </div>
+                        <input type="range" id="slider-sys-ein" min="100" max="5000" step="50" value="1000" oninput="updateSystemsSim()" class="w-full">
+                    </div>
+
+                    <!-- Useful Output Fraction Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Useful Efficiency Factor:</span>
+                            <span id="val-sys-eff" class="font-mono text-emerald-400 font-bold">75 % Useful</span>
+                        </div>
+                        <input type="range" id="slider-sys-eff" min="10" max="95" step="1" value="75" oninput="updateSystemsSim()" class="w-full">
+                    </div>
+
+                    <!-- Time Duration Slider (for Power) -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Time Interval (t):</span>
+                            <span id="val-sys-time" class="font-mono text-amber-400 font-bold">5.0 s</span>
+                        </div>
+                        <input type="range" id="slider-sys-time" min="0.5" max="20" step="0.5" value="5.0" oninput="updateSystemsSim()" class="w-full">
+                    </div>
+
+                    <!-- Calculated Power Output -->
+                    <div class="bg-darkbg p-3 rounded-xl border border-gray-800 text-xs font-mono space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Total Power Input (P<sub>in</sub> = E / t):</span>
+                            <span id="calc-p-in" class="text-phys-300">200.0 W</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Useful Power Output (P<sub>out</sub>):</span>
+                            <span id="calc-p-out" class="text-emerald-400 font-bold">150.0 W</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Waste Power (Heat/Sound):</span>
+                            <span id="calc-p-waste" class="text-red-400">50.0 W</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active vs Potential Energy Categorization Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ACTIVE FORMS -->
+                <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-950 border border-amber-600 flex items-center justify-center text-amber-400 text-xl">
+                            <i class="fa-solid fa-person-running"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Active Energy Forms</h3>
+                            <span class="text-xs text-amber-400 font-mono">Involves immediate motion or movement of particles/waves</span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-2 text-xs text-gray-300 leading-relaxed">
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-amber-400">Kinetic Energy (E<sub>k</sub>):</strong> Energy due to macroscopic motion of an object with mass (E<sub>k</sub> = ½mv²).</li>
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-red-400">Heat / Thermal Energy (E<sub>th</sub>):</strong> Kinetic energy of vibrating microscopic particles (E = mcΔT).</li>
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-yellow-300">Light / Electromagnetic:</strong> Energy carried by electromagnetic photons across space.</li>
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-cyan-400">Sound Energy:</strong> Kinetic energy transmitted via pressure vibrations in a medium.</li>
+                    </ul>
+                </div>
+
+                <!-- POTENTIAL FORMS -->
+                <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-phys-950 border border-phys-600 flex items-center justify-center text-phys-400 text-xl">
+                            <i class="fa-solid fa-box-archive"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Potential (Stored) Energy Forms</h3>
+                            <span class="text-xs text-phys-400 font-mono">Stored energy ready to be transformed into active forms</span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-2 text-xs text-gray-300 leading-relaxed">
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-phys-400">Gravitational Potential (E<sub>p</sub>):</strong> Stored due to position in a gravitational field (E<sub>p</sub> = mgh).</li>
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-emerald-400">Elastic Potential:</strong> Stored when a spring or elastic material is stretched or compressed.</li>
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-purple-400">Chemical Potential:</strong> Stored in chemical bonds of food, batteries, and fuels.</li>
+                        <li class="bg-darkbg p-2.5 rounded-xl border border-gray-800"><strong class="text-pink-400">Nuclear Energy:</strong> Stored in atomic nuclei released during fission or fusion.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 2: MECHANICAL ENERGY (KE & GPE) ==================== -->
+        <section id="section-mechanics" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-400">Section B: Physical Mechanics & Kinematics</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Kinetic Energy, Gravitational Potential & Friction
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Real-time kinematic simulation with exact frame integration (dt). Watch the ball accelerate realistically based on net force (F<sub>net</sub> = mg sin(θ) - f<sub>fric</sub>), with live force vectors.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-400 font-mono">Gravity (g):</label>
+                    <select id="mech-g-select" onchange="updateMechParams()" class="bg-darkbg border border-gray-700 rounded-lg px-2 py-1 text-xs text-amber-400 font-mono">
+                        <option value="9.81">9.81 m/s² (Earth Standard)</option>
+                        <option value="10.0" selected>10.0 m/s² (NCEA Level 1 Approx)</option>
+                        <option value="1.62">1.62 m/s² (Moon)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Mechanical Simulation Canvas & Controls -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Canvas Display -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-gray-200">Interactive Ramp, Forces & Energy Conservation</span>
+                            <span id="mech-status-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-amber-950 text-amber-400 border border-amber-800">
+                                Real-Time Integration
+                            </span>
+                        </div>
+
+                        <div class="w-full h-[320px] bg-darkbg rounded-xl border border-gray-800 p-2 relative overflow-hidden">
+                            <canvas id="mechCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-5 gap-2 text-center text-xs font-mono">
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">Height (h)</div>
+                            <div id="metric-mech-h" class="text-amber-400 font-bold">5.0 m</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">Inst. Speed (v)</div>
+                            <div id="metric-mech-v" class="text-cyan-400 font-bold">0.00 m/s</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">E<sub>p</sub> = mgh</div>
+                            <div id="metric-mech-ep" class="text-phys-400 font-bold">100 J</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">E<sub>k</sub> = ½mv²</div>
+                            <div id="metric-mech-ek" class="text-emerald-400 font-bold">0 J</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">Heat E<sub>th</sub></div>
+                            <div id="metric-mech-eth" class="text-red-400 font-bold">0 J</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Control Panel -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-400"></i> Physical Parameters & Friction
+                    </h3>
+
+                    <div class="flex gap-2">
+                        <button onclick="startMechAnim()" class="flex-1 py-2 bg-phys-600 hover:bg-phys-500 text-white rounded-xl text-xs font-bold transition shadow-lg">
+                            <i class="fa-solid fa-play mr-1"></i> Release & Roll Object
+                        </button>
+                        <button onclick="resetMechSim()" class="py-2 px-4 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl text-xs font-bold transition">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Position
+                        </button>
+                    </div>
+
+                    <!-- Mass Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Object Mass (m):</span>
+                            <span id="val-mech-m" class="font-mono text-phys-400 font-bold">2.0 kg</span>
+                        </div>
+                        <input type="range" id="slider-mech-m" min="0.2" max="10" step="0.2" value="2.0" oninput="updateMechParams()" class="w-full">
+                    </div>
+
+                    <!-- Height Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Ramp Height (h):</span>
+                            <span id="val-mech-h" class="font-mono text-amber-400 font-bold">5.0 m</span>
+                        </div>
+                        <input type="range" id="slider-mech-h" min="0.5" max="10" step="0.5" value="5.0" oninput="updateMechParams()" class="w-full">
+                    </div>
+
+                    <!-- Friction Force Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Friction Force (f<sub>fric</sub>):</span>
+                            <span id="val-mech-f" class="font-mono text-red-400 font-bold">2.0 N</span>
+                        </div>
+                        <input type="range" id="slider-mech-f" min="0" max="15" step="0.5" value="2.0" oninput="updateMechParams()" class="w-full">
+                    </div>
+
+                    <!-- Physics Toggles -->
+                    <div class="pt-2 border-t border-gray-800 flex items-center justify-between text-xs text-gray-300">
+                        <span>Motion Mechanics Mode:</span>
+                        <select id="mech-mode-select" onchange="updateMechParams()" class="bg-darkbg border border-gray-700 rounded-lg px-2 py-1 text-xs text-phys-300">
+                            <option value="rolling">Pure Rolling Sphere</option>
+                            <option value="sliding">Smooth Sliding Block</option>
+                        </select>
+                    </div>
+
+                    <!-- Work Done & Energy Breakdown -->
+                    <div class="bg-darkbg p-3.5 rounded-xl border border-gray-800 text-xs font-mono space-y-1.5">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Total Initial Energy (E<sub>p, initial</sub>):</span>
+                            <span id="calc-mech-eptotal" class="text-amber-300">100.0 J</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Work Done against Friction (W<sub>fric</sub> = f × d):</span>
+                            <span id="calc-mech-work" class="text-red-400">20.0 J</span>
+                        </div>
+                        <div class="flex justify-between border-t border-gray-800 pt-1">
+                            <span class="text-gray-400">Net E<sub>k</sub> at Ramp Bottom:</span>
+                            <span id="calc-mech-ekfinal" class="text-emerald-400 font-bold">80.0 J</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Ramp Bottom Velocity (v<sub>bottom</sub>):</span>
+                            <span id="calc-mech-vfinal" class="text-cyan-400 font-bold">8.94 m/s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Mechanics Formula Reference Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-cardbg p-4 rounded-xl border border-borderbg space-y-2">
+                    <span class="text-xs font-mono text-phys-400 font-bold uppercase">Gravitational Potential Energy</span>
+                    <h4 class="text-lg font-bold text-white font-mono">E<sub>p</sub> = mgh</h4>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Energy stored by position in a gravitational field. Higher initial height h provides greater total mechanical energy budget.
+                    </p>
+                </div>
+
+                <div class="bg-cardbg p-4 rounded-xl border border-borderbg space-y-2">
+                    <span class="text-xs font-mono text-emerald-400 font-bold uppercase">Kinetic Energy & Speed</span>
+                    <h4 class="text-lg font-bold text-white font-mono">E<sub>k</sub> = ½mv²</h4>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Higher kinetic energy directly correlates to faster rolling or sliding speed (v ∝ √(E<sub>k</sub>)).
+                    </p>
+                </div>
+
+                <div class="bg-cardbg p-4 rounded-xl border border-borderbg space-y-2">
+                    <span class="text-xs font-mono text-red-400 font-bold uppercase">Work Done & Heat Dissipation</span>
+                    <h4 class="text-lg font-bold text-white font-mono">W<sub>fric</sub> = f<sub>fric</sub> × d = ΔE<sub>th</sub></h4>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Friction force opposes motion along distance d, converting mechanical energy into microscopic thermal kinetic energy (heat).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 3: ELECTRICAL CIRCUITS ==================== -->
+        <section id="section-circuits" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400">Section C: Dynamic Circuit Lab & Probe Workbench</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Modular DC Circuit Builder & Kirchhoff Analysis
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Add or remove lamps and resistors dynamically. Inspect exact current flow, voltage drops across components, internal battery resistance (r<sub>int</sub>), and power (P = VI = I²R).
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Circuit Canvas Visualizer -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm font-semibold text-gray-200">Live Circuit Schematic</span>
+                                <span id="circuit-mode-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-cyan-950 text-cyan-400 border border-cyan-800">
+                                    Series Configuration
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono">
+                                <button onclick="toggleCurrentDirection()" id="btn-curr-dir" class="px-2.5 py-1 bg-darkbg border border-gray-700 rounded-lg text-cyan-300 hover:border-cyan-500 transition">
+                                    <i class="fa-solid fa-arrows-left-right text-xs mr-1"></i> Conventional Current (I)
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-[320px] bg-darkbg rounded-xl border border-gray-800 p-2 relative">
+                            <canvas id="circuitCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-4 gap-2 text-center text-xs font-mono">
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">EMF / Ideal V</div>
+                            <div id="metric-circ-v" class="text-cyan-400 font-bold">12.0 V</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">Total Current (I)</div>
+                            <div id="metric-circ-i" class="text-amber-400 font-bold">2.00 A</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">Equivalent R<sub>total</sub></div>
+                            <div id="metric-circ-r" class="text-phys-400 font-bold">6.00 Ω</div>
+                        </div>
+                        <div class="bg-darkbg p-2 rounded-xl border border-gray-800">
+                            <div class="text-[10px] text-gray-400">Total Power (P = VI)</div>
+                            <div id="metric-circ-p" class="text-emerald-400 font-bold">24.0 W</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Circuit Controls & Dynamic Component Editor -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-1 flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-microchip text-cyan-400"></i> Dynamic Component Controls</span>
+                        <span id="comp-count-tag" class="text-xs font-mono text-gray-400">2 Components</span>
+                    </h3>
+
+                    <!-- Topology & Component Action Buttons -->
+                    <div class="space-y-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="setCircuitType('series')" id="btn-circ-series" class="px-3 py-1.5 rounded-xl text-xs font-bold border border-cyan-500 bg-cyan-950 text-cyan-300">Series Mode</button>
+                            <button type="button" onclick="setCircuitType('parallel')" id="btn-circ-parallel" class="px-3 py-1.5 rounded-xl text-xs font-bold border border-gray-700 bg-darkbg text-gray-400">Parallel Mode</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <button onclick="addCircuitComponent('lamp')" class="px-2 py-1.5 bg-amber-950/80 border border-amber-700 hover:bg-amber-900 text-amber-300 rounded-lg text-xs font-semibold transition">
+                                <i class="fa-solid fa-plus text-[10px] mr-1"></i> Lamp
+                            </button>
+                            <button onclick="addCircuitComponent('resistor')" class="px-2 py-1.5 bg-phys-950/80 border border-phys-700 hover:bg-phys-900 text-phys-300 rounded-lg text-xs font-semibold transition">
+                                <i class="fa-solid fa-plus text-[10px] mr-1"></i> Resistor
+                            </button>
+                            <button onclick="removeCircuitComponent()" class="px-2 py-1.5 bg-red-950/80 border border-red-700 hover:bg-red-900 text-red-300 rounded-lg text-xs font-semibold transition">
+                                <i class="fa-solid fa-minus text-[10px] mr-1"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Supply Voltage Slider & Internal Resistance -->
+                    <div class="space-y-2 bg-darkbg p-3 rounded-xl border border-gray-800">
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-300">Battery Electromotive Force (EMF):</span>
+                                <span id="val-circ-v" class="font-mono text-cyan-400 font-bold">12.0 V</span>
+                            </div>
+                            <input type="range" id="slider-circ-v" min="1" max="24" step="0.5" value="12" oninput="updateCircuitSim()" class="w-full">
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-gray-400">Internal Battery Resistance (r<sub>int</sub>):</span>
+                                <span id="val-circ-rint" class="font-mono text-red-400 font-bold">0.0 Ω</span>
+                            </div>
+                            <input type="range" id="slider-circ-rint" min="0" max="3" step="0.1" value="0.0" oninput="updateCircuitSim()" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Component List Editor -->
+                    <div class="space-y-2 max-h-48 overflow-y-auto pr-1" id="component-sliders-list">
+                        <!-- Injected dynamically by JS -->
+                    </div>
+
+                    <!-- Live Physics Breakdown -->
+                    <div class="bg-darkbg p-3 rounded-xl border border-gray-800 text-xs font-mono space-y-1">
+                        <div class="flex justify-between text-[11px]">
+                            <span class="text-gray-400">Terminal Voltage (V<sub>term</sub> = EMF - I × r<sub>int</sub>):</span>
+                            <span id="calc-circ-vterm" class="text-cyan-300">12.00 V</span>
+                        </div>
+                        <div id="component-power-summary" class="text-[11px] text-gray-300 pt-1 border-t border-gray-800 space-y-0.5">
+                            <!-- Injected live summary -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 4: HEAT ENERGY ==================== -->
+        <section id="section-heat" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-red-400">Section D: Heat Energy & Thermodynamics</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Specific Heat Capacity (E = mcΔT) & Latent Heat (E = mL)
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Simulate substance heating curves, phase transitions, and heat transfer mechanisms (Conduction, Convection, Radiation, Evaporation).
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Heating Curve Graph Canvas -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm font-semibold text-gray-200">Heating Curve & State Transition Chart</span>
+                            <span id="heat-phase-badge" class="text-xs px-2.5 py-1 rounded-full font-mono bg-red-950 text-red-400 border border-red-800">
+                                Phase: Solid Phase
+                            </span>
+                        </div>
+
+                        <div class="w-full h-[280px] bg-darkbg rounded-xl border border-gray-800 p-2 relative">
+                            <canvas id="heatGraphCanvas" class="w-full h-full"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Substance Temp (T)</div>
+                            <div id="metric-heat-temp" class="text-lg font-bold text-red-400 font-mono">-10.0 °C</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Total Heat Added (E)</div>
+                            <div id="metric-heat-e" class="text-lg font-bold text-amber-400 font-mono">0 kJ</div>
+                        </div>
+                        <div class="bg-darkbg p-2.5 rounded-xl border border-gray-800">
+                            <div class="text-xs text-gray-400">Physical State</div>
+                            <div id="metric-heat-state" class="text-lg font-bold text-cyan-400 font-mono">Solid (Ice)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls & Substance Selector -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl space-y-4">
+                    <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-temperature-arrow-up text-red-400"></i> Thermal Parameters
+                    </h3>
+
+                    <!-- Substance Selection -->
+                    <div class="space-y-1.5">
+                        <label class="text-xs uppercase font-semibold text-gray-400 tracking-wider">Substance Material</label>
+                        <select id="substance-select" onchange="updateHeatSim()" class="w-full bg-darkbg border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-red-500 font-sans">
+                            <option value="water">Water (c<sub>liquid</sub> = 4184 J/kg·°C, L<sub>f</sub> = 334 kJ/kg, L<sub>v</sub> = 2260 kJ/kg)</option>
+                            <option value="aluminum">Aluminium Block (c = 900 J/kg·°C)</option>
+                            <option value="copper">Copper Block (c = 385 J/kg·°C)</option>
+                        </select>
+                    </div>
+
+                    <!-- Mass Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Substance Mass (m):</span>
+                            <span id="val-heat-m" class="font-mono text-phys-400 font-bold">1.0 kg</span>
+                        </div>
+                        <input type="range" id="slider-heat-m" min="0.1" max="5.0" step="0.1" value="1.0" oninput="updateHeatSim()" class="w-full">
+                    </div>
+
+                    <!-- Heating Power Input Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Heater Power (P = E / t):</span>
+                            <span id="val-heat-p" class="font-mono text-amber-400 font-bold">1000 W</span>
+                        </div>
+                        <input type="range" id="slider-heat-p" min="100" max="5000" step="100" value="1000" oninput="updateHeatSim()" class="w-full">
+                    </div>
+
+                    <!-- Thermal Progress Scrub Slider -->
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-300">Heat Addition Progress:</span>
+                            <span id="val-heat-progress" class="font-mono text-red-400 font-bold">0%</span>
+                        </div>
+                        <input type="range" id="slider-heat-progress" min="0" max="100" step="1" value="0" oninput="updateHeatSim()" class="w-full">
+                    </div>
+
+                    <!-- Heat Mechanism Cards -->
+                    <div class="bg-darkbg p-3.5 rounded-xl border border-gray-800 text-xs space-y-2">
+                        <h4 class="font-bold text-white text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-house-chimney-crack text-amber-400"></i> Heat Transfer Mechanisms
+                        </h4>
+                        <div class="grid grid-cols-2 gap-2 text-[11px] text-gray-300">
+                            <div class="bg-cardbg p-2 rounded border border-gray-800">
+                                <strong class="text-red-400">Conduction:</strong> Particle-to-particle kinetic collisions in solids.
+                            </div>
+                            <div class="bg-cardbg p-2 rounded border border-gray-800">
+                                <strong class="text-cyan-400">Convection:</strong> Fluid density changes creating warm rising currents.
+                            </div>
+                            <div class="bg-cardbg p-2 rounded border border-gray-800">
+                                <strong class="text-amber-400">Radiation:</strong> Infrared electromagnetic waves across vacuum.
+                            </div>
+                            <div class="bg-cardbg p-2 rounded border border-gray-800">
+                                <strong class="text-emerald-400">Evaporation:</strong> High E<sub>k</sub> surface liquid particles escaping into gas.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 5: EXAM PRACTICE ==================== -->
+        <section id="section-practice" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">NCEA AS92047 Written Assessment Suite</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Excellence Answer Builder & Physics Evaluator
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Practice authentic NZQA exam prompts with real-time keyword analysis, formula linking, and Achieved / Merit / Excellence grading feedback.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Question Selection & Response Area -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-6 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="mb-4">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Select NCEA Exam Prompt:</label>
+                            <select id="exam-q-select" onchange="onQuestionChange()" class="w-full bg-darkbg border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 font-sans">
+                                <option value="q1">Q1: Toy Car on Ramp & Friction Heat Loss (Macro vs Micro View)</option>
+                                <option value="q2">Q2: Parachute Terminal Velocity & Energy Transformations</option>
+                                <option value="q3">Q3: Electrical Power & Lamp Brightness in Parallel vs Series Circuits</option>
+                                <option value="q4">Q4: Vacuum Flask & Home Insulation Heat Transfer (Conduction, Convection, Radiation)</option>
+                                <option value="q5">Q5: Stair Run Power Calculation & Energy Conservation (E<sub>p</sub> → P)</option>
+                            </select>
+                        </div>
+
+                        <div id="prompt-box" class="bg-darkbg p-4 rounded-xl border border-gray-800 mb-4 text-sm text-gray-200 leading-relaxed">
+                            <!-- Injected dynamically by JS -->
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-xs text-gray-400">
+                                <span>Your Written Physics Explanation:</span>
+                                <span id="char-count" class="font-mono">0 / 250 chars min</span>
+                            </div>
+                            <textarea id="student-answer" oninput="evaluateAnswer()" rows="9" placeholder="Type your connected explanation here. State energy transformations, apply physics equations (e.g. Ep = mgh, Ek = 1/2mv^2), and link macroscopic friction to microscopic particle kinetic energy..." class="w-full bg-darkbg border border-gray-700 rounded-xl p-4 text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-emerald-500 font-sans leading-relaxed"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Evaluation Panel -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-emerald-400"></i> Estimated Grade
+                            </h3>
+                            <span id="grade-badge" class="px-3 py-1 rounded-full text-xs font-bold font-mono bg-red-950 text-red-400 border border-red-800">
+                                Not Achieved (N)
+                            </span>
+                        </div>
+
+                        <div class="w-full bg-darkbg rounded-full h-3 overflow-hidden border border-gray-800 flex mb-3">
+                            <div id="grade-bar-n" class="bg-red-500 h-full w-full transition-all duration-300"></div>
+                            <div id="grade-bar-a" class="bg-amber-500 h-full w-0 transition-all duration-300"></div>
+                            <div id="grade-bar-m" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+                            <div id="grade-bar-e" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+                        </div>
+
+                        <p id="grade-feedback" class="text-xs text-gray-300 leading-relaxed bg-darkbg p-3 rounded-xl border border-gray-800">
+                            Write a minimum response of 250 characters covering initial energy states and fundamental energy transformations to achieve a passing grade.
+                        </p>
+                    </div>
+
+                    <div class="bg-cardbg rounded-2xl p-5 border border-borderbg shadow-xl">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Key Physics Concept Checklist</h4>
+                        <div id="concept-checklist" class="space-y-1.5 text-xs max-h-56 overflow-y-auto pr-1">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 6: FORMULA SOLVER ==================== -->
+        <section id="section-solver" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-purple-400">Section F: Physics Formula & Algebraic Rearrangement Tool</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        Interactive Physics Equation Calculator
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Select any of the 8 unit equations, pick your target variable, and calculate exact numerical solutions with complete algebraic steps.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Equation Selector & Input Form -->
+                <div class="lg:col-span-7 bg-cardbg rounded-2xl p-6 border border-borderbg shadow-xl space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Target Physics Formula:</label>
+                            <select id="calc-formula-select" onchange="setupCalculator()" class="w-full bg-darkbg border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-sans">
+                                <option value="ek">1. Kinetic Energy: E<sub>k</sub> = ½mv²</option>
+                                <option value="ep">2. Gravitational Potential Energy: E<sub>p</sub> = mgh</option>
+                                <option value="work">3. Work Done: W = Fd</option>
+                                <option value="power">4. Power: P = ΔE / t</option>
+                                <option value="ohm">5. Ohm's Law: V = IR</option>
+                                <option value="elec_p">6. Electrical Power: P = VI</option>
+                                <option value="heat_c">7. Specific Heat: E = mcΔT</option>
+                                <option value="heat_l">8. Latent Heat: E = mL</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Target Unknown Variable:</label>
+                            <select id="calc-target-select" onchange="renderCalcInputs()" class="w-full bg-darkbg border border-gray-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500 font-sans">
+                                <!-- Options populated dynamically by JS -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="calc-inputs-container" class="space-y-3 bg-darkbg p-4 rounded-xl border border-gray-800">
+                        <!-- Dynamic inputs injected by JS -->
+                    </div>
+
+                    <button onclick="calculateFormulaResult()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-sm transition shadow-lg">
+                        <i class="fa-solid fa-calculator mr-2"></i> Solve & Rearrange Formula
+                    </button>
+                </div>
+
+                <!-- Solution & Rearrangement Output Panel -->
+                <div class="lg:col-span-5 bg-cardbg rounded-2xl p-6 border border-borderbg shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-square-root-variable text-purple-400"></i> Algebraic Solution & Steps
+                        </h3>
+
+                        <div id="calc-result-box" class="bg-darkbg p-4 rounded-xl border border-gray-800 space-y-3">
+                            <div class="text-xs text-gray-400">Target Calculated Value:</div>
+                            <div id="calc-final-value" class="text-2xl font-bold text-purple-300 font-mono">Select values and hit Solve</div>
+                            <div id="calc-steps-text" class="text-xs text-gray-300 leading-relaxed font-mono whitespace-pre-line pt-2 border-t border-gray-800">
+                                Algebraic rearrangement steps will appear here.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 bg-phys-950 p-3 rounded-xl border border-phys-800 text-xs text-phys-300">
+                        <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> <strong>NCEA Tip:</strong> Always state your un-rearranged formula first, substitute known values, and show final units (e.g. Joules, Watts, Volts).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 7: GLOSSARY ==================== -->
+        <section id="section-glossary" class="space-y-6 hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">Section G: Vocabulary & Physics Conventions</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        11SCI Energy Unit Glossary & Terms
+                    </h2>
+                    <p class="text-sm text-gray-400">
+                        Searchable directory of physical terms, SI units, and symbols from the Level 1 Physics curriculum.
+                    </p>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-500 text-xs"></i>
+                    <input type="text" id="glossary-search" oninput="filterGlossary()" placeholder="Search terms or SI units..." class="w-full bg-darkbg border border-gray-700 rounded-xl pl-9 pr-4 py-2 text-xs text-white focus:outline-none focus:border-phys-500 font-sans">
+                </div>
+            </div>
+
+            <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Terms injected dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* ==========================================================================
+           TAB NAVIGATION ENGINE
+           ========================================================================== */
+        let currentTab = 'systems';
+
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById(`section-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Trigger canvas redraws when switching tabs
+            if (tabId === 'systems') renderSankeyCanvas();
+            if (tabId === 'mechanics') renderMechCanvas();
+            if (tabId === 'circuits') renderCircuitCanvas();
+            if (tabId === 'heat') renderHeatCanvas();
+        }
+
+        /* ==========================================================================
+           SECTION A: ENERGY & SYSTEMS (SANKEY & BAR CHART) LOGIC
+           ========================================================================== */
+        function updateSystemsSim() {
+            const ein = parseFloat(document.getElementById('slider-sys-ein').value);
+            const eff = parseFloat(document.getElementById('slider-sys-eff').value);
+            const t = parseFloat(document.getElementById('slider-sys-time').value);
+
+            const eUseful = ein * (eff / 100);
+            const eWaste = ein - eUseful;
+
+            const pIn = ein / t;
+            const pOut = eUseful / t;
+            const pWaste = eWaste / t;
+
+            document.getElementById('val-sys-ein').innerText = `${ein} J`;
+            document.getElementById('val-sys-eff').innerText = `${eff} % Useful`;
+            document.getElementById('val-sys-time').innerText = `${t.toFixed(1)} s`;
+
+            document.getElementById('metric-e-in').innerText = `${ein.toFixed(0)} J`;
+            document.getElementById('metric-e-useful').innerText = `${eUseful.toFixed(0)} J`;
+            document.getElementById('metric-efficiency').innerText = `${eff.toFixed(1)} %`;
+
+            document.getElementById('calc-p-in').innerText = `${pIn.toFixed(1)} W`;
+            document.getElementById('calc-p-out').innerText = `${pOut.toFixed(1)} W`;
+            document.getElementById('calc-p-waste').innerText = `${pWaste.toFixed(1)} W`;
+
+            renderSankeyCanvas();
+        }
+
+        function resetSystemsSim() {
+            document.getElementById('slider-sys-ein').value = 1000;
+            document.getElementById('slider-sys-eff').value = 75;
+            document.getElementById('slider-sys-time').value = 5.0;
+            updateSystemsSim();
+        }
+
+        function renderSankeyCanvas() {
+            const canvas = document.getElementById('sankeyCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            const ein = parseFloat(document.getElementById('slider-sys-ein').value);
+            const eff = parseFloat(document.getElementById('slider-sys-eff').value) / 100;
+            const scenario = document.getElementById('sys-scenario-select').value;
+
+            // Define scenario labels
+            let inputLabel = "Input Energy";
+            let usefulLabel = "Useful Energy";
+            let wasteLabel = "Waste Thermal Heat";
+
+            if (scenario === 'car') {
+                inputLabel = "GPE (mgh)";
+                usefulLabel = "Useful KE (½mv²)";
+                wasteLabel = "Ramp Friction Heat";
+            } else if (scenario === 'lamp') {
+                inputLabel = "Electrical Energy";
+                usefulLabel = "Useful Light Energy";
+                wasteLabel = "Filament Heat Loss";
+            } else if (scenario === 'runner') {
+                inputLabel = "Chemical Potential";
+                usefulLabel = "Kinetic Motion";
+                wasteLabel = "Body Heat & Sweating";
+            } else if (scenario === 'bounce') {
+                inputLabel = "Initial GPE";
+                usefulLabel = "Rebound GPE";
+                wasteLabel = "Impact Heat & Sound";
+            }
+
+            const totalHeight = 160;
+            const usefulHeight = totalHeight * eff;
+            const wasteHeight = totalHeight * (1 - eff);
+
+            const startX = 40;
+            const midX = w * 0.45;
+            const endX = w - 40;
+            const centerY = h / 2;
+
+            // Draw Input Arrow (Left to Center)
+            ctx.fillStyle = '#0ea5e9';
+            ctx.beginPath();
+            ctx.moveTo(startX, centerY - totalHeight / 2);
+            ctx.lineTo(midX, centerY - totalHeight / 2);
+            ctx.lineTo(midX, centerY + totalHeight / 2);
+            ctx.lineTo(startX, centerY + totalHeight / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            // Draw Useful Arrow (Top Branch Right)
+            ctx.fillStyle = '#10b981';
+            ctx.beginPath();
+            ctx.moveTo(midX, centerY - totalHeight / 2);
+            ctx.lineTo(endX - 20, centerY - totalHeight / 2);
+            ctx.lineTo(endX - 20, centerY - totalHeight / 2 - 10);
+            ctx.lineTo(endX, centerY - totalHeight / 2 + usefulHeight / 2);
+            ctx.lineTo(endX - 20, centerY - totalHeight / 2 + usefulHeight + 10);
+            ctx.lineTo(endX - 20, centerY - totalHeight / 2 + usefulHeight);
+            ctx.lineTo(midX, centerY - totalHeight / 2 + usefulHeight);
+            ctx.closePath();
+            ctx.fill();
+
+            // Draw Wasted Arrow (Bottom Curve Downwards)
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.moveTo(midX, centerY - totalHeight / 2 + usefulHeight);
+            ctx.lineTo(midX + wasteHeight, centerY - totalHeight / 2 + usefulHeight);
+            ctx.quadraticCurveTo(midX + wasteHeight, h - 30, midX + wasteHeight + 30, h - 30);
+            ctx.lineTo(midX + wasteHeight + 30, h - 10);
+            ctx.lineTo(midX + 15, h - 40);
+            ctx.lineTo(midX, h - 10);
+            ctx.quadraticCurveTo(midX, centerY + totalHeight / 2, midX, centerY + totalHeight / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            // Labels Text Overlay
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 11px JetBrains Mono';
+            ctx.fillText(`${inputLabel}: ${ein.toFixed(0)} J`, startX + 10, centerY);
+            ctx.fillText(`${usefulLabel}: ${(ein * eff).toFixed(0)} J`, midX + 20, centerY - totalHeight / 2 + usefulHeight / 2 + 4);
+            ctx.fillStyle = '#f87171';
+            ctx.fillText(`${wasteLabel}: ${(ein * (1 - eff)).toFixed(0)} J`, midX - 10, h - 15);
+        }
+
+        /* ==========================================================================
+           SECTION B: MECHANICS (KE & GPE) LOGIC - ACCURATE KINEMATICS ENGINE
+           ========================================================================== */
+        let mechAnimId = null;
+        let isMechAnimating = false;
+        let lastFrameTime = 0;
+        let spherePos = 0; // Distance along ramp in meters (0 to d)
+        let sphereVel = 0; // Current velocity in m/s
+        let sphereRotAngle = 0; // Ball visual rotation angle in radians
+
+        function getMechParams() {
+            const m = parseFloat(document.getElementById('slider-mech-m').value);
+            const h = parseFloat(document.getElementById('slider-mech-h').value);
+            const f = parseFloat(document.getElementById('slider-mech-f').value);
+            const g = parseFloat(document.getElementById('mech-g-select').value);
+            const mode = document.getElementById('mech-mode-select').value;
+
+            const sinTheta = 0.5; // 30 degrees ramp angle
+            const cosTheta = 0.866;
+            const dRamp = h / sinTheta;
+
+            const inertiaFactor = (mode === 'rolling') ? 1.4 : 1.0;
+            const fGravityRamp = m * g * sinTheta;
+            const netForceOnRamp = Math.max(0, fGravityRamp - f);
+            const accelRamp = netForceOnRamp / (m * inertiaFactor);
+
+            const totalEpInitial = m * g * h;
+            const workFrictionTotal = f * dRamp;
+            const netEkAtBottom = Math.max(0, totalEpInitial - workFrictionTotal);
+            const vBottomTheoretical = Math.sqrt((2 * netEkAtBottom) / (m * inertiaFactor));
+
+            return { m, h, f, g, mode, sinTheta, cosTheta, dRamp, accelRamp, totalEpInitial, workFrictionTotal, netEkAtBottom, vBottomTheoretical };
+        }
+
+        function updateMechParams() {
+            const p = getMechParams();
+
+            document.getElementById('val-mech-m').innerText = `${p.m.toFixed(1)} kg`;
+            document.getElementById('val-mech-h').innerText = `${p.h.toFixed(1)} m`;
+            document.getElementById('val-mech-f').innerText = `${p.f.toFixed(1)} N`;
+
+            document.getElementById('calc-mech-eptotal').innerText = `${p.totalEpInitial.toFixed(1)} J`;
+            document.getElementById('calc-mech-work').innerText = `${p.workFrictionTotal.toFixed(1)} J`;
+            document.getElementById('calc-mech-ekfinal').innerText = `${p.netEkAtBottom.toFixed(1)} J`;
+            document.getElementById('calc-mech-vfinal').innerText = `${p.vBottomTheoretical.toFixed(2)} m/s`;
+
+            if (!isMechAnimating) {
+                spherePos = 0;
+                sphereVel = 0;
+                sphereRotAngle = 0;
+                updateMechMetrics(0, 0, p);
+            }
+            renderMechCanvas();
+        }
+
+        function updateMechMetrics(sPos, sVel, p) {
+            const currentH = Math.max(0, p.h * (1 - sPos / p.dRamp));
+            const epCurrent = p.m * p.g * currentH;
+            const workDoneFric = p.f * Math.min(sPos, p.dRamp);
+            const ekCurrent = Math.max(0, p.totalEpInitial - epCurrent - workDoneFric);
+
+            document.getElementById('metric-mech-h').innerText = `${currentH.toFixed(2)} m`;
+            document.getElementById('metric-mech-v').innerText = `${sVel.toFixed(2)} m/s`;
+            document.getElementById('metric-mech-ep').innerText = `${epCurrent.toFixed(0)} J`;
+            document.getElementById('metric-mech-ek').innerText = `${ekCurrent.toFixed(0)} J`;
+            document.getElementById('metric-mech-eth').innerText = `${workDoneFric.toFixed(0)} J`;
+        }
+
+        function startMechAnim() {
+            if (isMechAnimating) return;
+            isMechAnimating = true;
+            spherePos = 0;
+            sphereVel = 0;
+            sphereRotAngle = 0;
+            lastFrameTime = performance.now();
+            requestAnimationFrame(animateMechStep);
+        }
+
+        function resetMechSim() {
+            isMechAnimating = false;
+            if (mechAnimId) cancelAnimationFrame(mechAnimId);
+            spherePos = 0;
+            sphereVel = 0;
+            sphereRotAngle = 0;
+            updateMechParams();
+        }
+
+        function animateMechStep(now) {
+            if (!isMechAnimating) return;
+            const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
+            lastFrameTime = now;
+
+            const p = getMechParams();
+
+            if (spherePos < p.dRamp) {
+                sphereVel += p.accelRamp * dt;
+                spherePos += sphereVel * dt;
+                sphereRotAngle += (sphereVel * dt) / 0.3;
+            } else {
+                const flatAccel = -(p.f / p.m);
+                sphereVel = Math.max(0, sphereVel + flatAccel * dt);
+                spherePos += sphereVel * dt;
+                sphereRotAngle += (sphereVel * dt) / 0.3;
+
+                if (sphereVel <= 0.01) {
+                    sphereVel = 0;
+                    isMechAnimating = false;
+                }
+            }
+
+            updateMechMetrics(spherePos, sphereVel, p);
+            renderMechCanvas();
+
+            if (isMechAnimating) {
+                mechAnimId = requestAnimationFrame(animateMechStep);
+            }
+        }
+
+        function renderMechCanvas() {
+            const canvas = document.getElementById('mechCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            const p = getMechParams();
+
+            const startX = 60;
+            const startY = 40;
+            const endX = w - 160;
+            const endY = h - 50;
+
+            // Draw Ramp Triangle
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.lineTo(startX, endY);
+            ctx.closePath();
+            ctx.fillStyle = '#1e293b';
+            ctx.fill();
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Flat floor extension
+            ctx.beginPath();
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(w - 10, endY);
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            const posFrac = spherePos / p.dRamp;
+
+            let currX, currY;
+            if (posFrac <= 1.0) {
+                currX = startX + (endX - startX) * posFrac;
+                currY = startY + (endY - startY) * posFrac;
+            } else {
+                const extraDistPixels = (spherePos - p.dRamp) * 20;
+                currX = Math.min(w - 20, endX + extraDistPixels);
+                currY = endY;
+            }
+
+            const ballRadius = 14;
+
+            // Draw Force Vectors when on ramp
+            if (posFrac <= 1.0) {
+                if (p.f > 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(currX, currY - ballRadius);
+                    ctx.lineTo(currX - (endX - startX)*0.1, currY - (endY - startY)*0.1);
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.fillStyle = '#ef4444';
+                    ctx.font = '10px JetBrains Mono';
+                    ctx.fillText('f_fric', currX - 35, currY - 25);
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(currX, currY - ballRadius);
+                ctx.lineTo(currX, currY - ballRadius + 30);
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.fillStyle = '#f59e0b';
+                ctx.font = '10px JetBrains Mono';
+                ctx.fillText('F_g', currX + 5, currY + 15);
+            }
+
+            // Draw Object (Sphere vs Block)
+            ctx.save();
+            ctx.translate(currX, currY - ballRadius);
+
+            if (p.mode === 'rolling') {
+                ctx.rotate(sphereRotAngle);
+                ctx.beginPath();
+                ctx.arc(0, 0, ballRadius, 0, Math.PI * 2);
+                ctx.fillStyle = '#38bdf8';
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(-ballRadius, 0); ctx.lineTo(ballRadius, 0);
+                ctx.moveTo(0, -ballRadius); ctx.lineTo(0, ballRadius);
+                ctx.strokeStyle = '#082f49';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            } else {
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillRect(-ballRadius, -ballRadius, ballRadius * 2, ballRadius * 2);
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-ballRadius, -ballRadius, ballRadius * 2, ballRadius * 2);
+            }
+
+            ctx.restore();
+        }
+
+        /* ==========================================================================
+           SECTION C: DYNAMIC ELECTRICAL CIRCUITS LAB LOGIC
+           ========================================================================== */
+        let circuitType = 'series';
+        let showConventionalCurrent = true;
+        let circuitComponents = [
+            { id: 1, type: 'lamp', r: 4 },
+            { id: 2, type: 'lamp', r: 2 }
+        ];
+
+        function toggleCurrentDirection() {
+            showConventionalCurrent = !showConventionalCurrent;
+            document.getElementById('btn-curr-dir').innerHTML = showConventionalCurrent 
+                ? '<i class="fa-solid fa-arrows-left-right text-xs mr-1"></i> Conventional Current (I)' 
+                : '<i class="fa-solid fa-arrows-left-right text-xs mr-1"></i> Electron Flow (e⁻)';
+            renderCircuitCanvas();
+        }
+
+        function addCircuitComponent(type) {
+            if (circuitComponents.length >= 5) return;
+            const newId = Date.now();
+            circuitComponents.push({ id: newId, type: type, r: 4 });
+            updateCircuitSim();
+        }
+
+        function removeCircuitComponent() {
+            if (circuitComponents.length <= 1) return;
+            circuitComponents.pop();
+            updateCircuitSim();
+        }
+
+        function setCircuitType(type) {
+            circuitType = type;
+            document.getElementById('btn-circ-series').className = type === 'series' 
+                ? 'px-3 py-1.5 rounded-xl text-xs font-bold border border-cyan-500 bg-cyan-950 text-cyan-300' 
+                : 'px-3 py-1.5 rounded-xl text-xs font-bold border border-gray-700 bg-darkbg text-gray-400';
+            
+            document.getElementById('btn-circ-parallel').className = type === 'parallel' 
+                ? 'px-3 py-1.5 rounded-xl text-xs font-bold border border-cyan-500 bg-cyan-950 text-cyan-300' 
+                : 'px-3 py-1.5 rounded-xl text-xs font-bold border border-gray-700 bg-darkbg text-gray-400';
+
+            document.getElementById('circuit-mode-badge').innerText = type === 'series' ? 'Series Configuration' : 'Parallel Configuration';
+            updateCircuitSim();
+        }
+
+        function renderComponentSliders() {
+            const container = document.getElementById('component-sliders-list');
+            if (!container) return;
+            container.innerHTML = '';
+            document.getElementById('comp-count-tag').innerText = `${circuitComponents.length} Components`;
+
+            circuitComponents.forEach((comp, idx) => {
+                const card = document.createElement('div');
+                card.className = 'bg-darkbg p-2.5 rounded-xl border border-gray-800 space-y-1';
+
+                let icon = comp.type === 'lamp' ? 'fa-lightbulb text-amber-400' : 'fa-gears text-phys-400';
+                let name = comp.type === 'lamp' ? `Lamp ${idx+1}` : `Resistor ${idx+1}`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-gray-200 font-semibold flex items-center gap-1.5">
+                            <i class="fa-solid ${icon}"></i> ${name}
+                        </span>
+                        <span id="comp-val-text-${comp.id}" class="font-mono text-cyan-400 font-bold">${comp.r} Ω</span>
+                    </div>
+                    <input type="range" min="0.5" max="20" step="0.5" value="${comp.r}" 
+                        oninput="circuitComponents[${idx}].r = parseFloat(this.value); updateCircuitSim();" 
+                        class="w-full">
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateCircuitSim() {
+            renderComponentSliders();
+
+            const emf = parseFloat(document.getElementById('slider-circ-v').value);
+            const rInt = parseFloat(document.getElementById('slider-circ-rint').value);
+
+            document.getElementById('val-circ-v').innerText = `${emf.toFixed(1)} V`;
+            document.getElementById('val-circ-rint').innerText = `${rInt.toFixed(1)} Ω`;
+
+            let rLoad = 0;
+
+            if (circuitType === 'series') {
+                rLoad = circuitComponents.reduce((sum, c) => sum + c.r, 0);
+            } else {
+                let reciprocalSum = circuitComponents.reduce((sum, c) => sum + (c.r > 0 ? 1 / c.r : 0), 0);
+                rLoad = reciprocalSum > 0 ? 1 / reciprocalSum : 0.1;
+            }
+
+            const rTotal = rLoad + rInt;
+            const iTotal = emf / rTotal;
+            const vTerm = emf - (iTotal * rInt);
+            const pTotal = vTerm * iTotal;
+
+            document.getElementById('metric-circ-v').innerText = `${emf.toFixed(1)} V`;
+            document.getElementById('metric-circ-i').innerText = `${iTotal.toFixed(2)} A`;
+            document.getElementById('metric-circ-r').innerText = `${rTotal.toFixed(2)} Ω`;
+            document.getElementById('metric-circ-p').innerText = `${pTotal.toFixed(1)} W`;
+            document.getElementById('calc-circ-vterm').innerText = `${vTerm.toFixed(2)} V`;
+
+            const summaryBox = document.getElementById('component-power-summary');
+            summaryBox.innerHTML = '';
+
+            circuitComponents.forEach((comp, idx) => {
+                let vComp = 0, iComp = 0;
+                if (circuitType === 'series') {
+                    iComp = iTotal;
+                    vComp = iComp * comp.r;
+                } else {
+                    vComp = vTerm;
+                    iComp = vComp / comp.r;
+                }
+                const pComp = vComp * iComp;
+
+                const row = document.createElement('div');
+                row.className = 'flex justify-between items-center';
+                row.innerHTML = `
+                    <span>Comp ${idx+1} (${comp.type}):</span>
+                    <span class="text-white font-mono">${vComp.toFixed(1)}V, ${iComp.toFixed(2)}A (${pComp.toFixed(1)}W)</span>
+                `;
+                summaryBox.appendChild(row);
+            });
+
+            renderCircuitCanvas();
+        }
+
+        function renderCircuitCanvas() {
+            const canvas = document.getElementById('circuitCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            // Wire border
+            ctx.strokeStyle = '#0284c7';
+            ctx.lineWidth = 3;
+            ctx.strokeRect(60, 40, w - 120, h - 80);
+
+            // Battery Symbol on Left Wire
+            ctx.fillStyle = '#0b0f17';
+            ctx.fillRect(50, h/2 - 25, 20, 50);
+            ctx.fillStyle = '#0ea5e9';
+            ctx.fillRect(52, h/2 - 20, 4, 40);
+            ctx.fillRect(62, h/2 - 10, 4, 20);
+
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = '10px JetBrains Mono';
+            ctx.fillText('+', 42, h/2 - 10);
+            ctx.fillText('-', 72, h/2 - 10);
+
+            const numComps = circuitComponents.length;
+
+            const drawCompSymbol = (x, y, comp, label) => {
+                ctx.fillStyle = '#0b0f17';
+                ctx.beginPath();
+                ctx.arc(x, y, 16, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (comp.type === 'lamp') {
+                    ctx.strokeStyle = '#f59e0b';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(x - 9, y - 9); ctx.lineTo(x + 9, y + 9);
+                    ctx.moveTo(x + 9, y - 9); ctx.lineTo(x - 9, y + 9);
+                    ctx.stroke();
+                } else {
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x - 12, y - 8, 24, 16);
+                }
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px sans-serif';
+                ctx.fillText(label, x - 18, y + 30);
+            };
+
+            if (circuitType === 'series') {
+                const spacing = (w - 180) / (numComps + 1);
+                circuitComponents.forEach((comp, idx) => {
+                    const cx = 90 + spacing * (idx + 1);
+                    drawCompSymbol(cx, 40, comp, `C${idx+1} (${comp.r}Ω)`);
+                });
+            } else {
+                const branchSpacing = (h - 100) / (numComps > 1 ? numComps - 1 : 1);
+                circuitComponents.forEach((comp, idx) => {
+                    const cy = numComps === 1 ? h/2 : 50 + idx * branchSpacing;
+                    if (idx > 0 && idx < numComps - 1) {
+                        ctx.beginPath();
+                        ctx.moveTo(60, cy);
+                        ctx.lineTo(w - 60, cy);
+                        ctx.strokeStyle = '#0284c7';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                    drawCompSymbol(w/2, cy, comp, `B${idx+1} (${comp.r}Ω)`);
+                });
+            }
+        }
+
+        /* ==========================================================================
+           SECTION D: HEAT ENERGY LOGIC
+           ========================================================================== */
+        function updateHeatSim() {
+            const m = parseFloat(document.getElementById('slider-heat-m').value);
+            const p = parseFloat(document.getElementById('slider-heat-p').value);
+            const progress = parseFloat(document.getElementById('slider-heat-progress').value) / 100;
+
+            document.getElementById('val-heat-m').innerText = `${m.toFixed(1)} kg`;
+            document.getElementById('val-heat-p').innerText = `${p} W`;
+            document.getElementById('val-heat-progress').innerText = `${(progress * 100).toFixed(0)}%`;
+
+            // Total heat added calculation (Max total energy scaled to progress)
+            const totalEnergyMax = m * (2100 * 20 + 334000 + 4184 * 100 + 2260000);
+            const energyAdded = totalEnergyMax * progress;
+
+            document.getElementById('metric-heat-e').innerText = `${(energyAdded / 1000).toFixed(1)} kJ`;
+
+            renderHeatCanvas(progress, energyAdded, m);
+        }
+
+        function renderHeatCanvas(progress = 0, energy = 0, mass = 1.0) {
+            const canvas = document.getElementById('heatGraphCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            // Axes
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(40, 20);
+            ctx.lineTo(40, h - 30);
+            ctx.lineTo(w - 20, h - 30);
+            ctx.stroke();
+
+            // Key Points on Heating Curve
+            const p1 = { x: 40, y: h - 40 };      // Solid -20 C
+            const p2 = { x: 90, y: h - 80 };      // Solid 0 C
+            const p3 = { x: 170, y: h - 80 };     // Melting done (0 C)
+            const p4 = { x: 260, y: h - 180 };    // Boiling start (100 C)
+            const p5 = { x: 340, y: h - 180 };    // Boiling done (100 C)
+            const p6 = { x: w - 30, y: h - 230 }; // Gas state (>100 C)
+
+            // Draw full reference heating curve line
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.lineTo(p3.x, p3.y);
+            ctx.lineTo(p4.x, p4.y);
+            ctx.lineTo(p5.x, p5.y);
+            ctx.lineTo(p6.x, p6.y);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Calculate current position on curve based on progress (0 to 1)
+            let curX = p1.x + (p6.x - p1.x) * progress;
+            let curY = p1.y;
+            let stateText = "Solid (Ice)";
+            let tempText = "-20 °C";
+
+            if (curX <= p2.x) {
+                const t = (curX - p1.x) / (p2.x - p1.x);
+                curY = p1.y + t * (p2.y - p1.y);
+                stateText = "Solid Phase (Ice Warming)";
+                tempText = `${(-20 + t * 20).toFixed(1)} °C`;
+            } else if (curX <= p3.x) {
+                curY = p2.y;
+                stateText = "Phase Change: Melting (Ice + Water)";
+                tempText = "0.0 °C";
+            } else if (curX <= p4.x) {
+                const t = (curX - p3.x) / (p4.x - p3.x);
+                curY = p3.y + t * (p4.y - p3.y);
+                stateText = "Liquid Phase (Water Warming)";
+                tempText = `${(t * 100).toFixed(1)} °C`;
+            } else if (curX <= p5.x) {
+                curY = p4.y;
+                stateText = "Phase Change: Boiling (Water + Steam)";
+                tempText = "100.0 °C";
+            } else {
+                const t = (curX - p5.x) / (p6.x - p5.x);
+                curY = p5.y + t * (p6.y - p5.y);
+                stateText = "Gas Phase (Superheated Steam)";
+                tempText = `${(100 + t * 40).toFixed(1)} °C`;
+            }
+
+            document.getElementById('metric-heat-temp').innerText = tempText;
+            document.getElementById('metric-heat-state').innerText = stateText;
+            document.getElementById('heat-phase-badge').innerText = `State: ${stateText}`;
+
+            // Draw active progress line
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            if (curX > p1.x) ctx.lineTo(Math.min(curX, p2.x), p2.y + (curX < p2.x ? (curX - p1.x)/(p2.x - p1.x)*(p2.y - p1.y) : 0));
+            if (curX > p2.x) ctx.lineTo(Math.min(curX, p3.x), p2.y);
+            if (curX > p3.x) ctx.lineTo(Math.min(curX, p4.x), p3.y + (curX < p4.x ? (curX - p3.x)/(p4.x - p3.x)*(p4.y - p3.y) : 0));
+            if (curX > p4.x) ctx.lineTo(Math.min(curX, p5.x), p4.y);
+            if (curX > p5.x) ctx.lineTo(curX, curY);
+
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Draw current point marker
+            ctx.beginPath();
+            ctx.arc(curX, curY, 7, 0, Math.PI * 2);
+            ctx.fillStyle = '#f59e0b';
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Annotations
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '10px JetBrains Mono';
+            ctx.fillText('Solid', 50, h - 50);
+            ctx.fillText('Melting (mL)', 100, h - 90);
+            ctx.fillText('Liquid (mcΔT)', 180, h - 130);
+            ctx.fillText('Boiling (mL)', 270, h - 190);
+            ctx.fillText('Gas', 350, h - 210);
+        }
+
+        /* ==========================================================================
+           SECTION E: EXAM PRACTICE EVALUATOR
+           ========================================================================== */
+        const examPrompts = {
+            q1: {
+                title: "Q1: Toy Car on Ramp & Friction Heat Loss (Macro vs Micro View)",
+                prompt: "A toy car of mass 0.5 kg is released from the top of a 1.2 m high ramp. Describe the energy transformations occurring down the ramp. Explain why the actual velocity at the bottom is lower than theoretical calculation, linking macroscopic friction to microscopic particle behavior.",
+                keywords: ["gravitational potential", "kinetic", "friction", "heat", "thermal", "particles", "conservation", "transform"]
+            },
+            q2: {
+                title: "Q2: Parachute Terminal Velocity & Energy Transformations",
+                prompt: "A cork bung attached to a parachute is dropped. Explain how air resistance acts as a friction force to transform energy, and describe the energy changes when terminal velocity is reached.",
+                keywords: ["air resistance", "friction", "kinetic", "heat", "terminal velocity", "unbalanced", "balanced"]
+            },
+            q3: {
+                title: "Q3: Electrical Power & Lamp Brightness",
+                prompt: "Compare two identical lamps connected in series vs parallel to a 12V power supply. Explain which configuration results in brighter lamps using voltage drop, current, resistance (V=IR), and electrical power (P=VI).",
+                keywords: ["parallel", "series", "voltage", "current", "resistance", "power", "brightness", "divided"]
+            },
+            q4: {
+                title: "Q4: Vacuum Flask & Home Insulation Heat Transfer",
+                prompt: "Explain how a vacuum flask reduces heat transfer via conduction, convection, and radiation. Why can radiation occur through a vacuum while conduction and convection cannot?",
+                keywords: ["conduction", "convection", "radiation", "vacuum", "particles", "silvered", "insulator"]
+            },
+            q5: {
+                title: "Q5: Stair Run Power Calculation",
+                prompt: "A student of mass 60 kg runs up a flight of stairs gaining 3.0 m height in 2.5 seconds. Calculate the GPE gained (work done) and the student's mechanical power output (in Watts). Explain what happens to the remaining energy supplied by the body.",
+                keywords: ["work", "mgh", "power", "delta e", "time", "watts", "chemical potential", "heat"]
+            }
+        };
+
+        function onQuestionChange() {
+            const qKey = document.getElementById('exam-q-select').value;
+            const qData = examPrompts[qKey];
+            document.getElementById('prompt-box').innerText = qData.prompt;
+            document.getElementById('student-answer').value = '';
+            evaluateAnswer();
+        }
+
+        function evaluateAnswer() {
+            const qKey = document.getElementById('exam-q-select').value;
+            const qData = examPrompts[qKey];
+            const text = document.getElementById('student-answer').value.toLowerCase();
+            const charCount = text.length;
+
+            document.getElementById('char-count').innerText = `${charCount} / 250 chars min`;
+
+            let matchedCount = 0;
+            const checklistContainer = document.getElementById('concept-checklist');
+            checklistContainer.innerHTML = '';
+
+            qData.keywords.forEach(kw => {
+                const found = text.includes(kw);
+                if (found) matchedCount++;
+                const item = document.createElement('div');
+                item.className = `flex items-center gap-2 ${found ? 'text-emerald-400 font-semibold' : 'text-gray-500'}`;
+                item.innerHTML = `<i class="fa-solid ${found ? 'fa-circle-check' : 'fa-circle'}"></i> <span>Include '${kw}'</span>`;
+                checklistContainer.appendChild(item);
+            });
+
+            // Determine Grade
+            let grade = 'Not Achieved (N)';
+            let badgeClass = 'bg-red-950 text-red-400 border-red-800';
+            let barWidths = [100, 0, 0, 0];
+
+            if (charCount >= 250 && matchedCount >= 3) {
+                grade = 'Achieved (A)';
+                badgeClass = 'bg-amber-950 text-amber-400 border-amber-800';
+                barWidths = [0, 100, 0, 0];
+            }
+            if (charCount >= 380 && matchedCount >= 5) {
+                grade = 'Merit (M)';
+                badgeClass = 'bg-blue-950 text-blue-400 border-blue-800';
+                barWidths = [0, 0, 100, 0];
+            }
+            if (charCount >= 500 && matchedCount >= 7) {
+                grade = 'Excellence (E)';
+                badgeClass = 'bg-emerald-950 text-emerald-400 border-emerald-800';
+                barWidths = [0, 0, 0, 100];
+            }
+
+            const badgeElem = document.getElementById('grade-badge');
+            badgeElem.innerText = grade;
+            badgeElem.className = `px-3 py-1 rounded-full text-xs font-bold font-mono border ${badgeClass}`;
+
+            document.getElementById('grade-bar-n').style.width = `${barWidths[0]}%`;
+            document.getElementById('grade-bar-a').style.width = `${barWidths[1]}%`;
+            document.getElementById('grade-bar-m').style.width = `${barWidths[2]}%`;
+            document.getElementById('grade-bar-e').style.width = `${barWidths[3]}%`;
+        }
+
+        /* ==========================================================================
+           SECTION F: FORMULA CALCULATOR (FULL COMPLETED REARRANGEMENT LOGIC)
+           ========================================================================== */
+        const formulaMap = {
+            ek: { name: "Kinetic Energy", vars: ["Ek", "m", "v"] },
+            ep: { name: "Gravitational Potential Energy", vars: ["Ep", "m", "g", "h"] },
+            work: { name: "Work Done", vars: ["W", "F", "d"] },
+            power: { name: "Power", vars: ["P", "E", "t"] },
+            ohm: { name: "Ohm's Law", vars: ["V", "I", "R"] },
+            elec_p: { name: "Electrical Power", vars: ["P", "V", "I"] },
+            heat_c: { name: "Specific Heat Capacity", vars: ["E", "m", "c", "dT"] },
+            heat_l: { name: "Latent Heat", vars: ["E", "m", "L"] }
+        };
+
+        function setupCalculator() {
+            const formKey = document.getElementById('calc-formula-select').value;
+            const targetSelect = document.getElementById('calc-target-select');
+            const formula = formulaMap[formKey];
+
+            // Re-populate target select
+            targetSelect.innerHTML = '';
+            formula.vars.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v;
+                opt.innerText = `Solve for ${v}`;
+                targetSelect.appendChild(opt);
+            });
+
+            renderCalcInputs();
+        }
+
+        function renderCalcInputs() {
+            const formKey = document.getElementById('calc-formula-select').value;
+            const targetVar = document.getElementById('calc-target-select').value;
+            const container = document.getElementById('calc-inputs-container');
+            container.innerHTML = '';
+
+            const createInput = (id, label, defaultVal) => {
+                return `<div class="space-y-1">
+                    <label class="text-xs text-gray-300 font-mono">${label}</label>
+                    <input type="number" id="${id}" value="${defaultVal}" step="any" class="w-full bg-cardbg border border-gray-700 rounded-lg px-3 py-1.5 text-xs text-white font-mono">
+                </div>`;
+            };
+
+            const f = formulaMap[formKey];
+            f.vars.forEach(v => {
+                if (v !== targetVar) {
+                    let label = `${v}`;
+                    let defVal = 10;
+                    if (v === 'm') { label = 'Mass m (kg)'; defVal = 2.0; }
+                    else if (v === 'v') { label = 'Velocity v (m/s)'; defVal = 5.0; }
+                    else if (v === 'g') { label = 'Gravity g (m/s²)'; defVal = 10.0; }
+                    else if (v === 'h') { label = 'Height h (m)'; defVal = 4.0; }
+                    else if (v === 'F') { label = 'Force F (N)'; defVal = 50.0; }
+                    else if (v === 'd') { label = 'Distance d (m)'; defVal = 3.0; }
+                    else if (v === 'E' || v === 'Ek' || v === 'Ep' || v === 'W') { label = `${v} Energy / Work (J)`; defVal = 100.0; }
+                    else if (v === 't') { label = 'Time t (s)'; defVal = 5.0; }
+                    else if (v === 'P') { label = 'Power P (W)'; defVal = 20.0; }
+                    else if (v === 'V') { label = 'Voltage V (V)'; defVal = 12.0; }
+                    else if (v === 'I') { label = 'Current I (A)'; defVal = 2.0; }
+                    else if (v === 'R') { label = 'Resistance R (Ω)'; defVal = 6.0; }
+                    else if (v === 'c') { label = 'Specific Heat c (J/kg·°C)'; defVal = 4184; }
+                    else if (v === 'dT') { label = 'Temp Change ΔT (°C)'; defVal = 20.0; }
+                    else if (v === 'L') { label = 'Latent Heat L (J/kg)'; defVal = 334000; }
+
+                    container.innerHTML += createInput(`in-${v}`, label, defVal);
+                }
+            });
+        }
+
+        function calculateFormulaResult() {
+            const formKey = document.getElementById('calc-formula-select').value;
+            const target = document.getElementById('calc-target-select').value;
+            let result = 0;
+            let unit = '';
+            let steps = '';
+
+            if (formKey === 'ek') {
+                if (target === 'Ek') {
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const v = parseFloat(document.getElementById('in-v').value);
+                    result = 0.5 * m * v * v;
+                    unit = 'J';
+                    steps = `Ek = ½ × m × v²\nEk = 0.5 × ${m} kg × (${v} m/s)²\nEk = ${result.toFixed(2)} Joules`;
+                } else if (target === 'm') {
+                    const Ek = parseFloat(document.getElementById('in-Ek').value);
+                    const v = parseFloat(document.getElementById('in-v').value);
+                    result = (2 * Ek) / (v * v);
+                    unit = 'kg';
+                    steps = `m = 2 × Ek / v²\nm = (2 × ${Ek} J) / (${v} m/s)²\nm = ${result.toFixed(2)} kg`;
+                } else if (target === 'v') {
+                    const Ek = parseFloat(document.getElementById('in-Ek').value);
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    result = Math.sqrt((2 * Ek) / m);
+                    unit = 'm/s';
+                    steps = `v = √(2 × Ek / m)\nv = √(2 × ${Ek} J / ${m} kg)\nv = ${result.toFixed(2)} m/s`;
+                }
+            } else if (formKey === 'ep') {
+                if (target === 'Ep') {
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const g = parseFloat(document.getElementById('in-g').value);
+                    const h = parseFloat(document.getElementById('in-h').value);
+                    result = m * g * h;
+                    unit = 'J';
+                    steps = `Ep = m × g × h\nEp = ${m} kg × ${g} m/s² × ${h} m\nEp = ${result.toFixed(2)} Joules`;
+                } else if (target === 'm') {
+                    const Ep = parseFloat(document.getElementById('in-Ep').value);
+                    const g = parseFloat(document.getElementById('in-g').value);
+                    const h = parseFloat(document.getElementById('in-h').value);
+                    result = Ep / (g * h);
+                    unit = 'kg';
+                    steps = `m = Ep / (g × h)\nm = ${Ep} J / (${g} m/s² × ${h} m)\nm = ${result.toFixed(2)} kg`;
+                } else if (target === 'g') {
+                    const Ep = parseFloat(document.getElementById('in-Ep').value);
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const h = parseFloat(document.getElementById('in-h').value);
+                    result = Ep / (m * h);
+                    unit = 'm/s²';
+                    steps = `g = Ep / (m × h)\ng = ${Ep} J / (${m} kg × ${h} m)\ng = ${result.toFixed(2)} m/s²`;
+                } else if (target === 'h') {
+                    const Ep = parseFloat(document.getElementById('in-Ep').value);
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const g = parseFloat(document.getElementById('in-g').value);
+                    result = Ep / (m * g);
+                    unit = 'm';
+                    steps = `h = Ep / (m × g)\nh = ${Ep} J / (${m} kg × ${g} m/s²)\nh = ${result.toFixed(2)} m`;
+                }
+            } else if (formKey === 'work') {
+                if (target === 'W') {
+                    const F = parseFloat(document.getElementById('in-F').value);
+                    const d = parseFloat(document.getElementById('in-d').value);
+                    result = F * d;
+                    unit = 'J';
+                    steps = `W = F × d\nW = ${F} N × ${d} m\nW = ${result.toFixed(2)} Joules`;
+                } else if (target === 'F') {
+                    const W = parseFloat(document.getElementById('in-W').value);
+                    const d = parseFloat(document.getElementById('in-d').value);
+                    result = W / d;
+                    unit = 'N';
+                    steps = `F = W / d\nF = ${W} J / ${d} m\nF = ${result.toFixed(2)} Newtons`;
+                } else if (target === 'd') {
+                    const W = parseFloat(document.getElementById('in-W').value);
+                    const F = parseFloat(document.getElementById('in-F').value);
+                    result = W / F;
+                    unit = 'm';
+                    steps = `d = W / F\nd = ${W} J / ${F} N\nd = ${result.toFixed(2)} meters`;
+                }
+            } else if (formKey === 'power') {
+                if (target === 'P') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const t = parseFloat(document.getElementById('in-t').value);
+                    result = E / t;
+                    unit = 'W';
+                    steps = `P = ΔE / t\nP = ${E} J / ${t} s\nP = ${result.toFixed(2)} Watts`;
+                } else if (target === 'E') {
+                    const P = parseFloat(document.getElementById('in-P').value);
+                    const t = parseFloat(document.getElementById('in-t').value);
+                    result = P * t;
+                    unit = 'J';
+                    steps = `ΔE = P × t\nΔE = ${P} W × ${t} s\nΔE = ${result.toFixed(2)} Joules`;
+                } else if (target === 't') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const P = parseFloat(document.getElementById('in-P').value);
+                    result = E / P;
+                    unit = 's';
+                    steps = `t = ΔE / P\nt = ${E} J / ${P} W\nt = ${result.toFixed(2)} seconds`;
+                }
+            } else if (formKey === 'ohm') {
+                if (target === 'V') {
+                    const I = parseFloat(document.getElementById('in-I').value);
+                    const R = parseFloat(document.getElementById('in-R').value);
+                    result = I * R;
+                    unit = 'V';
+                    steps = `V = I × R\nV = ${I} A × ${R} Ω\nV = ${result.toFixed(2)} Volts`;
+                } else if (target === 'I') {
+                    const V = parseFloat(document.getElementById('in-V').value);
+                    const R = parseFloat(document.getElementById('in-R').value);
+                    result = V / R;
+                    unit = 'A';
+                    steps = `I = V / R\nI = ${V} V / ${R} Ω\nI = ${result.toFixed(2)} Amperes`;
+                } else if (target === 'R') {
+                    const V = parseFloat(document.getElementById('in-V').value);
+                    const I = parseFloat(document.getElementById('in-I').value);
+                    result = V / I;
+                    unit = 'Ω';
+                    steps = `R = V / I\nR = ${V} V / ${I} A\nR = ${result.toFixed(2)} Ohms`;
+                }
+            } else if (formKey === 'elec_p') {
+                if (target === 'P') {
+                    const V = parseFloat(document.getElementById('in-V').value);
+                    const I = parseFloat(document.getElementById('in-I').value);
+                    result = V * I;
+                    unit = 'W';
+                    steps = `P = V × I\nP = ${V} V × ${I} A\nP = ${result.toFixed(2)} Watts`;
+                } else if (target === 'V') {
+                    const P = parseFloat(document.getElementById('in-P').value);
+                    const I = parseFloat(document.getElementById('in-I').value);
+                    result = P / I;
+                    unit = 'V';
+                    steps = `V = P / I\nV = ${P} W / ${I} A\nV = ${result.toFixed(2)} Volts`;
+                } else if (target === 'I') {
+                    const P = parseFloat(document.getElementById('in-P').value);
+                    const V = parseFloat(document.getElementById('in-V').value);
+                    result = P / V;
+                    unit = 'A';
+                    steps = `I = P / V\nI = ${P} W / ${V} V\nI = ${result.toFixed(2)} Amperes`;
+                }
+            } else if (formKey === 'heat_c') {
+                if (target === 'E') {
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const c = parseFloat(document.getElementById('in-c').value);
+                    const dT = parseFloat(document.getElementById('in-dT').value);
+                    result = m * c * dT;
+                    unit = 'J';
+                    steps = `E = m × c × ΔT\nE = ${m} kg × ${c} J/kg·°C × ${dT} °C\nE = ${result.toFixed(2)} Joules`;
+                } else if (target === 'm') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const c = parseFloat(document.getElementById('in-c').value);
+                    const dT = parseFloat(document.getElementById('in-dT').value);
+                    result = E / (c * dT);
+                    unit = 'kg';
+                    steps = `m = E / (c × ΔT)\nm = ${E} J / (${c} J/kg·°C × ${dT} °C)\nm = ${result.toFixed(2)} kg`;
+                } else if (target === 'c') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const dT = parseFloat(document.getElementById('in-dT').value);
+                    result = E / (m * dT);
+                    unit = 'J/kg·°C';
+                    steps = `c = E / (m × ΔT)\nc = ${E} J / (${m} kg × ${dT} °C)\nc = ${result.toFixed(2)} J/kg·°C`;
+                } else if (target === 'dT') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const c = parseFloat(document.getElementById('in-c').value);
+                    result = E / (m * c);
+                    unit = '°C';
+                    steps = `ΔT = E / (m × c)\nΔT = ${E} J / (${m} kg × ${c} J/kg·°C)\nΔT = ${result.toFixed(2)} °C`;
+                }
+            } else if (formKey === 'heat_l') {
+                if (target === 'E') {
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    const L = parseFloat(document.getElementById('in-L').value);
+                    result = m * L;
+                    unit = 'J';
+                    steps = `E = m × L\nE = ${m} kg × ${L} J/kg\nE = ${result.toFixed(2)} Joules`;
+                } else if (target === 'm') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const L = parseFloat(document.getElementById('in-L').value);
+                    result = E / L;
+                    unit = 'kg';
+                    steps = `m = E / L\nm = ${E} J / ${L} J/kg\nm = ${result.toFixed(2)} kg`;
+                } else if (target === 'L') {
+                    const E = parseFloat(document.getElementById('in-E').value);
+                    const m = parseFloat(document.getElementById('in-m').value);
+                    result = E / m;
+                    unit = 'J/kg';
+                    steps = `L = E / m\nL = ${E} J / ${m} kg\nL = ${result.toFixed(2)} J/kg`;
+                }
+            }
+
+            document.getElementById('calc-final-value').innerText = `${target} = ${result.toFixed(3)} ${unit}`;
+            document.getElementById('calc-steps-text').innerText = steps;
+        }
+
+        /* ==========================================================================
+           SECTION G: GLOSSARY LOGIC
+           ========================================================================== */
+        const glossaryData = [
+            { term: "Kinetic Energy", symbol: "Ek", unit: "J (Joules)", desc: "Energy possessed by an object due to macroscopic linear or rotational motion (Ek = ½mv²)." },
+            { term: "Gravitational Potential", symbol: "Ep", unit: "J (Joules)", desc: "Energy stored in an object relative to a position in a gravitational field (Ep = mgh)." },
+            { term: "Work Done", symbol: "W", unit: "J (Joules)", desc: "Energy transferred when a force acts through a distance parallel to displacement (W = Fd)." },
+            { term: "Power", symbol: "P", unit: "W (Watts / J/s)", desc: "Rate at which energy is transformed or transferred over time (P = ΔE / t)." },
+            { term: "Specific Heat Capacity", symbol: "c", unit: "J/(kg·°C)", desc: "Heat energy required to raise the temperature of 1 kg of a substance by 1 °C (E = mcΔT)." },
+            { term: "Latent Heat", symbol: "L", unit: "J/kg", desc: "Energy absorbed or released by 1 kg of a substance during a phase change without temperature change (E = mL)." },
+            { term: "Friction", symbol: "f_fric", unit: "N (Newtons)", desc: "Resistive force acting opposing relative motion, converting mechanical energy into thermal energy." },
+            { term: "Voltage / EMF", symbol: "V", unit: "V (Volts)", desc: "Electrical potential difference or energy supplied per unit charge across a circuit component (V = IR)." },
+            { term: "Current", symbol: "I", unit: "A (Amperes)", desc: "Rate of flow of electric charge through a conductor (I = Q / t)." },
+            { term: "Resistance", symbol: "R", unit: "Ω (Ohms)", desc: "Opposition to the flow of electric current through a material." },
+            { term: "Conduction", symbol: "—", unit: "Mechanism", desc: "Heat transfer through direct microscopic collisions of adjacent vibrating particles in solids." },
+            { term: "Convection", symbol: "—", unit: "Mechanism", desc: "Heat transfer in fluids caused by density differences that generate fluid circulation currents." }
+        ];
+
+        function populateGlossary() {
+            const grid = document.getElementById('glossary-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            glossaryData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-cardbg rounded-xl p-4 border border-borderbg space-y-2';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h4 class="text-sm font-bold text-white">${item.term}</h4>
+                        <span class="text-xs font-mono text-phys-400 bg-phys-950 px-2 py-0.5 rounded border border-phys-800">${item.symbol}</span>
+                    </div>
+                    <div class="text-xs text-amber-400 font-mono">Unit: ${item.unit}</div>
+                    <p class="text-xs text-gray-300 leading-relaxed">${item.desc}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterGlossary() {
+            const query = document.getElementById('glossary-search').value.toLowerCase();
+            const cards = document.querySelectorAll('#glossary-grid > div');
+            cards.forEach((card, idx) => {
+                const item = glossaryData[idx];
+                const match = item.term.toLowerCase().includes(query) || 
+                              item.symbol.toLowerCase().includes(query) || 
+                              item.unit.toLowerCase().includes(query) || 
+                              item.desc.toLowerCase().includes(query);
+                card.style.display = match ? 'block' : 'none';
+            });
+        }
+
+        /* ==========================================================================
+           WINDOW INITIALIZATION ON LOAD
+           ========================================================================== */
+        window.onload = function() {
+            updateSystemsSim();
+            updateMechParams();
+            updateCircuitSim();
+            updateHeatSim();
+            setupCalculator();
+            onQuestionChange();
+            populateGlossary();
+        };
+    </script>
+</body>
+</html>
