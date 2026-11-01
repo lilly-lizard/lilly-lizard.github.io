@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genetics & Evolution Vocabulary Master</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        bio: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        dna: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .card-flip {
+            transition: transform 0.4s;
+            transform-style: preserve-3d;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-bio-500 selection:text-white">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo / Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-bio-600 to-dna-500 flex items-center justify-center text-white shadow-md">
+                        <i class="fa-solid to-dna-500 fa-dna text-xl animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg sm:text-xl text-slate-900 leading-tight">BioTerms Studio</h1>
+                        <p class="text-xs text-slate-500 hidden sm:block">Genetics & Evolution Mastery Suite</p>
+                    </div>
+                </div>
+
+                <!-- Global Actions / View Switches -->
+                <div class="flex items-center space-x-2 sm:space-x-4">
+                    <div class="bg-slate-100 p-1 rounded-xl flex text-xs font-semibold">
+                        <button id="viewCardBtn" onclick="switchView('card')" class="px-3 py-1.5 rounded-lg bg-white shadow-sm text-bio-700 transition">
+                            <i class="fa-solid fa-[#0d9488] fa-clone mr-1.5"></i>Focus View
+                        </button>
+                        <button id="viewListBtn" onclick="switchView('list')" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+                            <i class="fa-solid fa-list-ul mr-1.5"></i>Full List
+                        </button>
+                    </div>
+                    <button onclick="resetAllProgress()" class="p-2 text-slate-400 hover:text-red-500 rounded-lg hover:bg-red-50 transition" title="Reset All Progress">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        
+        <!-- Dashboard Top Banner (Stats & Filters) -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm mb-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                
+                <!-- Overall Progress Bar -->
+                <div class="lg:col-span-5 space-y-2">
+                    <div class="flex justify-between items-center text-sm font-semibold">
+                        <span class="text-slate-700">Overall Course Mastery</span>
+                        <span id="progressPercentText" class="text-bio-700 font-bold">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3.5 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                        <div id="progressBar" class="bg-gradient-to-r from-bio-500 to-dna-500 h-full rounded-full transition-all duration-500 w-0"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 pt-1">
+                        <span id="masteredCountText">0 / 20 Terms Mastered</span>
+                        <span id="attemptedCountText">0 Attempted</span>
+                    </div>
+                </div>
+
+                <!-- Stats Breakdown Badges -->
+                <div class="lg:col-span-4 flex items-center justify-around sm:justify-start sm:space-x-4 border-y sm:border-y-0 sm:border-x border-slate-100 py-3 sm:py-0 sm:px-4">
+                    <div class="text-center sm:text-left">
+                        <span class="text-xs font-medium text-emerald-600 uppercase tracking-wider block">Mastered</span>
+                        <span id="badgeGreat" class="text-xl font-bold text-slate-800">0</span>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <span class="text-xs font-medium text-amber-600 uppercase tracking-wider block">Good Start</span>
+                        <span id="badgeGood" class="text-xl font-bold text-slate-800">0</span>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <span class="text-xs font-medium text-rose-500 uppercase tracking-wider block">Needs Detail</span>
+                        <span id="badgeNeedsWork" class="text-xl font-bold text-slate-800">0</span>
+                    </div>
+                </div>
+
+                <!-- Filter & Search Controls -->
+                <div class="lg:col-span-3 flex flex-col sm:flex-row lg:flex-col gap-2">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                        <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Filter terms..." class="w-full pl-9 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-bio-500/20 focus:border-bio-500 transition">
+                    </div>
+                    <select id="statusFilter" onchange="handleFilterChange(this.value)" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-bio-500/20 focus:border-bio-500 text-slate-600">
+                        <option value="all">All Terms (20)</option>
+                        <option value="mastered">Mastered Only</option>
+                        <option value="needs_review">Needs Review</option>
+                        <option value="unattempted">Unattempted</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- VIEW 1: SINGLE FLASHCARD / FOCUS VIEW -->
+        <div id="focusView" class="block">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                
+                <!-- Quick Navigation Sidebar -->
+                <div class="lg:col-span-1 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm h-fit max-h-[600px] flex flex-col">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 px-1">Term Index</h3>
+                    <div id="termIndexList" class="space-y-1.5 overflow-y-auto custom-scrollbar flex-grow pr-1">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Main Card Workshop -->
+                <div class="lg:col-span-3 space-y-4">
+                    <!-- Current Term Container -->
+                    <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm relative">
+                        
+                        <!-- Header & Navigation -->
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span id="termNumberBadge" class="bg-bio-100 text-bio-800 text-xs font-bold px-2.5 py-1 rounded-md">Term 1 of 20</span>
+                                    <span id="termStatusBadge" class="hidden text-xs font-semibold px-2.5 py-1 rounded-md"></span>
+                                </div>
+                                <h2 id="currentTermTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">DNA</h2>
+                            </div>
+                            <button onclick="speakTerm()" class="p-2 text-slate-400 hover:text-bio-600 bg-slate-50 hover:bg-bio-50 rounded-xl transition" title="Listen Term">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                        </div>
+
+                        <!-- Definition Form Input -->
+                        <div class="space-y-4">
+                            <div>
+                                <label for="studentAnswerInput" class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Write your definition below:</label>
+                                <textarea id="studentAnswerInput" rows="4" placeholder="Explain the key characteristics, structure, or function of this biology concept..." class="w-full p-4 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bio-500/30 focus:border-bio-500 text-slate-800 transition resize-y text-sm sm:text-base leading-relaxed"></textarea>
+                            </div>
+
+                            <!-- Buttons Bar -->
+                            <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="checkCurrentAnswer()" class="px-5 py-2.5 bg-gradient-to-r from-bio-600 to-bio-700 hover:from-bio-700 hover:to-bio-800 text-white font-semibold rounded-xl text-sm shadow-md hover:shadow-lg transition flex items-center space-x-2">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                        <span>Check Answer</span>
+                                    </button>
+                                    <button onclick="toggleModelAnswer()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition flex items-center space-x-2">
+                                        <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                                        <span id="modelToggleBtnText">Show Model Answer</span>
+                                    </button>
+                                </div>
+                                
+                                <button onclick="requestAiEvaluation()" id="aiFeedbackBtn" class="px-4 py-2.5 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 text-indigo-700 font-medium rounded-xl text-sm transition flex items-center space-x-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-indigo-600"></i>
+                                    <span>AI Deep Review</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Panel -->
+                        <div id="feedbackPanel" class="hidden mt-6 pt-6 border-t border-slate-100 animate-fadeIn">
+                            <!-- Injected JS -->
+                        </div>
+
+                        <!-- Model Answer Box (Hidden by default) -->
+                        <div id="modelAnswerBox" class="hidden mt-6 p-4 bg-bio-50/70 border border-bio-200 rounded-xl text-slate-800">
+                            <div class="flex items-center space-x-2 text-bio-800 font-bold text-xs uppercase tracking-wider mb-1">
+                                <i class="fa-solid fa-bookmark"></i>
+                                <span>Official Model Definition</span>
+                            </div>
+                            <p id="modelAnswerText" class="text-sm leading-relaxed text-slate-700 italic">--</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Bottom Nav Controls -->
+                    <div class="flex justify-between items-center bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+                        <button onclick="prevTerm()" id="prevBtn" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span>Previous Term</span>
+                        </button>
+                        <span id="termCounterBottom" class="text-xs font-semibold text-slate-500">Term 1 of 20</span>
+                        <button onclick="nextTerm()" id="nextBtn" class="px-4 py-2 bg-bio-600 hover:bg-bio-700 text-white font-medium rounded-xl text-sm shadow-sm transition flex items-center space-x-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <span>Next Term</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- VIEW 2: FULL LIST VIEW -->
+        <div id="listView" class="hidden space-y-6">
+            <div id="fullListContainer" class="space-y-4">
+                <!-- JS will render all terms here -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>Biology Genetics & Evolution Interactive Learning Tool • High School & Introductory College Curriculum</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Term Database & Keywords Analysis Definition
+        const termsData = [
+            {
+                id: 1,
+                term: "DNA",
+                definition: "DNA is a large molecule that carries the genetic information and is coiled up into a double-helix structure.",
+                keywords: ["molecule", "carries", "genetic information", "coiled", "double-helix", "structure"],
+                conceptCheck: ["genetic information", "double-helix"]
+            },
+            {
+                id: 2,
+                term: "Meiosis",
+                definition: "A type of cell division that creates 4 genetically unique sex cells called gametes.",
+                keywords: ["cell division", "creates 4", "genetically unique", "sex cells", "gametes"],
+                conceptCheck: ["cell division", "4", "unique", "gametes"]
+            },
+            {
+                id: 3,
+                term: "Chromosome",
+                definition: "Chromosomes are long strands of DNA tightly wound together.",
+                keywords: ["long strands", "DNA", "tightly wound", "together"],
+                conceptCheck: ["strands of dna", "tightly wound"]
+            },
+            {
+                id: 4,
+                term: "Random Fertilisation",
+                definition: "A random sperm and egg with half of the genetic information (haploid) will fuse together to form a zygote. This will have a combination of DNA from both parents.",
+                keywords: ["random", "sperm", "egg", "haploid", "fuse", "zygote", "combination", "both parents"],
+                conceptCheck: ["sperm and egg", "haploid", "zygote", "both parents"]
+            },
+            {
+                id: 5,
+                term: "Allele",
+                definition: "An alternative version of the same gene (example: light and dark colour of moths).",
+                keywords: ["alternative version", "same gene", "different form", "variant"],
+                conceptCheck: ["alternative version", "gene"]
+            },
+            {
+                id: 6,
+                term: "Natural selection",
+                definition: "Organisms with characteristics that are best suited to the environment will survive, reproduce and pass on their favourable alleles. (Note: There must be variation already present in the population.)",
+                keywords: ["best suited", "environment", "survive", "reproduce", "pass on", "favourable alleles", "variation"],
+                conceptCheck: ["suited", "survive", "reproduce", "favourable alleles"]
+            },
+            {
+                id: 7,
+                term: "Gene",
+                definition: "A gene is a section of the DNA sequence that codes a specific trait or characteristic. (example: wing colour in moths)",
+                keywords: ["section", "DNA sequence", "codes", "specific trait", "characteristic"],
+                conceptCheck: ["section of dna", "codes", "trait"]
+            },
+            {
+                id: 8,
+                term: "Sexual reproduction",
+                definition: "Offspring are produced through the combination of genetic material from two parent organisms.",
+                keywords: ["offspring", "combination", "genetic material", "two parent", "organisms"],
+                conceptCheck: ["combination", "genetic material", "two parents"]
+            },
+            {
+                id: 9,
+                term: "Non-random mating",
+                definition: "Sexual reproduction that has not occurred due to chance, rather each mate has ‘chosen’ the other for a particular reason.",
+                keywords: ["not occurred due to chance", "chosen", "particular reason", "selective"],
+                conceptCheck: ["not by chance", "chosen"]
+            },
+            {
+                id: 10,
+                term: "Phenotype",
+                definition: "Phenotype is the physical expression of the genotype – the observable characteristics or traits resulting from the genotype and environment.",
+                keywords: ["physical expression", "observable characteristics", "traits", "genotype", "environment"],
+                conceptCheck: ["physical expression", "observable", "genotype"]
+            },
+            {
+                id: 11,
+                term: "Heritable traits",
+                definition: "Traits/alleles that can be passed onto offspring. Must be in the gametes (sex cells).",
+                keywords: ["passed onto offspring", "gametes", "sex cells", "inherited"],
+                conceptCheck: ["passed to offspring", "gametes"]
+            },
+            {
+                id: 12,
+                term: "Non-heritable",
+                definition: "Traits/alleles that cannot be passed down to offspring as it is either not genetic (scar) or is only in somatic (body) cells.",
+                keywords: ["cannot be passed", "not genetic", "somatic", "body cells"],
+                conceptCheck: ["cannot be passed", "not genetic", "somatic"]
+            },
+            {
+                id: 13,
+                term: "Genotype",
+                definition: "The combination of alleles for each trait (example: BB, bb or Bb).",
+                keywords: ["combination of alleles", "trait", "BB", "bb", "Bb", "genetic makeup"],
+                conceptCheck: ["combination of alleles"]
+            },
+            {
+                id: 14,
+                term: "Gene tracking",
+                definition: "How we can trace the inheritance of genes through families so genetic disorders can be diagnosed.",
+                keywords: ["trace", "inheritance", "families", "genetic disorders", "diagnosed"],
+                conceptCheck: ["trace inheritance", "families"]
+            },
+            {
+                id: 15,
+                term: "Mutation",
+                definition: "A permanent change in the base sequence of DNA that can cause a new allele.",
+                keywords: ["permanent change", "base sequence", "DNA", "new allele"],
+                conceptCheck: ["change in base sequence", "new allele"]
+            },
+            {
+                id: 16,
+                term: "Pedigree chart",
+                definition: "Shows the inheritance of a trait or health condition through generations of a family. (this is a way of tracking genes)",
+                keywords: ["shows inheritance", "trait", "health condition", "generations", "family"],
+                conceptCheck: ["inheritance", "generations", "family"]
+            },
+            {
+                id: 17,
+                term: "Punnett square",
+                definition: "A punnett square is used to predict the genotypes and phenotypes of offspring from two parents.",
+                keywords: ["predict", "genotypes", "phenotypes", "offspring", "two parents"],
+                conceptCheck: ["predict", "genotypes", "phenotypes"]
+            },
+            {
+                id: 18,
+                term: "Genetic variation",
+                definition: "Genetic variation is the difference between the genes/alleles in a population. (example: there is genetic variation in the moth colours as the alleles have a different DNA sequence)",
+                keywords: ["difference", "genes", "alleles", "population", "dna sequence"],
+                conceptCheck: ["difference", "alleles", "population"]
+            },
+            {
+                id: 19,
+                term: "Independent assortment",
+                definition: "During meiosis, homologous chromosomes will line up randomly in their pairs, increasing the combinations of alleles in each gamete.",
+                keywords: ["meiosis", "homologous chromosomes", "line up randomly", "pairs", "combinations of alleles", "gamete"],
+                conceptCheck: ["homologous chromosomes", "line up randomly", "combinations"]
+            },
+            {
+                id: 20,
+                term: "Crossing over",
+                definition: "During meiosis, homologous chromosomes will exchange segments of DNA, increasing the combinations of alleles in each gamete.",
+                keywords: ["meiosis", "homologous chromosomes", "exchange segments", "DNA", "combinations of alleles", "gamete"],
+                conceptCheck: ["homologous chromosomes", "exchange segments", "dna"]
+            }
+        ];
+
+        // State Management
+        let currentIndex = 0;
+        let activeView = 'card'; // 'card' or 'list'
+        let userProgress = {}; // { termId: { answer: "", rating: "Great Job|Good Start|Needs Detail", score: 0-100, lastChecked: timestamp } }
+        let currentFilter = 'all';
+        let searchQuery = '';
+
+        // Init App
+        window.onload = function() {
+            loadSavedProgress();
+            renderTermIndex();
+            loadTerm(0);
+            updateGlobalStats();
+        };
+
+        // Load & Save LocalStorage
+        function loadSavedProgress() {
+            try {
+                const saved = localStorage.getItem('bioterms_progress');
+                if (saved) {
+                    userProgress = JSON.parse(saved);
+                }
+            } catch(e) {
+                console.error("Could not load saved progress", e);
+            }
+        }
+
+        function saveProgress() {
+            try {
+                localStorage.setItem('bioterms_progress', JSON.stringify(userProgress));
+            } catch(e) {
+                console.error("Could not save progress", e);
+            }
+        }
+
+        function resetAllProgress() {
+            if(confirm("Are you sure you want to clear all your answers and progress scores?")) {
+                userProgress = {};
+                saveProgress();
+                loadTerm(currentIndex);
+                renderTermIndex();
+                updateGlobalStats();
+                if(activeView === 'list') renderFullList();
+            }
+        }
+
+        // View Switcher
+        function switchView(view) {
+            activeView = view;
+            const focusView = document.getElementById('focusView');
+            const listView = document.getElementById('listView');
+            const cardBtn = document.getElementById('viewCardBtn');
+            const listBtn = document.getElementById('viewListBtn');
+
+            if (view === 'card') {
+                focusView.classList.remove('hidden');
+                listView.classList.add('hidden');
+                cardBtn.className = "px-3 py-1.5 rounded-lg bg-white shadow-sm text-bio-700 font-semibold transition";
+                listBtn.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+            } else {
+                focusView.classList.add('hidden');
+                listView.classList.remove('hidden');
+                listBtn.className = "px-3 py-1.5 rounded-lg bg-white shadow-sm text-bio-700 font-semibold transition";
+                cardBtn.className = "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+                renderFullList();
+            }
+        }
+
+        // Filter Terms Array
+        function getFilteredTerms() {
+            return termsData.filter(item => {
+                const matchesSearch = item.term.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                     item.definition.toLowerCase().includes(searchQuery.toLowerCase());
+                
+                const prog = userProgress[item.id];
+                let matchesStatus = true;
+                if (currentFilter === 'mastered') {
+                    matchesStatus = prog && prog.rating === 'Great Job';
+                } else if (currentFilter === 'needs_review') {
+                    matchesStatus = prog && (prog.rating === 'Good Start' || prog.rating === 'Needs Detail');
+                } else if (currentFilter === 'unattempted') {
+                    matchesStatus = !prog || !prog.answer;
+                }
+
+                return matchesSearch && matchesStatus;
+            });
+        }
+
+        // Render Index Sidebar (Focus View)
+        function renderTermIndex() {
+            const indexContainer = document.getElementById('termIndexList');
+            indexContainer.innerHTML = '';
+
+            termsData.forEach((t, idx) => {
+                const prog = userProgress[t.id];
+                let badgeColor = "bg-slate-100 text-slate-400";
+                let icon = "fa-circle-dot";
+
+                if (prog && prog.rating === 'Great Job') {
+                    badgeColor = "bg-emerald-100 text-emerald-600";
+                    icon = "fa-circle-check";
+                } else if (prog && prog.rating === 'Good Start') {
+                    badgeColor = "bg-amber-100 text-amber-600";
+                    icon = "fa-triangle-exclamation";
+                } else if (prog && prog.rating === 'Needs Detail') {
+                    badgeColor = "bg-rose-100 text-rose-500";
+                    icon = "fa-circle-xmark";
+                }
+
+                const isActive = idx === currentIndex;
+                const activeClass = isActive ? "bg-bio-50 border-bio-500 font-semibold text-bio-900" : "bg-white border-transparent hover:bg-slate-50 text-slate-700";
+
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left px-3 py-2 rounded-xl border text-xs flex items-center justify-between transition ${activeClass}`;
+                btn.onclick = () => loadTerm(idx);
+
+                btn.innerHTML = `
+                    <span class="truncate pr-2">${idx + 1}. ${t.term}</span>
+                    <i class="fa-solid ${icon} ${badgeColor} p-1 rounded-full text-[10px]"></i>
+                `;
+                indexContainer.appendChild(btn);
+            });
+        }
+
+        // Load Term into Card View
+        function loadTerm(index) {
+            currentIndex = index;
+            const item = termsData[currentIndex];
+
+            document.getElementById('currentTermTitle').innerText = item.term;
+            document.getElementById('termNumberBadge').innerText = `Term ${currentIndex + 1} of ${termsData.length}`;
+            document.getElementById('modelAnswerText').innerText = item.definition;
+
+            // Reset UI States
+            document.getElementById('modelAnswerBox').classList.add('hidden');
+            document.getElementById('modelToggleBtnText').innerText = "Show Model Answer";
+            document.getElementById('feedbackPanel').classList.add('hidden');
+            document.getElementById('feedbackPanel').innerHTML = '';
+
+            // Previous user input
+            const prog = userProgress[item.id];
+            const answerInput = document.getElementById('studentAnswerInput');
+            answerInput.value = prog ? prog.answer : '';
+
+            // Update Status Badge
+            const statusBadge = document.getElementById('termStatusBadge');
+            if (prog && prog.rating) {
+                statusBadge.classList.remove('hidden');
+                if (prog.rating === 'Great Job') {
+                    statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-700";
+                    statusBadge.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Mastered`;
+                } else if (prog.rating === 'Good Start') {
+                    statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-700";
+                    statusBadge.innerHTML = `<i class="fa-solid fa-star-half-stroke mr-1"></i> Good Start`;
+                } else {
+                    statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-100 text-rose-700";
+                    statusBadge.innerHTML = `<i class="fa-solid fa-rotate-right mr-1"></i> Needs Detail`;
+                }
+            } else {
+                statusBadge.classList.add('hidden');
+            }
+
+            // Button states
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === termsData.length - 1;
+            document.getElementById('termCounterBottom').innerText = `Term ${currentIndex + 1} of ${termsData.length}`;
+
+            renderTermIndex();
+        }
+
+        function prevTerm() {
+            if (currentIndex > 0) loadTerm(currentIndex - 1);
+        }
+
+        function nextTerm() {
+            if (currentIndex < termsData.length - 1) loadTerm(currentIndex + 1);
+        }
+
+        function toggleModelAnswer() {
+            const box = document.getElementById('modelAnswerBox');
+            const btnText = document.getElementById('modelToggleBtnText');
+            if (box.classList.contains('hidden')) {
+                box.classList.remove('hidden');
+                btnText.innerText = "Hide Model Answer";
+            } else {
+                box.classList.add('hidden');
+                btnText.innerText = "Show Model Answer";
+            }
+        }
+
+        // Intelligent Keyword-Based Evaluation Algorithm
+        function evaluateAnswer(userAns, termItem) {
+            if (!userAns || userAns.trim().length === 0) {
+                return {
+                    rating: "Needs Detail",
+                    score: 0,
+                    matchedKeywords: [],
+                    missingKeywords: termItem.keywords,
+                    feedback: "Please provide a definition before checking."
+                };
+            }
+
+            const cleanInput = userAns.toLowerCase();
+            let matchedCount = 0;
+            const matched = [];
+            const missing = [];
+
+            // Concept checks
+            termItem.keywords.forEach(kw => {
+                const kwLower = kw.toLowerCase();
+                if (cleanInput.includes(kwLower)) {
+                    matchedCount++;
+                    matched.push(kw);
+                } else {
+                    missing.push(kw);
+                }
+            });
+
+            // Calculate accuracy percentage based on keyword & concept matches
+            const ratio = matchedCount / termItem.keywords.length;
+            let rating = "Needs Detail";
+            let feedback = "";
+
+            if (ratio >= 0.65 || (matchedCount >= 3 && ratio >= 0.5)) {
+                rating = "Great Job";
+                feedback = "Excellent! Your definition captures the core biological concepts clearly.";
+            } else if (ratio >= 0.35 || matchedCount >= 2) {
+                rating = "Good Start";
+                feedback = "Good response! You have key elements, but missed a few crucial terms or details to make it complete.";
+            } else {
+                rating = "Needs Detail";
+                feedback = "Your answer is too vague or missing key biological terminology. Compare with the model definition.";
+            }
+
+            return {
+                rating,
+                score: Math.round(ratio * 100),
+                matchedKeywords: matched,
+                missingKeywords: missing,
+                feedback
+            };
+        }
+
+        // Check Answer in Focus Card View
+        function checkCurrentAnswer() {
+            const item = termsData[currentIndex];
+            const answerInput = document.getElementById('studentAnswerInput').value;
+            const evalResult = evaluateAnswer(answerInput, item);
+
+            // Save Progress
+            userProgress[item.id] = {
+                answer: answerInput,
+                rating: evalResult.rating,
+                score: evalResult.score,
+                lastChecked: Date.now()
+            };
+            saveProgress();
+            updateGlobalStats();
+            renderTermIndex();
+
+            // Display Feedback Panel
+            const panel = document.getElementById('feedbackPanel');
+            panel.classList.remove('hidden');
+
+            let headerStyle = "bg-rose-50 border-rose-200 text-rose-800";
+            let badgeIcon = "fa-circle-xmark text-rose-500";
+            
+            if (evalResult.rating === "Great Job") {
+                headerStyle = "bg-emerald-50 border-emerald-200 text-emerald-800";
+                badgeIcon = "fa-circle-check text-emerald-500";
+            } else if (evalResult.rating === "Good Start") {
+                headerStyle = "bg-amber-50 border-amber-200 text-amber-800";
+                badgeIcon = "fa-triangle-exclamation text-amber-500";
+            }
+
+            panel.innerHTML = `
+                <div class="p-4 rounded-xl border ${headerStyle} mb-4">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid ${badgeIcon} text-xl"></i>
+                        <div>
+                            <h4 class="font-bold text-base">${evalResult.rating}</h4>
+                            <p class="text-xs sm:text-sm mt-0.5">${evalResult.feedback}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <span class="font-bold text-slate-700 block mb-1.5"><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Concepts Included:</span>
+                        ${evalResult.matchedKeywords.length > 0 
+                            ? `<div class="flex flex-wrap gap-1">${evalResult.matchedKeywords.map(k => `<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs font-medium">${k}</span>`).join('')}</div>`
+                            : `<span class="text-slate-400 italic">None detected</span>`}
+                    </div>
+
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                        <span class="font-bold text-slate-700 block mb-1.5"><i class="fa-solid fa-plus text-amber-500 mr-1"></i> Key Concepts to Add:</span>
+                        ${evalResult.missingKeywords.length > 0 
+                            ? `<div class="flex flex-wrap gap-1">${evalResult.missingKeywords.map(k => `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-xs font-medium">${k}</span>`).join('')}</div>`
+                            : `<span class="text-emerald-600 font-medium">All core concepts covered!</span>`}
+                    </div>
+                </div>
+            `;
+
+            // Update local badge
+            const statusBadge = document.getElementById('termStatusBadge');
+            statusBadge.classList.remove('hidden');
+            if (evalResult.rating === 'Great Job') {
+                statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-700";
+                statusBadge.innerHTML = `<i class="fa-solid fa-check mr-1"></i> Mastered`;
+            } else if (evalResult.rating === 'Good Start') {
+                statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-700";
+                statusBadge.innerHTML = `<i class="fa-solid fa-star-half-stroke mr-1"></i> Good Start`;
+            } else {
+                statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-100 text-rose-700";
+                statusBadge.innerHTML = `<i class="fa-solid fa-rotate-right mr-1"></i> Needs Detail`;
+            }
+        }
+
+        // Gemini AI Evaluation (Integration with gemini-3-flash-preview)
+        async function requestAiEvaluation() {
+            const item = termsData[currentIndex];
+            const answerInput = document.getElementById('studentAnswerInput').value;
+
+            if (!answerInput || answerInput.trim().length === 0) {
+                alert("Please type a definition first before requesting AI Deep Review.");
+                return;
+            }
+
+            const aiBtn = document.getElementById('aiFeedbackBtn');
+            const originalBtnContent = aiBtn.innerHTML;
+            aiBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Analyzing...</span>`;
+            aiBtn.disabled = true;
+
+            const systemInstruction = `You are a strict yet encouraging High School Biology Teacher. 
+Evaluate the student's definition of the genetics term against the target definition.
+Provide concise feedback (maximum 3 sentences) explaining if their definition is accurate, what key scientific concepts they got right, and what they need to fix or add for maximum credit in an exam.`;
+
+            const prompt = `Term: "${item.term}"
+Target Model Definition: "${item.definition}"
+Student's Written Definition: "${answerInput}"`;
+
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        systemInstruction: { parts: [{ text: systemInstruction }] }
+                    })
+                });
+
+                const data = await response.json();
+                const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "Unable to generate AI analysis at this time.";
+
+                const panel = document.getElementById('feedbackPanel');
+                panel.classList.remove('hidden');
+
+                const aiCard = document.createElement('div');
+                aiCard.className = "mt-4 p-4 bg-indigo-50/80 border border-indigo-200 rounded-xl text-indigo-950 text-sm animate-fadeIn";
+                aiCard.innerHTML = `
+                    <div class="flex items-center space-x-2 text-indigo-700 font-bold text-xs uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>AI Tutor Deep Feedback</span>
+                    </div>
+                    <p class="leading-relaxed text-slate-800">${aiText}</p>
+                `;
+                panel.appendChild(aiCard);
+
+            } catch (err) {
+                console.error("AI Evaluation error:", err);
+                alert("Could not fetch AI Feedback right now. Please rely on the keyword checker.");
+            } finally {
+                aiBtn.innerHTML = originalBtnContent;
+                aiBtn.disabled = false;
+            }
+        }
+
+        // Render Full List View
+        function renderFullList() {
+            const container = document.getElementById('fullListContainer');
+            container.innerHTML = '';
+
+            const filtered = getFilteredTerms();
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-8 text-center rounded-2xl border border-slate-200 text-slate-500">
+                        <i class="fa-solid fa-filter-circle-xmark text-3xl mb-2 text-slate-300"></i>
+                        <p>No terms match your search or filter criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const prog = userProgress[item.id];
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4";
+                
+                let ratingBadge = `<span class="bg-slate-100 text-slate-500 text-xs font-semibold px-2.5 py-1 rounded-md">Unattempted</span>`;
+                if (prog && prog.rating === 'Great Job') {
+                    ratingBadge = `<span class="bg-emerald-100 text-emerald-700 text-xs font-semibold px-2.5 py-1 rounded-md"><i class="fa-solid fa-check mr-1"></i> Mastered</span>`;
+                } else if (prog && prog.rating === 'Good Start') {
+                    ratingBadge = `<span class="bg-amber-100 text-amber-700 text-xs font-semibold px-2.5 py-1 rounded-md"><i class="fa-solid fa-star-half-stroke mr-1"></i> Good Start</span>`;
+                } else if (prog && prog.rating === 'Needs Detail') {
+                    ratingBadge = `<span class="bg-rose-100 text-rose-700 text-xs font-semibold px-2.5 py-1 rounded-md"><i class="fa-solid fa-rotate-right mr-1"></i> Needs Detail</span>`;
+                }
+
+                itemDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Term #${item.id}</span>
+                            <h3 class="text-xl font-bold text-slate-900">${item.term}</h3>
+                        </div>
+                        <div>${ratingBadge}</div>
+                    </div>
+
+                    <div>
+                        <textarea id="list_input_${item.id}" rows="2" placeholder="Write definition..." class="w-full p-3 border border-slate-200 rounded-xl bg-slate-50 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-bio-500/30 transition">${prog ? prog.answer : ''}</textarea>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="space-x-2">
+                            <button onclick="checkListAnswer(${item.id})" class="px-3.5 py-1.5 bg-bio-600 hover:bg-bio-700 text-white font-medium rounded-lg text-xs transition">Check</button>
+                            <button onclick="toggleListModel(${item.id})" class="px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg text-xs transition">Toggle Model Answer</button>
+                        </div>
+                        <button onclick="jumpToTermInFocus(${item.id})" class="text-xs text-bio-600 font-semibold hover:underline">Focus View <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i></button>
+                    </div>
+
+                    <div id="list_model_${item.id}" class="hidden p-3 bg-bio-50 border border-bio-200 rounded-xl text-xs text-slate-700 italic">
+                        <strong>Model Answer:</strong> ${item.definition}
+                    </div>
+
+                    <div id="list_feedback_${item.id}" class="hidden text-xs"></div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function checkListAnswer(id) {
+            const item = termsData.find(t => t.id === id);
+            const inputVal = document.getElementById(`list_input_${id}`).value;
+            const res = evaluateAnswer(inputVal, item);
+
+            userProgress[id] = {
+                answer: inputVal,
+                rating: res.rating,
+                score: res.score,
+                lastChecked: Date.now()
+            };
+            saveProgress();
+            updateGlobalStats();
+
+            const fbBox = document.getElementById(`list_feedback_${id}`);
+            fbBox.classList.remove('hidden');
+            fbBox.className = `p-3 rounded-xl border text-xs ${res.rating === 'Great Job' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : res.rating === 'Good Start' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-rose-50 border-rose-200 text-rose-800'}`;
+            fbBox.innerHTML = `<strong>${res.rating}:</strong> ${res.feedback}`;
+            
+            renderFullList();
+        }
+
+        function toggleListModel(id) {
+            const m = document.getElementById(`list_model_${id}`);
+            m.classList.toggle('hidden');
+        }
+
+        function jumpToTermInFocus(id) {
+            const idx = termsData.findIndex(t => t.id === id);
+            if (idx !== -1) {
+                switchView('card');
+                loadTerm(idx);
+            }
+        }
+
+        // Global Stats Calculation
+        function updateGlobalStats() {
+            let mastered = 0;
+            let good = 0;
+            let needsWork = 0;
+            let totalAttempted = 0;
+
+            termsData.forEach(t => {
+                const prog = userProgress[t.id];
+                if (prog && prog.answer && prog.answer.trim().length > 0) {
+                    totalAttempted++;
+                    if (prog.rating === 'Great Job') mastered++;
+                    else if (prog.rating === 'Good Start') good++;
+                    else if (prog.rating === 'Needs Detail') needsWork++;
+                }
+            });
+
+            const pct = Math.round((mastered / termsData.length) * 100);
+
+            document.getElementById('progressBar').style.width = `${pct}%`;
+            document.getElementById('progressPercentText').innerText = `${pct}%`;
+            document.getElementById('masteredCountText').innerText = `${mastered} / ${termsData.length} Terms Mastered`;
+            document.getElementById('attemptedCountText').innerText = `${totalAttempted} Attempted`;
+
+            document.getElementById('badgeGreat').innerText = mastered;
+            document.getElementById('badgeGood').innerText = good;
+            document.getElementById('badgeNeedsWork').innerText = needsWork;
+        }
+
+        // Search & Filter Handlers
+        function handleSearch(val) {
+            searchQuery = val;
+            if (activeView === 'list') renderFullList();
+        }
+
+        function handleFilterChange(val) {
+            currentFilter = val;
+            if (activeView === 'list') renderFullList();
+        }
+
+        // Text To Speech Accessibility
+        function speakTerm() {
+            const item = termsData[currentIndex];
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(`${item.term}. Definition: ${item.definition}`);
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert("Speech synthesis is not supported in your browser.");
+            }
+        }
+    </script>
+</body>
+</html>
