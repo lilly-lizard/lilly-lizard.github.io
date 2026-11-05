@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Arithmetic Operators Practice</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for dark modern feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased pb-12">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-amber-500 to-blue-500 p-2 rounded-lg text-slate-950 font-bold text-xl">
+                    <i class="fa-brands fa-python"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white">Python Operator Lab</h1>
+                    <p class="text-xs text-slate-400">Master arithmetic expressions & precedence</p>
+                </div>
+            </div>
+
+            <!-- Scoreboard -->
+            <div class="flex items-center gap-4 bg-slate-800/90 border border-slate-700/60 px-4 py-2 rounded-xl">
+                <div class="text-sm">
+                    <span class="text-slate-400">Score: </span>
+                    <span id="score-display" class="font-bold text-amber-400 text-base">0</span>
+                    <span class="text-slate-500"> / </span>
+                    <span id="total-questions" class="text-slate-300">0</span>
+                </div>
+                <button id="reset-btn" onclick="resetQuiz()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-200 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 font-medium border border-slate-600">
+                    <i class="fa-solid fa-rotate-right"></i> Reset
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 pt-8">
+        
+        <!-- Cheat Sheet Drawer (Collapsible) -->
+        <details class="mb-8 group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg transition-all">
+            <summary class="flex items-center justify-between p-4 font-semibold text-slate-200 cursor-pointer hover:bg-slate-800/50 transition">
+                <span class="flex items-center gap-2 text-amber-400">
+                    <i class="fa-solid fa-lightbulb"></i> Python Arithmetic Operator Reference Guide
+                </span>
+                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform group-open:rotate-180"></i>
+            </summary>
+            <div class="p-4 border-t border-slate-800 text-sm text-slate-300 grid grid-cols-1 md:grid-cols-2 gap-3 bg-slate-950/50">
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                    <code class="text-amber-400 font-mono font-bold">**</code> <span class="font-bold text-white">Exponentiation</span>
+                    <p class="text-xs text-slate-400 mt-1">Raises left side to power of right side. e.g., <code class="text-emerald-400">2**3 = 8</code></p>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                    <code class="text-amber-400 font-mono font-bold">//</code> <span class="font-bold text-white">Floor Division</span>
+                    <p class="text-xs text-slate-400 mt-1">Divides & rounds DOWN to nearest whole integer. e.g., <code class="text-emerald-400">7//2 = 3</code></p>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                    <code class="text-amber-400 font-mono font-bold">%</code> <span class="font-bold text-white">Modulo</span>
+                    <p class="text-xs text-slate-400 mt-1">Returns the remainder of a division. e.g., <code class="text-emerald-400">10%3 = 1</code></p>
+                </div>
+                <div class="bg-slate-900 p-3 rounded-lg border border-slate-800">
+                    <code class="text-amber-400 font-mono font-bold">/</code> <span class="font-bold text-white">Float Division</span>
+                    <p class="text-xs text-slate-400 mt-1">Standard division (always returns a float). e.g., <code class="text-emerald-400">5/2 = 2.5</code></p>
+                </div>
+            </div>
+        </details>
+
+        <!-- Questions Section -->
+        <div id="questions-container" class="space-y-6">
+            <!-- Questions rendered via JS dynamically -->
+        </div>
+
+        <!-- Completion Modal / Toast -->
+        <div id="completion-banner" class="hidden mt-10 p-6 bg-gradient-to-r from-emerald-950 to-slate-900 border border-emerald-500/50 rounded-2xl text-center space-y-3">
+            <i class="fa-solid fa-trophy text-amber-400 text-4xl"></i>
+            <h2 class="text-2xl font-bold text-white">Awesome Job! Quiz Completed!</h2>
+            <p id="completion-msg" class="text-slate-300"></p>
+            <button onclick="resetQuiz()" class="mt-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-lg">
+                Try Quiz Again
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // Array of Python questions
+        const questionsData = [
+            {
+                id: 1,
+                snippet: "z = 10 + 5**2",
+                targetVar: "z",
+                answer: 35,
+                type: "number",
+                operators: ["**", "+"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">How Python calculates this:</p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-300">
+                            <li><strong>Exponentiation (<code class="text-amber-400 font-mono">**</code>)</strong> has higher precedence than addition (<code class="text-amber-400 font-mono">+</code>).</li>
+                            <li>First, compute <code class="text-emerald-400 font-mono">5**2</code> = 5² = <code class="text-emerald-400 font-mono">25</code>.</li>
+                            <li>Then, add 10: <code class="text-emerald-400 font-mono">10 + 25 = 35</code>.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                snippet: "z = 17 // 3",
+                targetVar: "z",
+                answer: 5,
+                type: "number",
+                operators: ["//"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">What is Floor Division (<code class="text-amber-400 font-mono">//</code>)?</p>
+                        <p class="text-slate-300">Floor division divides two numbers and rounds the result <strong>down</strong> to the nearest whole integer, discarding any decimal fractional part.</p>
+                        <p class="text-slate-300"><code class="text-emerald-400 font-mono">17 / 3 = 5.6666...</code> &rarr; rounding down gives <code class="text-emerald-400 font-mono">5</code>.</p>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                snippet: "z = 17 % 5",
+                targetVar: "z",
+                answer: 2,
+                type: "number",
+                operators: ["%"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">What is Modulo (<code class="text-amber-400 font-mono">%</code>)?</p>
+                        <p class="text-slate-300">The modulo operator returns the <strong>remainder</strong> of dividing the first number by the second.</p>
+                        <p class="text-slate-300"><code class="text-slate-400 font-mono">17 ÷ 5 = 3 with a remainder of 2</code>. Thus, <code class="text-emerald-400 font-mono">17 % 5 = 2</code>.</p>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                snippet: "z = (4 + 2) * 3**2",
+                targetVar: "z",
+                answer: 54,
+                type: "number",
+                operators: ["()", "**", "*"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">Operator Precedence breakdown (PEMDAS):</p>
+                        <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                            <li>Parentheses <code class="text-amber-400 font-mono">()</code> come first: <code class="text-emerald-400 font-mono">(4 + 2) = 6</code></li>
+                            <li>Exponents <code class="text-amber-400 font-mono">**</code> come second: <code class="text-emerald-400 font-mono">3**2 = 9</code></li>
+                            <li>Multiplication <code class="text-amber-400 font-mono">*</code> comes last: <code class="text-emerald-400 font-mono">6 * 9 = 54</code></li>
+                        </ol>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                snippet: "z = 20 - 6 / 2",
+                targetVar: "z",
+                answer: 17,
+                type: "number",
+                operators: ["/", "-"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">Understanding Division in Python:</p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-300">
+                            <li>Division (<code class="text-amber-400 font-mono">/</code>) happens before Subtraction (<code class="text-amber-400 font-mono">-</code>).</li>
+                            <li><code class="text-emerald-400 font-mono">6 / 2 = 3.0</code> (or <code class="text-emerald-400 font-mono">3</code>).</li>
+                            <li><code class="text-emerald-400 font-mono">20 - 3 = 17</code>.</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                snippet: "z = 2**3**2",
+                targetVar: "z",
+                answer: 512,
+                type: "number",
+                operators: ["**"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">Tricky Rule: Right-to-Left Exponentiation</p>
+                        <p class="text-slate-300">In Python, exponentiation (<code class="text-amber-400 font-mono">**</code>) groups from <strong>RIGHT to LEFT</strong>!</p>
+                        <ul class="list-disc list-inside space-y-1 text-slate-300">
+                            <li>First evaluate rightmost power: <code class="text-emerald-400 font-mono">3**2 = 9</code>.</li>
+                            <li>Then evaluate: <code class="text-emerald-400 font-mono">2**9 = 512</code>.</li>
+                            <li>(Note: It is NOT <code class="text-slate-400">(2**3)**2 = 64</code>).</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                snippet: "z = 19 % 4 + 10 // 3",
+                targetVar: "z",
+                answer: 6,
+                type: "number",
+                operators: ["%", "//", "+"],
+                explanation: `
+                    <div class="space-y-2">
+                        <p class="font-semibold text-slate-200">Combining Modulo and Floor Division:</p>
+                        <ol class="list-decimal list-inside space-y-1 text-slate-300">
+                            <li>Modulo (<code class="text-amber-400 font-mono">%</code>) & Floor Div (<code class="text-amber-400 font-mono">//</code>) have higher priority than Addition (<code class="text-amber-400 font-mono">+</code>).</li>
+                            <li><code class="text-emerald-400 font-mono">19 % 4</code> = 3 (19 divided by 4 leaves remainder 3).</li>
+                            <li><code class="text-emerald-400 font-mono">10 // 3</code> = 3 (10 divided by 3 rounded down).</li>
+                            <li>Finally: <code class="text-emerald-400 font-mono">3 + 3 = 6</code>.</li>
+                        </ol>
+                    </div>
+                `
+            }
+        ];
+
+        // User answers state
+        let answeredQuestions = {};
+
+        // Render questions on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            updateScore();
+        });
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            document.getElementById('total-questions').textContent = questionsData.length;
+            container.innerHTML = '';
+
+            questionsData.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.id = `question-card-${q.id}`;
+                card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl transition-all duration-300 hover:border-slate-700/80";
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-400/10 border border-amber-400/20 px-3 py-1 rounded-full">
+                            Question ${index + 1} of ${questionsData.length}
+                        </span>
+                        <div id="status-badge-${q.id}" class="hidden text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5"></div>
+                    </div>
+
+                    <!-- Code Box -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-sm sm:text-base text-slate-200 shadow-inner mb-5 relative group">
+                        <div class="text-slate-500 text-xs mb-1 select-none"># Python Code</div>
+                        <div class="leading-relaxed">
+                            <span class="text-purple-400 font-semibold">${q.snippet.split('=')[0].trim()}</span> 
+                            <span class="text-amber-400 font-semibold">=</span> 
+                            <span class="text-cyan-300 font-medium">${q.snippet.split('=')[1].trim()}</span>
+                        </div>
+                        <div class="mt-1">
+                            <span class="text-purple-400 font-semibold">${q.targetVar}</span> 
+                            <span class="text-amber-400 font-semibold">=</span> 
+                            <span class="text-slate-500 underline underline-offset-4 font-bold decoration-amber-500/50">____</span>
+                        </div>
+                    </div>
+
+                    <!-- Input Form -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <div class="relative flex-1">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none font-mono text-slate-500">
+                                ${q.targetVar} = 
+                            </span>
+                            <input 
+                                type="number" 
+                                id="input-${q.id}" 
+                                placeholder="Enter calculated value"
+                                onkeydown="if(event.key === 'Enter') checkAnswer(${q.id})"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-12 pr-4 py-2.5 text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-slate-600 transition"
+                            />
+                        </div>
+                        <button 
+                            id="btn-${q.id}"
+                            onclick="checkAnswer(${q.id})" 
+                            class="bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold px-6 py-2.5 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
+                        >
+                            <i class="fa-solid fa-play text-xs"></i> Check Answer
+                        </button>
+                    </div>
+
+                    <!-- Feedback Area -->
+                    <div id="feedback-${q.id}" class="hidden mt-4 pt-4 border-t border-slate-800/80 transition-all"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function checkAnswer(qId) {
+            const q = questionsData.find(item => item.id === qId);
+            const inputEl = document.getElementById(`input-${qId}`);
+            const userVal = parseFloat(inputEl.value.trim());
+            const feedbackEl = document.getElementById(`feedback-${qId}`);
+            const statusBadge = document.getElementById(`status-badge-${qId}`);
+            const card = document.getElementById(`question-card-${qId}`);
+
+            if (isNaN(userVal)) {
+                feedbackEl.className = "mt-4 p-3 bg-amber-950/40 border border-amber-500/40 rounded-xl text-amber-300 text-sm flex items-center gap-2";
+                feedbackEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-amber-400"></i> Please type a valid numerical answer first.`;
+                feedbackEl.classList.remove('hidden');
+                return;
+            }
+
+            const isCorrect = userVal === q.answer;
+            answeredQuestions[qId] = isCorrect;
+
+            if (isCorrect) {
+                // Visual styling for correct answer
+                card.classList.remove('border-red-500/50', 'border-slate-800');
+                card.classList.add('border-emerald-500/40', 'bg-slate-900/90');
+
+                statusBadge.className = "text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400";
+                statusBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct`;
+                statusBadge.classList.remove('hidden');
+
+                feedbackEl.className = "mt-4 p-4 bg-emerald-950/30 border border-emerald-500/30 rounded-xl text-emerald-300 text-sm flex items-start gap-3 shadow-inner";
+                feedbackEl.innerHTML = `
+                    <i class="fa-solid fa-circle-check text-emerald-400 text-lg mt-0.5"></i>
+                    <div>
+                        <p class="font-bold text-emerald-200">Spot on! Excellent job!</p>
+                        <p class="text-emerald-300/80 text-xs mt-0.5"><code class="font-mono text-emerald-300">${q.targetVar}</code> is indeed <code class="font-mono text-emerald-300 font-bold">${q.answer}</code>.</p>
+                    </div>
+                `;
+            } else {
+                // Visual styling for wrong answer
+                card.classList.remove('border-emerald-500/40', 'border-slate-800');
+                card.classList.add('border-rose-500/40');
+
+                statusBadge.className = "text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5 bg-rose-500/10 border border-rose-500/30 text-rose-400";
+                statusBadge.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect`;
+                statusBadge.classList.remove('hidden');
+
+                feedbackEl.className = "mt-4 p-4 bg-rose-950/20 border border-rose-500/30 rounded-xl text-rose-200 text-sm space-y-3";
+                feedbackEl.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-xmark text-rose-400 text-lg mt-0.5"></i>
+                        <div>
+                            <p class="font-bold text-rose-100">Not quite right. (You answered: ${userVal})</p>
+                            <p class="text-xs text-rose-300/80">Check the operator explanation below to see how Python evaluates this snippet.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-950/80 p-3.5 rounded-lg border border-slate-800/80 text-xs text-slate-300 space-y-2">
+                        ${q.explanation}
+                    </div>
+                `;
+            }
+
+            feedbackEl.classList.remove('hidden');
+            updateScore();
+        }
+
+        function updateScore() {
+            const keys = Object.keys(answeredQuestions);
+            const score = keys.reduce((acc, key) => acc + (answeredQuestions[key] ? 1 : 0), 0);
+            document.getElementById('score-display').textContent = score;
+
+            // Check if all answered correctly
+            if (keys.length === questionsData.length) {
+                const banner = document.getElementById('completion-banner');
+                const msg = document.getElementById('completion-msg');
+                banner.classList.remove('hidden');
+                msg.textContent = `You scored ${score} out of ${questionsData.length}! ${score === questionsData.length ? 'Perfect score! You mastered Python arithmetic operators!' : 'Review the explanations above for questions you missed.'}`;
+            }
+        }
+
+        function resetQuiz() {
+            answeredQuestions = {};
+            document.getElementById('completion-banner').classList.add('hidden');
+            renderQuestions();
+            updateScore();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
